@@ -1,0 +1,46 @@
+!. get the section of a Wikipedia article
+http://en.wikipedia.org/w/api.php?action=query&pageids=9232&rvprop=content&rvsection=0&format=xml&prop=revisions
+http://en.wikipedia.org/w/api.php?action=query&titles=Eiffel%20Tower&rvprop=content&rvsection=0&format=xml&prop=revisions
+
+2. search
+
+http://zh.wikipedia.org/w/index.php?search=%E4%B8%AD%E5%9B%BD%E4%B8%93%E5%88%A9%E5%B1%80&useformat=mobile
+
+3. get article by id
+* the whole article 
+http://en.wikipedia.org/w/api.php?action=parse&pageid=29835759
+
+* by section
+http://en.wikipedia.org/w/api.php?action=parse&pageid=9232&section=0&format=xml
+
+4. get image
+*
+action=query&titles=Image:INSERT_EXAMPLE_FILE_NAME_HERE.jpg&prop=imageinfo&iiprop=url
+
+For example, 
+http://en.wikipedia.org/w/api.php?action=query&titles=File:LTU_Klaip%C4%97dos_apskritis_flag.svg&prop=imageinfo&iiprop=url
+
+or
+
+* calculate the URL via the filename's hash.
+
+5. Moble format
+mobileformat=html
+
+6. For mobile
+http://en.wikipedia.org/w/api.php?action=mobileview&page=Hello&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=1|2|3|4|5|6|7|8|9|10|11|12
+or
+sections=all
+&sections=sectionsList.join( '|' )
+
+http://en.wikipedia.org/w/api.php?action=mobileview&page=GTO&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=all
+http://en.wikipedia.org/w/api.php?action=mobileview&page=australia&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=1
+http://en.wikipedia.org/w/api.php?action=mobileview&page=dragon&redirect=yes&prop=sections|text&sectionprop=toclevel|level|line&noheadings=yes&sections=all&format=json
+http://en.wikipedia.org/w/勾股定理- 维基百科，自由的百科全书
+
+7. search
+http://en.wikipedia.org/w/api.php?action=query&list=search&format=jsonfm&srsearch=matrix+incategory:English-language_films
+
+8. Features
+a. list
+http://ja.wikipedia.org/w/api.php?action=featuredfeed&feed=featured

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<api>
+  <query>
+    <normalized>
+      <n from="File:LTU_Klaipėdos_apskritis_flag.svg" to="File:LTU Klaipėdos apskritis flag.svg" />
+    </normalized>
+    <pages>
+      <page ns="6" title="File:LTU Klaipėdos apskritis flag.svg" missing="" imagerepository="shared">
+        <imageinfo>
+          <ii url="http://upload.wikimedia.org/wikipedia/commons/3/38/LTU_Klaip%C4%97dos_apskritis_flag.svg" descriptionurl="http://commons.wikimedia.org/wiki/File:LTU_Klaip%C4%97dos_apskritis_flag.svg" />
+        </imageinfo>
+      </page>
+    </pages>
+  </query>
+</api>

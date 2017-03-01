@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+			    <exclude name="**/com/**"/>
+ -->
+<project>
+	<target name="jar">
+	  <mkdir dir="bin"/>
+	  <delete file="bin/WikiApi.jar" />
+	  <jar destfile="bin/WikiApi.jar" 
+	   		>
+			<manifest>
+	            <attribute name="Main-Class" value="WikiApi"/>
+	        </manifest>
+	        
+			  <fileset dir="bin/classes/">
+			    <include name="**/au/**"/>
+			  </fileset>
+	    </jar>
+	</target>
+
+</project>

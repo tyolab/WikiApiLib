@@ -1,0 +1,4 @@
+#VERSION=${project.version}
+VERSION=1.1.2
+DATE=${TODAY}
+BUILD=RELEASE
