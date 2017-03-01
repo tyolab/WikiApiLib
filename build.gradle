@@ -1,0 +1,14 @@
+apply plugin: 'java'
+
+dependencies {
+
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
