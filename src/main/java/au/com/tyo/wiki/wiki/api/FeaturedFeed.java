@@ -3,11 +3,7 @@ package au.com.tyo.wiki.wiki.api;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import au.com.tyo.feed.Item;
-import au.com.tyo.feed.RSS;
-import au.com.tyo.feed.Channel;
 import au.com.tyo.utils.StringUtils;
 import au.com.tyo.wiki.wiki.WikiApi;
 import au.com.tyo.wiki.wiki.WikiPage;

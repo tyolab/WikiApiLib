@@ -1,17 +1,16 @@
 package au.com.tyo.wiki.wiki;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import au.com.tyo.feed.Feed;
+import au.com.tyo.common.feed.Feed;
 import au.com.tyo.io.IO;
 import au.com.tyo.services.Http;
 import au.com.tyo.services.Http.Parameter;
@@ -19,11 +18,9 @@ import au.com.tyo.services.Http.Settings;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.services.HttpRequestListener;
 import au.com.tyo.wiki.WikiSettings;
-import au.com.tyo.wiki.wiki.PageLang;
 import au.com.tyo.wiki.wiki.WikiApiConfig.Format;
 import au.com.tyo.wiki.wiki.api.ApiQuery;
 import au.com.tyo.wiki.wiki.api.Edit;
-import au.com.tyo.wiki.wiki.api.FeaturedFeed;
 import au.com.tyo.wiki.wiki.api.ImageUrl;
 import au.com.tyo.wiki.wiki.api.Import;
 import au.com.tyo.wiki.wiki.api.LangLink;
@@ -436,25 +433,25 @@ public class WikiApi {
 	    return LangLink.parseLangLinks(result, favCode, primaryCode, ignoreEmptyTitle, site);
 	}
 	
-	public Feed<WikiPage> getFeaturedFeed() throws Exception {
+	public Feed getFeaturedFeed() throws Exception {
 		return this.getFeaturedFeed(apiConfig.getSubdomain(), 0);
 	}
 	
-	public Feed<WikiPage> getFeaturedFeed(String domain, long lastModifiedDate) throws Exception {
+	public Feed getFeaturedFeed(String domain, long lastModifiedDate) throws Exception {
 		String url = apiConfig.buildFeaturedFeedUrl(domain);
 		
 		Http connection = HttpPool.getInstance().getConnection();
 		
 		String result = getUrlText(url, connection, lastModifiedDate);
 		
-		Feed<WikiPage> feed = new Feed<WikiPage>();
-		feed.setLastModifiedDate(connection.getLastModifiedDate());
-		
-		if (connection.getResponseCode() == HttpStatus.SC_OK && result.length() > 0) {
-			feed.setList(FeaturedFeed.fastParse(result, domain));
-		}
-		else
-			feed.setList(new ArrayList<WikiPage>());
+		Feed feed = new Feed();
+//		feed.setLastModifiedDate(connection.getLastModifiedDate());
+//
+//		if (connection.getResponseCode() == HttpStatus.SC_OK && result.length() > 0) {
+//			feed.setList(FeaturedFeed.fastParse(result, domain));
+//		}
+//		else
+//			feed.setList(new ArrayList<WikiPage>());
 			
 		return feed;
 	}
