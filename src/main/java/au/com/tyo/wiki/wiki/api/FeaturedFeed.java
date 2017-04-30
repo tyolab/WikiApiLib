@@ -3,13 +3,17 @@ package au.com.tyo.wiki.wiki.api;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-import au.com.tyo.utils.StringUtils;
-import au.com.tyo.wiki.wiki.WikiApi;
-import au.com.tyo.wiki.wiki.WikiPage;
+import au.com.tyo.common.feed.Channel;
+import au.com.tyo.common.feed.Item;
+import au.com.tyo.common.feed.RSS;
 import au.com.tyo.parser.SgmlAttribute;
 import au.com.tyo.parser.SgmlNode;
 import au.com.tyo.parser.XML;
+import au.com.tyo.utils.StringUtils;
+import au.com.tyo.wiki.wiki.WikiApi;
+import au.com.tyo.wiki.wiki.WikiPage;
 
 /*
 
@@ -84,10 +88,10 @@ public class FeaturedFeed extends ApiAction {
 	private static ArrayList<WikiPage> parse(String result, ArrayList<WikiPage> list, String landCode) {
 		RSS rss = RSS.newFeed(result);
 		
-		Iterator<au.com.tyo.feed.Channel> it = rss.iterator();
+		Iterator<Channel> it = rss.iterator();
 		if (it != null)
 			while (it.hasNext()) {
-				au.com.tyo.feed.Channel channel = it.next();
+				Channel channel = it.next();
 				Iterator<Item> itemIt = channel.iterator();
 				
 				while (itemIt.hasNext()) {
