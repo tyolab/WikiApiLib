@@ -72,7 +72,11 @@ public class ResourceWiki  {
         InputStream is;
 
 //			is = context.getAssets().open("wikipedia/sites.txt");
-        is = ResourceWiki.class.getResourceAsStream("/au/com/tyo/wiki/res/sites.txt");
+		String resourcePath = "/au/com/tyo/wiki/res/sites.txt";
+        is = ResourceWiki.class.getResourceAsStream(resourcePath);
+
+		if (is == null)
+			is = ClassLoader.getSystemClassLoader().getResourceAsStream(resourcePath);
 			
         if (is != null) {
         	loadWikipediaSites(is);
