@@ -347,12 +347,12 @@ public class WikiApi {
 		return result;
 	}
 	
-	public ArrayList<WikiSearch> hints1(String input, String domain) throws Exception {
+	public List hints1(String input, String domain) throws Exception {
 	    String openSearchUrl = apiConfig.buildOpenSearchUrl(input, domain);
 		Http connection = HttpPool.getInstance().getConnection();
 	    String result = getUrlText(openSearchUrl, connection, null, 0);
 	    
-		ArrayList<WikiSearch> resultList = null;
+		List resultList = null;
 	    try {
 	        // Create a JSON object hierarchy from the inputs
 	        JSONArray array = new JSONArray(result);
@@ -362,7 +362,7 @@ public class WikiApi {
 		        // Extract the Place descriptions from the inputs
 		        resultList = new ArrayList<WikiSearch>(predsJsonArray.length());
 		        for (int i = 0; i < predsJsonArray.length(); i++) {
-		        	WikiSearch ws = new WikiSearch(predsJsonArray.getString(i));
+		        	WikiSearch ws = parser.newWikiSearchInstance(predsJsonArray.getString(i));
 		        	ws.setDomain(domain);
 		            resultList.add(ws); //getJSONObject(i).toString());
 		        }
@@ -374,8 +374,8 @@ public class WikiApi {
 	    return resultList;
 	}
 	
-	public ArrayList<WikiSearch> hints(String input, String domain) throws Exception {
-		ArrayList<WikiSearch> resultList = new ArrayList<WikiSearch>();
+	public List hints(String input, String domain) throws Exception {
+		List resultList = new ArrayList<WikiSearch>();
 	    String openSearchUrl = apiConfig.buildOpenSearchUrl(input, domain);
 		Http connection = HttpPool.getInstance().getConnection();
 	    String result = getUrlText(openSearchUrl, connection, null, 0).trim();
@@ -397,7 +397,7 @@ public class WikiApi {
 		        // Extract the Place descriptions from the inputs
 //		        resultList = new ArrayList<String>(predsJsonArray.length());
 		        for (int i = 0; i < predsJsonArray.length(); i++) {
-		        	WikiSearch ws = new WikiSearch(predsJsonArray.getString(i));
+		        	WikiSearch ws = parser.newWikiSearchInstance(predsJsonArray.getString(i));
 		        	ws.setDomain(domain);
 		            resultList.add(ws); //getJSONObject(i).toString());
 		        }

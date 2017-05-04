@@ -1,8 +1,7 @@
 apply plugin: 'java'
 
 dependencies {
-
-compile project(path: ':CommonUtils')
+    compile project(path: ':CommonUtils')
     compile project(path: ':CommonFeed')
 }
 

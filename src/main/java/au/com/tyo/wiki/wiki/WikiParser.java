@@ -397,7 +397,7 @@ public class WikiParser {
 	}
 	
 	public List parseJsonSearchResult(String result, String domain, int count) throws JSONException {
-		ArrayList<WikiSearch> resultList = new ArrayList<WikiSearch>();
+		List resultList = new ArrayList<WikiSearch>();
 		int cnt = 0;
 		if (result.length() > 0)
 		    try {
