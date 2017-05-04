@@ -32,7 +32,7 @@ public class WikiApi {
 	
 	private static final String VERSION = "2.0.0";
 	
-	public static final String USER_AGENT = "TyoWikiBrower/" + VERSION + " (http://www.tyo.com.au/)";
+	public static final String USER_AGENT = "TyokiWikiApi/" + VERSION + " (http://tyo.com.au/)";
 	
 	private static WikiApi instance;
 	
@@ -49,8 +49,8 @@ public class WikiApi {
 	private Login login;
 	
 	private static String cachePath = ".";
-	
-//	private WikiSettings settings;
+
+	private WikiParser parser;
 	
 	public static void setCachePath(String path) {
 		cachePath = path;
@@ -70,11 +70,12 @@ public class WikiApi {
 	}
 
 	private void init(WikiSettings settings) {
-//		this.settings = settings;
 		
 		apiConfig = new WikiApiConfig(settings);
 		version = VERSION;
-//		connection = new Http();
+
+		// set the default parser
+		parser = new WikiParser();
 	}
 
 	public static WikiApi getInstance() {
@@ -82,7 +83,11 @@ public class WikiApi {
 			instance = new WikiApi();
 		return instance;
 	}
-	
+
+	public void setParser(WikiParser parser) {
+		this.parser = parser;
+	}
+
 	public static void initialize(WikiSettings settings) {
 		instance = new WikiApi(settings);
 	}
@@ -192,13 +197,13 @@ public class WikiApi {
 		return getUrlText(url, connection, null, 0);
 	}
 	
-	public ArrayList<WikiSearch> search(String query, int searchType) throws Exception {
+	public List search(String query, int searchType) throws Exception {
 		return search(query, apiConfig.getSubdomain(), searchType);
 	}
 	
-	public ArrayList<WikiSearch> search(String query, String langCode, int searchType) throws Exception {
+	public List search(String query, String langCode, int searchType) throws Exception {
 		String result = getSearchJson(query, langCode, searchType, 0, 1);
-		return WikiParser.parseJsonSearchResult(result, langCode);
+		return parser.parseJsonSearchResult(result, langCode);
 	}
 	
 	
@@ -223,7 +228,7 @@ public class WikiApi {
 		Http connection = HttpPool.getInstance().getConnection();
 		
 		String result = getUrlText(url, connection);
-		return WikiParser.getFirstSearchResult(result, langCode);
+		return parser.getFirstSearchResult(result, langCode);
 	}
 
 	public WikiPage lookup(String query) throws Exception {
@@ -280,7 +285,7 @@ public class WikiApi {
 	
 	public void getAbstract(String query, WikiPage page) throws Exception {
 		String result = getArticle(query, 0);
-		WikiParser.parseJsonQueryText(result, page);
+		parser.parseJsonQueryText(result, page);
 	}
 	
 	public String getArticle(String query) throws Exception {
@@ -307,7 +312,7 @@ public class WikiApi {
 	public void getParsedArticleWithMobileViewForPage(String query, String sections, WikiPage page, String domain, String areaCode, int secNumberToParse) throws Exception {
 		String article = getArticleWithMobileView(query, sections, page, domain, areaCode);
 		page.setText(article);
-		WikiParser.parseJsonArticleText(article, page, secNumberToParse);
+		parser.parseJsonArticleText(article, page, secNumberToParse);
 	}
 	
 	public String getArticleWithMobileView(String query, String domain, String areaCode) throws Exception {
@@ -592,22 +597,26 @@ public class WikiApi {
 		String result = conn.upload(url, settings);
 		return result;
 	}
-	
-	public String editPage(String title, String text, String token) throws Exception {
-		String apiUrl = apiConfig.createApiUrl(); 
 
-		Edit edit = Edit.getInstance(token);
-		edit.editPage(title, text);
-		
-		Settings settings = new Settings();
-		settings.setParams(edit.getParamsPost());
-		settings.setAutomaticLoadCookie(true);
-		
-		String url = apiUrl + edit.getUrl();
-		
-		Http conn = HttpPool.getInstance().getConnection();
-		
-		String result = conn.post(url, settings);
-		return result;
-	}
+    public String editPage(String title, String text, String token) throws Exception {
+        String apiUrl = apiConfig.createApiUrl();
+
+        Edit edit = Edit.getInstance(token);
+        edit.editPage(title, text);
+
+        Settings settings = new Settings();
+        settings.setParams(edit.getParamsPost());
+        settings.setAutomaticLoadCookie(true);
+
+        String url = apiUrl + edit.getUrl();
+
+        Http conn = HttpPool.getInstance().getConnection();
+
+        String result = conn.post(url, settings);
+        return result;
+    }
+
+    public WikiParser getParser() {
+        return parser;
+    }
 }

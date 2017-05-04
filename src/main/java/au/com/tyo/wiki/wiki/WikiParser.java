@@ -1,16 +1,16 @@
 package au.com.tyo.wiki.wiki;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import au.com.tyo.parser.Sgml;
 import au.com.tyo.parser.SgmlNode;
-import au.com.tyo.utils.StringUtils;
 import au.com.tyo.utils.UrlCode;
 
 public class WikiParser {
@@ -385,18 +385,18 @@ public class WikiParser {
         }
 	}
 	
-	public static WikiSearch getFirstSearchResult(String result, String domain) throws JSONException {
-		ArrayList<WikiSearch> hits = parseJsonSearchResult(result, domain, 1);
+	public WikiSearch getFirstSearchResult(String result, String domain) throws JSONException {
+		List hits = parseJsonSearchResult(result, domain, 1);
 		if (hits!= null && hits.size() > 0)
-			return hits.get(0);
+			return (WikiSearch) hits.get(0);
 		return null;
 	}
 	
-	public static ArrayList<WikiSearch> parseJsonSearchResult(String result, String domain) throws JSONException {
+	public List parseJsonSearchResult(String result, String domain) throws JSONException {
 		return parseJsonSearchResult(result, domain, -1);
 	}
 	
-	public static ArrayList<WikiSearch> parseJsonSearchResult(String result, String domain, int count) throws JSONException {
+	public List parseJsonSearchResult(String result, String domain, int count) throws JSONException {
 		ArrayList<WikiSearch> resultList = new ArrayList<WikiSearch>();
 		int cnt = 0;
 		if (result.length() > 0)
@@ -417,7 +417,7 @@ public class WikiParser {
 			        	String title = info.getString("title");
 			             	
 			        	if (title != null && title.length() > 0) {
-			        		WikiSearch ws = new WikiSearch(title);
+			        		WikiSearch ws = newWikiSearchInstance(title);
 			        		ws.setSnippet(info.getString("snippet"));
 			        		ws.setDomain(domain);
 			        		resultList.add(ws); //getJSONObject(i).toString());
@@ -431,7 +431,11 @@ public class WikiParser {
 	    
 	    return resultList;
 	}
-	
+
+	protected WikiSearch newWikiSearchInstance(String title) {
+		return new WikiSearch(title);
+	}
+
 	public ArrayList<PageLang> parseLanguageLinks(SgmlNode languageSelectionNode) {
 //		WikiLang wikiLang = new WikiLang();
 		ArrayList<PageLang> pageLangs = new ArrayList<PageLang>();
