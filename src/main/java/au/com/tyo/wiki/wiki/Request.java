@@ -61,7 +61,7 @@ public class Request implements Serializable {
 	
 	private boolean toCrosslink;
 	
-	private List<WikiSearch> results;
+	private List results;
 	
 	public Request() {
 		url = null;
@@ -194,11 +194,11 @@ public class Request implements Serializable {
 		this.toCrosslink = toCrosslink;
 	}
 
-	public List<WikiSearch> getResults() {
+	public List getResults() {
 		return results;
 	}
 
-	public void setResults(List<WikiSearch> results) {
+	public void setResults(List results) {
 		this.results = results;
 	}
 	
