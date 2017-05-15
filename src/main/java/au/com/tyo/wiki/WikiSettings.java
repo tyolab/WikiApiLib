@@ -10,7 +10,13 @@ public class WikiSettings extends Observable {
 	
 	protected boolean predictionEnabled = false;
 	protected boolean nigthThemeEnabled = false;
-	protected boolean sslEnabled = false;
+
+	/**
+	 * It should be always on by default as 2016-07-12
+	 *
+	 * https://lists.wikimedia.org/pipermail/mediawiki-api-announce/2016-May/000110.html
+	 */
+	protected boolean sslEnabled = true;
 	
 	public WikiSettings() {
 		WikiApi.initialize(this);

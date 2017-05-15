@@ -23,8 +23,11 @@ public class WikiApiConfig implements ApiConstants {
 	public static final String WIKIPEDIA_MOBILE_DOMAIN = "m.";
 	
 	private static final int WIKIPEDIA_HOST_STRING_LENGTH = WIKIPEDIA_HOST_ORG.length();
-	
-	private static final String DEFAULT_PROTOCOL = "http";
+
+	/**
+	 * all bots should use https by default since 2016-07-12
+	 */
+	private static final String DEFAULT_PROTOCOL = "https";
 	private static final String DEFAULT_PROTOCOL_SSL = "https";
 	
 	private static final String ROOT_PATH = "//";
