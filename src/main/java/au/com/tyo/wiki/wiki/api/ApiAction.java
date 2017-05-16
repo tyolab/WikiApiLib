@@ -3,7 +3,7 @@ package au.com.tyo.wiki.wiki.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.com.tyo.services.Http.Parameter;
+import au.com.tyo.services.HttpConnection.Parameter;
 
 public abstract class ApiAction extends ApiBase {
 	

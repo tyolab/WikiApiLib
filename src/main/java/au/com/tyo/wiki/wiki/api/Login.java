@@ -1,15 +1,13 @@
 package au.com.tyo.wiki.wiki.api;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import au.com.tyo.services.Http;
-import au.com.tyo.services.HttpPool;
-import au.com.tyo.services.Http.Parameter;
+import au.com.tyo.services.HttpConnection;
 
 public class Login extends ApiAction  {
 	
@@ -119,10 +117,10 @@ public class Login extends ApiAction  {
 		return getUrl();
 	}
 	
-	public List<Parameter> buildParams(String name, String password) {
-		ArrayList<Parameter> list = new ArrayList<Parameter>();
-		list.add(new Parameter("lgname", name));
-		list.add(new Parameter("lgpassword", password));
+	public List<HttpConnection.Parameter> buildParams(String name, String password) {
+		List<HttpConnection.Parameter> list = new ArrayList<>();
+		list.add(new HttpConnection.Parameter("lgname", name));
+		list.add(new HttpConnection.Parameter("lgpassword", password));
 		return list;	
 	}
 

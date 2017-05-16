@@ -1,6 +1,6 @@
 package au.com.tyo.wiki.wiki.api;
 
-import au.com.tyo.services.Http.Parameter;
+import au.com.tyo.services.HttpConnection.Parameter;
 
 public class ApiActionTokenNeeded  extends ApiAction {
 	

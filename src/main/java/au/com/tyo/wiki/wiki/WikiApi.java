@@ -13,8 +13,9 @@ import java.util.List;
 import au.com.tyo.common.feed.Feed;
 import au.com.tyo.io.IO;
 import au.com.tyo.services.Http;
-import au.com.tyo.services.Http.Parameter;
-import au.com.tyo.services.Http.Settings;
+import au.com.tyo.services.HttpConnection;
+import au.com.tyo.services.HttpConnection.Parameter;
+import au.com.tyo.services.HttpConnection.Settings;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.services.HttpRequestListener;
 import au.com.tyo.wiki.WikiSettings;
@@ -143,7 +144,7 @@ public class WikiApi {
 	public WikiPage getUrl(String url, WikiPage page, HttpRequestListener caller, String baseUrl) throws Exception {
 //		String url = apiConfig.buildBaseUrl(query);
 //		String lang = WikiApiConfig.linkToDomain(url);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		connection.setCaller(caller);
 		
 //		apiConfig.setDomain(lang);
@@ -164,7 +165,7 @@ public class WikiApi {
 	public WikiPage getMainPage(String langCode, HttpRequestListener caller) throws Exception {
 		String url = apiConfig.buildMainPageUrl(langCode);
 		String baseUrl = apiConfig.buildBaseUrl(langCode);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		connection.setCaller(caller);
 		
 		WikiPage page = new WikiPage(getUrlText(url, connection));
@@ -192,7 +193,7 @@ public class WikiApi {
 			url = apiConfig.buildSearchUrl(query, langCode);
 		else
 			url = apiConfig.buildSearchApiUrl(query, langCode, searchType, offset, limit);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		
 		return getUrlText(url, connection, null, 0);
 	}
@@ -214,8 +215,8 @@ public class WikiApi {
 	
 	public List<String> getRandomPages(int number) throws Exception {
 		String url = apiConfig.buildRandomPageRetrievalUrl(number);
-		
-		String result = getUrlText(url);
+        HttpConnection connection = HttpPool.getInstance().getConnection();
+		String result = getUrlText(url, connection);
 		return ListRandom.parseResult(result);
 	}
 	
@@ -225,7 +226,7 @@ public class WikiApi {
 	
 	public WikiSearch getFirstSearchResult(String query, String langCode) throws Exception {
 		String url = apiConfig.buildSearchUrl(query, langCode);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		
 		String result = getUrlText(url, connection);
 		return parser.getFirstSearchResult(result, langCode);
@@ -240,7 +241,7 @@ public class WikiApi {
 	public String lookup(String query, String langCode, HttpRequestListener caller, WikiPage page) throws Exception {
 		String url = apiConfig.buildSearchUrl(query, langCode);
 		String baseUrl = apiConfig.buildBaseUrl(langCode);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		connection.setCaller(caller);
 		
 		String result = getUrlText(url, connection);
@@ -253,23 +254,19 @@ public class WikiApi {
 		return result;
 	}
 	
-	public String getUrlText(String url) throws Exception {
-		return getUrlText(url, 0);
-	}
-	
 	public String getUrlText(String url, long lastModifiedDate) throws Exception {
 		return getUrlText(url, HttpPool.getInstance().getConnection(), null, lastModifiedDate);
 	}
 
-	public String getUrlText(String url, Http connection) throws Exception {
+	public String getUrlText(String url, HttpConnection connection) throws Exception {
 		return  getUrlText(url, connection, apiConfig.getFormat(), 0);
 	}
 	
-	public String getUrlText(String url, Http connection, long lastModifiedDate) throws Exception {
+	public String getUrlText(String url, HttpConnection connection, long lastModifiedDate) throws Exception {
 		return  getUrlText(url, connection, apiConfig.getFormat(), lastModifiedDate);
 	}
 			
-	public String getUrlText(String url, Http connection, Format format, long lastModifiedDate) throws Exception {
+	public String getUrlText(String url, HttpConnection connection, Format format, long lastModifiedDate) throws Exception {
 		String formattedUrl;
 		String text;
 		
@@ -296,7 +293,7 @@ public class WikiApi {
 		// {"servedby":"srv214","error":{"code":"missingtitle","info":"The page you specified doesn't exist"}}
 		// {"parse":{"title":"Baseball","text":{"*":"
 		String firstSectionUrl = apiConfig.buildSectionRetrievalUrl(query, section);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		String result = connection.get(firstSectionUrl);
 		return result;
 	}
@@ -337,7 +334,7 @@ public class WikiApi {
 	 */
 	public String getArticleWithMobileView(String query, String sections, WikiPage page, String domain, String areaCode) throws Exception {
 		String firstSectionUrl = apiConfig.buildArticleRetrieval4MobileViewUrl(domain, query, sections, areaCode);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		String result = connection.get(firstSectionUrl);
 		if (page != null) {
 			page.getRequest().setResponseCode(connection.getResponseCode());
@@ -349,7 +346,7 @@ public class WikiApi {
 	
 	public List hints1(String input, String domain) throws Exception {
 	    String openSearchUrl = apiConfig.buildOpenSearchUrl(input, domain);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 	    String result = getUrlText(openSearchUrl, connection, null, 0);
 	    
 		List resultList = null;
@@ -377,7 +374,7 @@ public class WikiApi {
 	public List hints(String input, String domain) throws Exception {
 		List resultList = new ArrayList<WikiSearch>();
 	    String openSearchUrl = apiConfig.buildOpenSearchUrl(input, domain);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 	    String result = getUrlText(openSearchUrl, connection, null, 0).trim();
 	    
 	    try {
@@ -423,7 +420,7 @@ public class WikiApi {
 		
 		String enchodeTitle = URLEncoder.encode(URLDecoder.decode(title));
 		String langLinkUrl = apiConfig.buildLangLinkUrl(langCode, enchodeTitle);
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		connection.setMethod(Http.METHOD_POST);
 		connection.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	    return connection.get(langLinkUrl); //getUrlText(langLinkUrl, connection);
@@ -445,7 +442,7 @@ public class WikiApi {
 	public Feed getFeaturedFeed(String domain, long lastModifiedDate) throws Exception {
 		String url = apiConfig.buildFeaturedFeedUrl(domain);
 		
-		Http connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 		
 		String result = getUrlText(url, connection, lastModifiedDate);
 		
@@ -463,8 +460,8 @@ public class WikiApi {
 	
 	public String getCrosslink(String title, String domain, String wikiLangCode) throws Exception {
 		String url = apiConfig.buildCrossLinkUrl(domain, title, wikiLangCode);
-		
-		String result = getUrlText(url);
+        HttpConnection connection = HttpPool.getInstance().getConnection();
+		String result = getUrlText(url, connection);
 		
 		List<PageLang> list = LangLink.parseLangLinks(result, wikiLangCode, wikiLangCode, false, wikipedias);
 		
@@ -475,8 +472,8 @@ public class WikiApi {
 	
 	public String getImageUrl(String domain, String title) throws Exception {
 		String url = apiConfig.buildImageRetrievelUrl(domain, title);
-		
-		String result = getUrlText(url);
+        HttpConnection connection = HttpPool.getInstance().getConnection();
+		String result = getUrlText(url, connection);
 		
 		String imageUrl = ImageUrl.parseOne(result);
 		return imageUrl;
@@ -507,10 +504,10 @@ public class WikiApi {
 		
 		String url = apiUrl + login.getLoginUrl();
 		
-		Settings settings = new Settings();
+		HttpConnection.Settings settings = new HttpConnection.Settings();
 		settings.setKeepAlive(false);
 		
-		List<Parameter> params = login.buildParams(name, password);
+		List<HttpConnection.Parameter> params = login.buildParams(name, password);
 		settings.setParams(params);
 		settings.setAutomaticLoadCookie(true);
 		settings.setKeepAlive(false);
@@ -568,7 +565,7 @@ public class WikiApi {
 	
 	public String acquireToken(Login login) throws Exception {
 
-		Http conn = HttpPool.getInstance().getConnection();
+		HttpConnection conn = HttpPool.getInstance().getConnection();
 		conn.setClientCookies(login.getCookies());
 		
 		String apiUrl = apiConfig.createApiUrl(); 
@@ -592,7 +589,7 @@ public class WikiApi {
 		
 		String url = apiUrl + importApi.getUrl();
 		
-		Http conn = HttpPool.getInstance().getConnection();
+		HttpConnection conn = HttpPool.getInstance().getConnection();
 		
 		String result = conn.upload(url, settings);
 		return result;
@@ -610,7 +607,7 @@ public class WikiApi {
 
         String url = apiUrl + edit.getUrl();
 
-        Http conn = HttpPool.getInstance().getConnection();
+        HttpConnection conn = HttpPool.getInstance().getConnection();
 
         String result = conn.post(url, settings);
         return result;
