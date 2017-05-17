@@ -1,6 +1,7 @@
 package au.com.tyo.wiki.wiki.api;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import au.com.tyo.parser.Sgml;
 import au.com.tyo.parser.SgmlNode;
@@ -64,58 +65,60 @@ public class LangLink extends ApiQuery {
 		return getUrl();
 	}
 
-	public static ArrayList<PageLang> parseLangLinks(String result, String favCode, String primaryCode, WikipediaSite wikipedias) {
+	public static List<PageLang> parseLangLinks(String result, String favCode, String primaryCode, WikipediaSite wikipedias) {
 		return parseLangLinks(result, favCode, primaryCode, true, wikipedias);
 	}
 
-	public static ArrayList<PageLang> parseLangLinks(String result, String favCode, String primaryCode, boolean ignoreEmptyTitle, WikipediaSite wikipedias) {
+	public static List<PageLang> parseLangLinks(String result, String favCode, String primaryCode, boolean ignoreEmptyTitle, WikipediaSite wikipedias) {
 		ArrayList<PageLang> langs = new ArrayList<PageLang>();
-		
-	    SgmlNode languageSelectionNode = new Sgml().parse(result);
-	    
-		if (languageSelectionNode != null && languageSelectionNode.getName().equals("api") && languageSelectionNode.countChildren() > 0) {
+
+		if (null != result) {
+			SgmlNode languageSelectionNode = new Sgml().parse(result);
+
+			if (languageSelectionNode != null && languageSelectionNode.getName().equals("api") && languageSelectionNode.countChildren() > 0) {
 //			languageSelectionNode.parse();
-			SgmlNode decendant = languageSelectionNode.path("query/pages/page/langlinks"); // languageSelectionNode.getDecendant(3, 0);
-			if (decendant != null) {
-				int count = decendant.countChildren();
-				for (int i= 0; i < count; ++i) {
-					SgmlNode child = decendant.getChild(i);
-	//				if (child != null) {
-	//					if (child.getAttribute("selected") != null && child.getAttribute("selected").length() > 0) {
-	//						lang = child.getText();
-	//					}
-	//					else {
-					
-							PageLang pageLang = new PageLang();
-	//						pageLang.url = child.getAttribute("value");
-	//						
-	//
-	//						if (pageLang.url.startsWith("//"))
-	//							pageLang.url = WikiApi.getInstance().getApiConfig().getProtocol() + pageLang.url;
-							String lang = child.getAttribute("lang");	
-							pageLang.setLangCode(lang);
-							WikiLang wikiLang = wikipedias.getWikiLang(lang);
-							if (wikiLang != null)
-								lang = wikiLang.getName();
-							pageLang.setLang(lang);
-	
-							pageLang.setTitle(StringUtils.unescapeHtml(child.getText()));	//new String(UrlCode.decode(WikiApiConfig.linkToTitle(pageLang.url).getBytes())).trim();
-							
-							if (pageLang.getTitle().length() == 0 && ignoreEmptyTitle) 
-								continue;
-							else
-								pageLang.setUrl(WikiApi.getInstance().getApiConfig().buildBaseUrl(pageLang.getLangCode()));
-							
-							if (pageLang.getLangCode() == null)
-								System.err.println("Something really wrong here");
-							
-							if (pageLang.getLangCode().equalsIgnoreCase(favCode)
-									|| pageLang.getLangCode().equalsIgnoreCase(primaryCode)) 
-								langs.add(0, pageLang);
-							else
-								langs.add(pageLang);
-	//					}
-	//				}
+				SgmlNode decendant = languageSelectionNode.path("query/pages/page/langlinks"); // languageSelectionNode.getDecendant(3, 0);
+				if (decendant != null) {
+					int count = decendant.countChildren();
+					for (int i = 0; i < count; ++i) {
+						SgmlNode child = decendant.getChild(i);
+						//				if (child != null) {
+						//					if (child.getAttribute("selected") != null && child.getAttribute("selected").length() > 0) {
+						//						lang = child.getText();
+						//					}
+						//					else {
+
+						PageLang pageLang = new PageLang();
+						//						pageLang.url = child.getAttribute("value");
+						//
+						//
+						//						if (pageLang.url.startsWith("//"))
+						//							pageLang.url = WikiApi.getInstance().getApiConfig().getProtocol() + pageLang.url;
+						String lang = child.getAttribute("lang");
+						pageLang.setLangCode(lang);
+						WikiLang wikiLang = wikipedias.getWikiLang(lang);
+						if (wikiLang != null)
+							lang = wikiLang.getName();
+						pageLang.setLang(lang);
+
+						pageLang.setTitle(StringUtils.unescapeHtml(child.getText()));    //new String(UrlCode.decode(WikiApiConfig.linkToTitle(pageLang.url).getBytes())).trim();
+
+						if (pageLang.getTitle().length() == 0 && ignoreEmptyTitle)
+							continue;
+						else
+							pageLang.setUrl(WikiApi.getInstance().getApiConfig().buildBaseUrl(pageLang.getLangCode()));
+
+						if (pageLang.getLangCode() == null)
+							System.err.println("Something really wrong here");
+
+						if (pageLang.getLangCode().equalsIgnoreCase(favCode)
+								|| pageLang.getLangCode().equalsIgnoreCase(primaryCode))
+							langs.add(0, pageLang);
+						else
+							langs.add(pageLang);
+						//					}
+						//				}
+					}
 				}
 			}
 		}

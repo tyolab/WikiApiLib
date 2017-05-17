@@ -13,7 +13,7 @@ import au.com.tyo.utils.StringUtils;
 import au.com.tyo.utils.TextUtils;
 import au.com.tyo.web.PageInterface;
 
-public class WikiPage  extends WikiPageBase implements Serializable, PageInterface {
+public class WikiPage extends WikiPageBase implements Serializable, PageInterface {
 
 	/**
 	 * 
@@ -49,9 +49,9 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 	
 	private byte[] imgBytes = null; // the image content associated with the page
 	
-	private ArrayList<PageLang> langs; // in available languages
+	private List<PageLang> langs; // in available languages
 	
-	private ArrayList<WikiPageSection> sections;
+	private List<WikiPageSection> sections;
 	
 	private int	sectionCount;
 	
@@ -71,7 +71,9 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 	
 	private String thumbnailLink;
 	
-	private Map<String, String> imageUrls;
+	private Map<String, WikiImage> imageUrls;
+
+    private List<WikiImage> images;
 	
 	private WikiPage xPage; // the page being cross linked
 	
@@ -81,7 +83,7 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 	
 	private String redirectFrom;
 	
-	private ArrayList<String> redirects;
+	private List<String> redirects;
 	
 	private int prefImageWidth;
 	
@@ -121,13 +123,15 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 	}
 	
 	private void init() {
+        setType(ItemType.PAGE);
+
 //		abs = new StringBuffer("");
 		abs = "";
 		title = "";
 		langs = new ArrayList<PageLang>();
 		baseUrl = null;
 		sections = new ArrayList<WikiPageSection>();
-		imageUrls = new HashMap<String, String>();
+		imageUrls = new HashMap<>();
 		setDidYouMean(false);
 		
 		this.stylesAndScripts = STYLES_N_SCRIPTS;
@@ -184,14 +188,6 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 			resetPage();
 		return bytes;
 	}
-	
-	public String getTitle() {
-		return title;
-	}
-	
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
 	public String getNotes() {
 		return notes;
@@ -205,7 +201,7 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 		return langs.size() > 0;
 	}
 	
-	public ArrayList<PageLang> getLangs() {
+	public List<PageLang> getLangs() {
 		return langs;
 	}
 	
@@ -324,7 +320,7 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 		return formated;
 	}
 
-	public void setLangLinks(ArrayList<PageLang> languageLinks) {
+	public void setLangLinks(List<PageLang> languageLinks) {
 		this.langs = languageLinks;
 	}
 
@@ -471,29 +467,52 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 	}
 
 	public void addImageInfo(String name) {
-		this.imageUrls.put(name, null);
+        WikiImage wikiImage = new WikiImage(url);
+        wikiImage.setIndex(images.size());
+        images.add(wikiImage);
+		this.imageUrls.put(name, wikiImage);
 	}
 	
 	public boolean hasImage() {
 		return imageUrls.size() > 0;
 	}
-	
+
+	public Object[] getImageNames() {
+		return imageUrls.keySet().toArray();
+	}
+
 	public String getFirstImageName() {
-		Object[] set = imageUrls.keySet().toArray();
+		Object[] set = getImageNames();
 		if (set.length > 0)
 			return (String) set[0];
 		return null;
 	}
-	
+
+    /**
+     *
+     * @return
+     */
 	public String getFirstImageUrl() {
 		String name = this.getFirstImageName();
-		if (name != null)
-			return imageUrls.get(name);
-		return null;
+        return getImageUrlWithName(name);
 	}
+
+	public String getImageUrlWithName(String name) {
+        if (name != null)
+            return imageUrls.get(name).getTitle();
+        return null;
+    }
+
+    public String getImageUrl(int index) {
+        if (index < 0 || index >= images.size())
+            return null;
+        return images.get(index).getImageUrl();
+    }
 	
 	public void setImageUrl(String name, String url) {
-		imageUrls.put(name, url);
+        WikiImage wikiImage = imageUrls.get(name);
+        if (null != wikiImage)
+            wikiImage.setImageUrl(url);
 	}
 
 	public String getRedirectFrom() {
@@ -564,4 +583,12 @@ public class WikiPage  extends WikiPageBase implements Serializable, PageInterfa
 	public String toWikiUrl() {
 		return WikiApi.getInstance().getApiConfig().buildWikipediaUrlWithTitle("http", getLangCode(), getTitle());
 	}
+
+    public List<WikiImage> getImages() {
+        return images;
+    }
+
+    public WikiImage getImage(int i) {
+        return images.get(i);
+    }
 }

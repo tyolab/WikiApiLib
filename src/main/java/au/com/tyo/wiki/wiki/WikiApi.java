@@ -421,12 +421,12 @@ public class WikiApi {
 		String enchodeTitle = URLEncoder.encode(URLDecoder.decode(title));
 		String langLinkUrl = apiConfig.buildLangLinkUrl(langCode, enchodeTitle);
 		HttpConnection connection = HttpPool.getInstance().getConnection();
-		connection.setMethod(Http.METHOD_POST);
-		connection.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+//		connection.setMethod(Http.METHOD_POST);
+//		connection.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	    return connection.get(langLinkUrl); //getUrlText(langLinkUrl, connection);
 	}
 	
-	public ArrayList<PageLang> getLanguageLinksArray(String title, String langCode, String favCode, String primaryCode, boolean ignoreEmptyTitle, WikipediaSite site) throws Exception {
+	public List<PageLang> getLanguageLinksArray(String title, String langCode, String favCode, String primaryCode, boolean ignoreEmptyTitle, WikipediaSite site) throws Exception {
 		if (title == null || title.length() == 0)
 			return new ArrayList<PageLang>();
 		

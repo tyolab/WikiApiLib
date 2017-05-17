@@ -5,10 +5,8 @@ import au.com.tyo.web.HtmlStyleAndScript;
 import au.com.tyo.web.PageBuilder;
 import au.com.tyo.web.PageInterface;
 
-public class WikiPageBase implements PageInterface {
-	
-	
-	
+public class WikiPageBase extends WikiItem implements PageInterface {
+
 	protected static String themeName;
 	
 	protected static String inlineCss;
@@ -19,13 +17,11 @@ public class WikiPageBase implements PageInterface {
 	
 	protected String[] landscapeDependentCss;
 	
-	protected String title;
-	
 	public WikiPageBase() {
 	}
-	
-	public String getTitle() {
-		return title;
+
+	public WikiPageBase(String title) {
+		super(title);
 	}
 
 	public String getThemeName() {
