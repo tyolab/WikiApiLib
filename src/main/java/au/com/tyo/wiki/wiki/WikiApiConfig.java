@@ -233,8 +233,16 @@ public class WikiApiConfig implements ApiConstants {
 		return buildSite("m." + subdomain);
 	}
 
+    /**
+     * OpenSearch doesn't need to have SSL connection as it will be slower
+     *
+     * @param input
+     * @param domain
+     * @return
+     */
 	public String buildOpenSearchUrl(String input, String domain) {
-		StringBuffer url = new StringBuffer(buildBaseUrl(domain) + getApiQueryString() + "?");
+        // choose the protocol we need here
+		StringBuffer url = new StringBuffer(buildBaseUrl("http", domain) + getApiQueryString() + "?");
 		String encodedInput = encode(input);
 		url.append(WIKIPEDIA_API_MAIN_PARAM_ACTION + "=opensearch&limit=22&search=" + encodedInput);
 		return url.toString();
@@ -509,7 +517,8 @@ public class WikiApiConfig implements ApiConstants {
 	}
 	
 	public String buildBaseUrl(String protocol, String domain, int port) {
-		return protocol + ":" + ROOT_PATH + buildSite(domain) + ":" + port;
+		return protocol + ":" + ROOT_PATH + buildSite(domain) +
+                (((protocol.equals("http") && port == 80) || protocol.equals("https")) ? "" : (":" + port));
 	}
 	
 	public void refresh() {
