@@ -132,6 +132,7 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 		baseUrl = null;
 		sections = new ArrayList<WikiPageSection>();
 		imageUrls = new HashMap<>();
+		images = new ArrayList<>();
 		setDidYouMean(false);
 		
 		this.stylesAndScripts = STYLES_N_SCRIPTS;
@@ -467,7 +468,7 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 	}
 
 	public void addImageInfo(String name) {
-        WikiImage wikiImage = new WikiImage(url);
+        WikiImage wikiImage = new WikiImage(name);
         wikiImage.setIndex(images.size());
         images.add(wikiImage);
 		this.imageUrls.put(name, wikiImage);
@@ -477,14 +478,9 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 		return imageUrls.size() > 0;
 	}
 
-	public Object[] getImageNames() {
-		return imageUrls.keySet().toArray();
-	}
-
 	public String getFirstImageName() {
-		Object[] set = getImageNames();
-		if (set.length > 0)
-			return (String) set[0];
+		if (images.size() > 0)
+			return images.get(0).getTitle();
 		return null;
 	}
 
@@ -499,7 +495,7 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 
 	public String getImageUrlWithName(String name) {
         if (name != null)
-            return imageUrls.get(name).getTitle();
+            return imageUrls.get(name).getImageUrl();
         return null;
     }
 
