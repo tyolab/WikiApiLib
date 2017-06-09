@@ -15,7 +15,7 @@ import au.com.tyo.io.IO;
 import au.com.tyo.services.Http;
 import au.com.tyo.services.HttpConnection;
 import au.com.tyo.services.HttpConnection.Parameter;
-import au.com.tyo.services.HttpConnection.Settings;
+import au.com.tyo.services.HttpConnection.HttpRequest;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.services.HttpRequestListener;
 import au.com.tyo.wiki.WikiSettings;
@@ -504,7 +504,7 @@ public class WikiApi {
 		
 		String url = apiUrl + login.getLoginUrl();
 		
-		HttpConnection.Settings settings = new HttpConnection.Settings();
+		HttpConnection.HttpRequest settings = new HttpConnection.HttpRequest(url);
 		settings.setKeepAlive(false);
 		
 		List<HttpConnection.Parameter> params = login.buildParams(name, password);
@@ -516,7 +516,7 @@ public class WikiApi {
 		
 		Http conn = new Http();
 		try {
-			result = conn.post(url, settings);
+			result = conn.postWithResult(settings);
 			
 			conn.saveCookieToFile();
 		} catch (Exception e) {
@@ -536,7 +536,7 @@ public class WikiApi {
 					
 //					conn = new Http();
 					
-					result = conn.post(url, settings);
+					result = conn.postWithResult(settings);
 				
 					conn.saveCookieToFile();
 					
@@ -583,7 +583,7 @@ public class WikiApi {
 		importApi.setXml(xml);
 		importApi.setToken(token);
 		
-		Settings settings = new Settings();
+		HttpRequest settings = new HttpRequest(apiUrl);
 		settings.setParams(importApi.getParamsPost());
 		settings.setAutomaticLoadCookie(true);
 		
@@ -591,7 +591,7 @@ public class WikiApi {
 		
 		HttpConnection conn = HttpPool.getInstance().getConnection();
 		
-		String result = conn.upload(url, settings);
+		String result = conn.uploadWithResult(url, settings);
 		return result;
 	}
 
@@ -601,7 +601,7 @@ public class WikiApi {
         Edit edit = Edit.getInstance(token);
         edit.editPage(title, text);
 
-        Settings settings = new Settings();
+        HttpRequest settings = new HttpRequest(apiUrl);
         settings.setParams(edit.getParamsPost());
         settings.setAutomaticLoadCookie(true);
 
@@ -609,7 +609,7 @@ public class WikiApi {
 
         HttpConnection conn = HttpPool.getInstance().getConnection();
 
-        String result = conn.post(url, settings);
+        String result = conn.postWithResult(settings);
         return result;
     }
 
