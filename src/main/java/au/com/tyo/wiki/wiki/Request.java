@@ -12,6 +12,8 @@ public class Request implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1003226985810710514L;
+
+    public static final String COMMAND_LOOK_UP_ID = "id:";
 	
 	public static final int QUERY_TYPE_SEARCH = 0;
 	public static final int QUERY_TYPE_URL = 2;
@@ -204,5 +206,9 @@ public class Request implements Serializable {
 	
 	public boolean succeeded() {
 		return Status.isStatusAcceptable(responseCode);
+	}
+
+	public boolean isIdLookup() {
+		return getRawQuery() != null && getRawQuery().startsWith(COMMAND_LOOK_UP_ID);
 	}
 }
