@@ -1,10 +1,12 @@
 package au.com.tyo.wiki.wiki;
 
+import java.io.Serializable;
+
 /**
  * Created by monfee on 17/5/17.
  */
 
-public class WikiItem {
+public class WikiItem implements Serializable {
 
     public enum ItemType {PAGE, TEMPLATE, FILE, FILE_IMAGE, MEDIA};
 
