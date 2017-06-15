@@ -307,18 +307,18 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 	}
 	
 	public String format(String text) {
-		String formated = text.replaceAll("Script error", "");
+		String formatted = text.replaceAll("Script error", "");
 		
-		formated = TextUtils.removeFootNoteMarks(formated);
-		formated = TextUtils.removeNotes(formated);
-		formated = TextUtils.removeExtraSpaces(formated).trim();
+		formatted = TextUtils.removeFootNoteMarks(formatted);
+		formatted = TextUtils.removeNotes(formatted);
+		formatted = TextUtils.removeExtraSpaces(formatted).trim();
 		
-		formated = StringUtils.unescapeHtml(formated);
-		formated = StringUtils.unescapeHtml(formated);
+		formatted = StringUtils.unescapeHtml(formatted);
+		formatted = StringUtils.unescapeHtml(formatted);
 		
 		if (CJK.isCJKLangCode(langCode))
-			formated = CJK.removeSpacesBetweenChinese(formated);
-		return formated;
+			formatted = CJK.removeSpacesBetweenChinese(formatted);
+		return formatted;
 	}
 
 	public void setLangLinks(List<PageLang> languageLinks) {
