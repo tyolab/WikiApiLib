@@ -59,6 +59,7 @@ Examples:
 public class MobileView extends ApiAction {
 	
 	public static final String SECTION_ALL = "all";  // never use all with other sections
+	public static final String SECTION_FIRST_TWO = "0|1";
 	
 	public MobileView() {
 		super("mobileview");

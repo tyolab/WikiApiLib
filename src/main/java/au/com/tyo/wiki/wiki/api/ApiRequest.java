@@ -1,5 +1,5 @@
 package au.com.tyo.wiki.wiki.api;
 
-public interface ApiInterface {
+public interface ApiRequest {
 
 }

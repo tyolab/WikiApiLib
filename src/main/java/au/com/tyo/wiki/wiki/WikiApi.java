@@ -23,6 +23,7 @@ import au.com.tyo.wiki.wiki.WikiApiConfig.Format;
 import au.com.tyo.wiki.wiki.api.ApiQuery;
 import au.com.tyo.wiki.wiki.api.Edit;
 import au.com.tyo.wiki.wiki.api.ImageUrl;
+import au.com.tyo.wiki.wiki.api.Images;
 import au.com.tyo.wiki.wiki.api.Import;
 import au.com.tyo.wiki.wiki.api.LangLink;
 import au.com.tyo.wiki.wiki.api.ListRandom;
@@ -601,11 +602,11 @@ public class WikiApi {
         Edit edit = Edit.getInstance(token);
         edit.editPage(title, text);
 
-        HttpRequest settings = new HttpRequest(apiUrl);
+        String url = apiUrl + edit.getUrl();
+
+        HttpRequest settings = new HttpRequest(url);
         settings.setParams(edit.getParamsPost());
         settings.setAutomaticLoadCookie(true);
-
-        String url = apiUrl + edit.getUrl();
 
         HttpConnection conn = HttpPool.getInstance().getConnection();
 
@@ -616,4 +617,11 @@ public class WikiApi {
     public WikiParser getParser() {
         return parser;
     }
+
+
+    public List getPageImages(WikiPage page) throws Exception {
+        Images images = new Images();
+        images.setApiUrl(apiConfig.createApiUrl());
+        return images.getList(page);
+	}
 }

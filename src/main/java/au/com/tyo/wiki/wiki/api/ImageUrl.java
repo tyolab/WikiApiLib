@@ -1,12 +1,12 @@
 package au.com.tyo.wiki.wiki.api;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class ImageUrl extends ApiQuery {
 
@@ -62,7 +62,10 @@ public class ImageUrl extends ApiQuery {
 	}
 
 	public String getImageUrl(String title) {
-		this.setTitle("File:" + title);
+		if (!title.startsWith("File:"))
+			this.setTitle("File:" + title);
+		else
+			setTitle(title);
 		return getUrl();
 	}
 }

@@ -3,7 +3,9 @@ package au.com.tyo.wiki.wiki.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import au.com.tyo.services.HttpConnection;
 import au.com.tyo.services.HttpConnection.Parameter;
+import au.com.tyo.wiki.wiki.WikiPage;
 
 public abstract class ApiAction extends ApiBase {
 	
@@ -21,6 +23,14 @@ public abstract class ApiAction extends ApiBase {
 
 	public List<Parameter> getParamsPost() {
 		return paramsPost;
+	}
+
+	@Override
+	protected HttpConnection.HttpRequest createHttpRequest(WikiPage page) {
+		HttpConnection.HttpRequest request = super.createHttpRequest(page);
+		request.setParams(getParamsPost());
+		request.setAutomaticLoadCookie(true);
+		return request;
 	}
 	
 }

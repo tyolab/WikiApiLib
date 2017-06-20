@@ -1,16 +1,12 @@
 package au.com.tyo.wiki.wiki.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import au.com.tyo.wiki.wiki.WikiPage;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Images extends ApiQuery {
 	
@@ -19,21 +15,42 @@ public class Images extends ApiQuery {
 		this.setProp("images");
 		this.setFormat("json");
 		
-		this.addImageLimit(1);
+		this.addImageLimit(2);
 	}
 
 	private void addImageLimit(int i) {
 		this.setAttribute("imlimit", String.valueOf(i));
 	}
-	
+
+    /**
+     *
+     * @param text
+     * @return
+     */
+    @Override
+    protected List parseInternal(String text) {
+        return parse(text);
+    }
+
+    /**
+     *
+     * @param title
+     * @return
+     */
 	public String getImagesUrl(String title) {
 		this.setTitle(title);
 		
 		return getUrl();
 	}
-	
+
+
+    /**
+     *
+     * @param result
+     * @return
+     */
 	public static List<String> parse(String result) {
-		List<String> list = new ArrayList<String>();
+		List<String> list = null;
 		
 		try {
 			JSONObject pagesObj = JSONParser.getQueryPagesJSONObject(result);
@@ -50,8 +67,7 @@ public class Images extends ApiQuery {
 		            	JSONArray tnObj = pageObj.getJSONArray("images");
 		            	
 		            	list = JSONParser.parseStringArray(tnObj, "title");
-//		            	for (String str : list)
-//		            		images.put(str, null);
+                        break;
 		            }
 		        }
 			}
@@ -59,6 +75,9 @@ public class Images extends ApiQuery {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+
+		if (null == list)
+			list = new ArrayList<String>();
 
 		return list;
 	}

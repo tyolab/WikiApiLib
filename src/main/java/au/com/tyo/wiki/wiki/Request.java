@@ -49,8 +49,6 @@ public class Request implements Serializable {
 	
 	private String anchor;
 	
-//	private String langCode;
-	
 	private Vector<String> wikiDomains;
 	
 	private String sections;  // which sections needed, 1|2|3, .. or all

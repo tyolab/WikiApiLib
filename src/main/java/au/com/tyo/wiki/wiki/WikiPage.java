@@ -468,10 +468,12 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 	}
 
 	public void addImageInfo(String name) {
-        WikiImage wikiImage = new WikiImage(name);
-        wikiImage.setIndex(images.size());
-        images.add(wikiImage);
-		this.imageUrls.put(name, wikiImage);
+		if (!imageUrls.containsKey(name)) {
+			WikiImage wikiImage = new WikiImage(name);
+			wikiImage.setIndex(images.size());
+			images.add(wikiImage);
+			this.imageUrls.put(name, wikiImage);
+		}
 	}
 	
 	public boolean hasImage() {

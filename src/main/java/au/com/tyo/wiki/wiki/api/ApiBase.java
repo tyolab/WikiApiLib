@@ -7,12 +7,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import au.com.tyo.services.HttpConnection;
+import au.com.tyo.services.HttpPool;
+import au.com.tyo.wiki.wiki.WikiPage;
+
 /*
  
 cat /tmp/tmp.txt | grep - | cut -f 1 -d "-" | while read line; do fL=`echo ${line:0:1} | tr '[:lower:]' '[:upper:]'`${line:1}; echo "public void add${fL} (String v) { this.addAttribute(\"$line\", v); }"; done
  */
 
-public abstract class ApiBase implements ApiInterface {
+public abstract class ApiBase implements ApiRequest {
 	
 	public static final String WIKIPEDIA_MAIN_PAGE = "Main Page";
 
@@ -97,6 +101,8 @@ public abstract class ApiBase implements ApiInterface {
 	protected String commonUrl;
 	
 	protected HashMap<String, ActionAttribute> variables;
+
+    protected String apiUrl;
 	
 	public ApiBase() {
 		initializeValues();
@@ -122,7 +128,15 @@ public abstract class ApiBase implements ApiInterface {
 		this.actionValue = actionValue;
 	}
 
-	public void initializeValues() {
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
+    public void initializeValues() {
 		commonUrl = null;
 		attributes = new HashMap<String, ActionAttribute>();
 		variables = new HashMap<String, ActionAttribute>();
@@ -261,4 +275,35 @@ public abstract class ApiBase implements ApiInterface {
 		return getCommonUrl() + (commonUrl.length() > 0 ? "&" : "") + attributeToString(variables.values(), null);
 	}
 
+	public String get(WikiPage page) throws Exception {
+        HttpConnection connection = HttpPool.getInstance().getConnection();
+        String url = createRequestUrl(page);
+        return connection.get(url);
+	}
+
+    protected String createRequestUrl(WikiPage page) {
+        setTitle(page.getTitle());
+        String url = apiUrl + getUrl();
+        return url;
+    }
+
+    protected HttpConnection.HttpRequest createHttpRequest(WikiPage page) {
+        String url = createRequestUrl(page);
+        HttpConnection.HttpRequest settings = new HttpConnection.HttpRequest(url);
+        return settings;
+    }
+
+	public String post(WikiPage page) throws Exception {
+        HttpConnection connection = HttpPool.getInstance().getConnection();
+        return connection.postWithResult(createHttpRequest(page));
+	}
+
+	protected List parseInternal(String text) {
+        return new ArrayList();
+    }
+
+	public List getList(WikiPage page) throws Exception {
+        String text = get(page);
+        return parseInternal(text);
+    }
 }
