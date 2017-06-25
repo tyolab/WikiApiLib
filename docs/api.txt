@@ -28,14 +28,14 @@ or
 mobileformat=html
 
 6. For mobile
-http://en.wikipedia.org/w/api.php?action=mobileview&page=Hello&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=1|2|3|4|5|6|7|8|9|10|11|12
+http://en.wikipedia.org/w/api.php?action=mobileview&request=Hello&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=1|2|3|4|5|6|7|8|9|10|11|12
 or
 sections=all
 &sections=sectionsList.join( '|' )
 
-http://en.wikipedia.org/w/api.php?action=mobileview&page=GTO&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=all
-http://en.wikipedia.org/w/api.php?action=mobileview&page=australia&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=1
-http://en.wikipedia.org/w/api.php?action=mobileview&page=dragon&redirect=yes&prop=sections|text&sectionprop=toclevel|level|line&noheadings=yes&sections=all&format=json
+http://en.wikipedia.org/w/api.php?action=mobileview&request=GTO&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=all
+http://en.wikipedia.org/w/api.php?action=mobileview&request=australia&redirect=yes&prop=sections|text&sectionprop=level|line&noheadings=yes&sections=1
+http://en.wikipedia.org/w/api.php?action=mobileview&request=dragon&redirect=yes&prop=sections|text&sectionprop=toclevel|level|line&noheadings=yes&sections=all&format=json
 http://en.wikipedia.org/w/勾股定理- 维基百科，自由的百科全书
 
 7. search

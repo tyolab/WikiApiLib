@@ -62,7 +62,8 @@ public class Request implements Serializable {
 	private boolean toCrosslink;
 	
 	private List results;
-	
+	private boolean fullTextSearch;
+
 	public Request() {
 		url = null;
 		query = "";
@@ -96,6 +97,7 @@ public class Request implements Serializable {
 		setSections(MobileView.SECTION_ALL);
 		page = null;
 		responseCode = 404;
+		fullTextSearch = false;
 	}
 
 	public String getUrl() {
@@ -208,5 +210,13 @@ public class Request implements Serializable {
 
 	public boolean isIdLookup() {
 		return getRawQuery() != null && getRawQuery().startsWith(COMMAND_LOOK_UP_ID);
+	}
+
+	public boolean isFullTextSearch() {
+		return fullTextSearch;
+	}
+
+	public void setFullTextSearch(boolean b) {
+		fullTextSearch = b;
 	}
 }
