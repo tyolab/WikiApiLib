@@ -1,5 +1,10 @@
 package au.com.tyo.wiki.wiki.api;
 
+import com.google.api.client.util.Charsets;
+import com.google.api.client.util.ObjectParser;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +21,11 @@ import au.com.tyo.wiki.wiki.WikiPage;
 cat /tmp/tmp.txt | grep - | cut -f 1 -d "-" | while read line; do fL=`echo ${line:0:1} | tr '[:lower:]' '[:upper:]'`${line:1}; echo "public void add${fL} (String v) { this.addAttribute(\"$line\", v); }"; done
  */
 
-public abstract class ApiBase implements ApiRequest {
+/**
+ *
+ * @param <T>
+ */
+public abstract class ApiBase<T> implements ApiRequest {
 	
 	public static final String WIKIPEDIA_MAIN_PAGE = "Main Page";
 
@@ -103,6 +112,11 @@ public abstract class ApiBase implements ApiRequest {
 	protected HashMap<String, ActionAttribute> variables;
 
     protected String apiUrl;
+
+    /**
+     * Response Parser
+     */
+    private ObjectParser parser;
 	
 	public ApiBase() {
 		initializeValues();
@@ -275,12 +289,23 @@ public abstract class ApiBase implements ApiRequest {
 		return getCommonUrl() + (commonUrl.length() > 0 ? "&" : "") + attributeToString(variables.values(), null);
 	}
 
+    /**
+     *
+     * @param page
+     * @return
+     * @throws Exception
+     */
 	public String get(WikiPage page) throws Exception {
         HttpConnection connection = HttpPool.getInstance().getConnection();
         String url = createRequestUrl(page);
         return connection.get(url);
 	}
 
+    /**
+     *
+     * @param page
+     * @return
+     */
     protected String createRequestUrl(WikiPage page) {
         setTitle(page.getTitle());
         String url = apiUrl + getUrl();
@@ -298,12 +323,23 @@ public abstract class ApiBase implements ApiRequest {
         return connection.postWithResult(createHttpRequest(page));
 	}
 
-	protected List parseInternal(String text) {
+	protected List parseAsList(String text) {
         return new ArrayList();
     }
 
 	public List getList(WikiPage page) throws Exception {
         String text = get(page);
-        return parseInternal(text);
+        return parseAsList(text);
+    }
+
+    /**
+     *
+     * @param inputStream
+     * @param asCls
+     * @return
+     * @throws IOException
+     */
+    protected T parseAs(InputStream inputStream, Class<T> asCls) throws IOException {
+        return parser.parseAndClose(inputStream, Charsets.UTF_8, asCls);
     }
 }

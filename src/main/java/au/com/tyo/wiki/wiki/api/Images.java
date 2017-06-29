@@ -28,7 +28,7 @@ public class Images extends ApiQuery {
      * @return
      */
     @Override
-    protected List parseInternal(String text) {
+    protected List parseAsList(String text) {
         return parse(text);
     }
 

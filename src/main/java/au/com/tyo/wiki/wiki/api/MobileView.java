@@ -60,7 +60,7 @@ public class MobileView extends ApiAction {
 	
 	public static final String SECTION_ALL = "all";  // never use all with other sections
 	public static final String SECTION_FIRST_TWO = "0|1";
-	
+
 	public MobileView() {
 		super("mobileview");
 		
@@ -102,9 +102,7 @@ public class MobileView extends ApiAction {
 	public void addMaxlen (String v) { this.addAttribute("maxlen", v); }
 	public void addThumbsize (String v) { this.addAttribute("thumbsize", v); }
 
-//	public static String getCommonUrl() {
-//		return commonAttributesToUrl;
-//	}
+
 	public String getMobileViewUrl(String title, String sections) {
 		this.addPageVariable(title);
 		this.addSectionsVariable(sections);
@@ -130,4 +128,6 @@ public class MobileView extends ApiAction {
 		}
 		return this.getMobileViewUrl(title, sections);
 	}
+
+
 }

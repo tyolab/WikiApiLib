@@ -28,7 +28,13 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CommonUtils" exported="" />
     <orderEntry type="module" module-name="CommonFeed" exported="" />
+    <orderEntry type="library" exported="" name="google-http-client-1.22.0" level="project" />
     <orderEntry type="library" exported="" name="twitter4j-core-4.0.2" level="project" />
+    <orderEntry type="library" exported="" name="jsr305-1.3.9" level="project" />
+    <orderEntry type="library" exported="" name="httpclient-4.0.1" level="project" />
+    <orderEntry type="library" exported="" name="httpcore-4.0.1" level="project" />
+    <orderEntry type="library" exported="" name="commons-logging-1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="commons-codec-1.3" level="project" />
     <orderEntry type="library" exported="" name="json-java-android" level="project" />
   </component>
 </module>
