@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2017 TYONLINE TECHNOLOGY PTY. LTD. (TYO Lab)
+ */
+
 package au.com.tyo.wiki.wiki;
 
 import java.io.UnsupportedEncodingException;
@@ -552,7 +556,7 @@ public class WikiApiConfig implements ApiConstants {
 	public String buildSectionRetrievalUrl(String query, String langCode, int section) {
 		StringBuffer url = new StringBuffer(createApiUrl(protocol, langCode));
 		String encodedInput = encode(query);
-		url.append(WIKIPEDIA_API_MAIN_PARAM_ACTION + "=parse&format=json&prop=text&redirects&page=" + encodedInput);
+		url.append(WIKIPEDIA_API_MAIN_PARAM_ACTION + "=parseJSON&format=json&prop=text&redirects&page=" + encodedInput);
 		if (section > -1)
 			url.append("&section=" + section);
 		return url.toString();

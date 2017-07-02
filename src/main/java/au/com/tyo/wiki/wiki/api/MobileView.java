@@ -56,7 +56,10 @@ Examples:
 //// */
 
 
-public class MobileView extends ApiAction {
+import au.com.tyo.wiki.wiki.WikiPage;
+import au.com.tyo.wiki.wiki.api.response.MobileViewJson;
+
+public class MobileView extends ApiAction<MobileViewJson> {
 	
 	public static final String SECTION_ALL = "all";  // never use all with other sections
 	public static final String SECTION_FIRST_TWO = "0|1";
@@ -129,5 +132,7 @@ public class MobileView extends ApiAction {
 		return this.getMobileViewUrl(title, sections);
 	}
 
-
+	public MobileViewJson getAs(WikiPage page) throws Exception {
+        return getAs(page, MobileViewJson.class);
+    }
 }

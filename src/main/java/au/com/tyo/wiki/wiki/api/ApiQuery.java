@@ -1,13 +1,12 @@
 package au.com.tyo.wiki.wiki.api;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ApiQuery extends ApiAction{
+import java.util.Arrays;
+import java.util.List;
+
+public class ApiQuery<T> extends ApiAction<T> {
 
 	public ApiQuery() {
 		super("query");

@@ -276,7 +276,7 @@ public class WikiTransformer {
 				SgmlNode languageSelectionNode = new SgmlNode(html.substring(pos1, pos2 + LANGUAGE_SELECTION_STRING_CLOSED.length()));
 //			if (index > -1) {
 //				Sgml parser = new Sgml();
-//				languageSelectionNode = parser.parse(textBytes, index);
+//				languageSelectionNode = parser.parseJSON(textBytes, index);
 //				wikiPage.setLanguageSelectionNode(languageSelectionNode);
 			}
 		}

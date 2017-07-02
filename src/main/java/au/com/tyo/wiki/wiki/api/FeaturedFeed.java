@@ -162,22 +162,42 @@ public class FeaturedFeed extends ApiAction {
 		
 	}
 
+	/**
+	 *
+	 * @param result
+	 * @param langCode
+	 * @return
+	 */
 	public static ArrayList<WikiPage> fastParse(String result, String langCode) {
+		return fastParse(result, langCode, false);
+	}
+
+	/**
+	 *
+	 * @param result
+	 * @param langCode
+	 * @param lastOneOnly
+	 * @return
+	 */
+	public static ArrayList<WikiPage> fastParse(String result, String langCode, boolean lastOneOnly) {
 
 		ArrayList<WikiPage> list = new ArrayList<WikiPage>();
-		
+
 		int end = result.lastIndexOf(TAG_DESCRIPTION_END);
-		
+
 		if (end > -1) {
 			while (end > -1) {
 				int start = result.lastIndexOf(TAG_DESCRIPTION_START, end);
+
 				if (start == -1) {
 					parseItemDescription(result.substring(0, end), list, langCode);
 					break;
-				}
-				else
+				} else
 					parseItemDescription(result.substring(start, end), list, langCode);
-				
+
+				if (lastOneOnly)
+					break;
+
 				end = result.lastIndexOf(TAG_DESCRIPTION_END, start);
 			}
 		}

@@ -31,7 +31,7 @@ public class WikiParser {
 		Sgml parser = new Sgml();
 		SgmlNode rootNode = parser.parse(result.getBytes(), 0);
 		if (rootNode != null) {
-//			rootNode.parse();
+//			rootNode.parseJSON();
 			for (int i= 0; i < rootNode.countChildren(); ++i) {
 				SgmlNode child = rootNode.getChild(i);
 				if (child != null) {
@@ -94,7 +94,7 @@ public class WikiParser {
         			throw ex;
         		}
 	        }
-	        else if (array != null && array.has("parse")) {
+	        else if (array != null && array.has("parseJSON")) {
 	        	try {
 	        		parseArticle(array, page);
 	        	}
@@ -113,7 +113,7 @@ public class WikiParser {
 	}
 	
 	private static void parseArticle(JSONObject array, WikiPage page) throws Exception {
-        JSONObject parsedObject = array.getJSONObject("parse"); //getJSONArray();
+        JSONObject parsedObject = array.getJSONObject("parseJSON"); //getJSONArray();
 		
         if (parsedObject != null) {
         	// it is parsed article page in html format
@@ -350,7 +350,7 @@ public class WikiParser {
         JSONObject array = new JSONObject(result);
         if (array != null) {
         	try {
-		        JSONObject parsedObject = array.getJSONObject("parse"); //getJSONArray();
+		        JSONObject parsedObject = array.getJSONObject("parseJSON"); //getJSONArray();
 		        
 		        if (parsedObject != null) {
 		        	//JSONObject infoObject ;

@@ -38,7 +38,14 @@ public class Request implements Serializable {
 	public static final int FROM_RANDOM_WWW = 13;
 	public static final int FROM_RANDOM_SEARCH_BUTTON = 11;
 	public static final int FROM_RANDOM_MENU = 12;
-	
+
+	/**
+	 * Featured Feed, PotD, Featured, OnThisDay
+	 */
+	public static final int FROM_FEATURED_POTD = 900;
+	public static final int FROM_FEATURED_ARTICLE = 901;
+	public static final int FROM_FEATURED_ONTHISDAY = 902;
+
 	private String url;
 	
 	private String query;

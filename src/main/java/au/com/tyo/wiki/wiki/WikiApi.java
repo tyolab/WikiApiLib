@@ -1,5 +1,6 @@
 package au.com.tyo.wiki.wiki;
 
+import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,14 +15,15 @@ import au.com.tyo.common.feed.Feed;
 import au.com.tyo.io.IO;
 import au.com.tyo.services.Http;
 import au.com.tyo.services.HttpConnection;
-import au.com.tyo.services.HttpConnection.Parameter;
 import au.com.tyo.services.HttpConnection.HttpRequest;
+import au.com.tyo.services.HttpConnection.Parameter;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.services.HttpRequestListener;
 import au.com.tyo.wiki.WikiSettings;
 import au.com.tyo.wiki.wiki.WikiApiConfig.Format;
 import au.com.tyo.wiki.wiki.api.ApiQuery;
 import au.com.tyo.wiki.wiki.api.Edit;
+import au.com.tyo.wiki.wiki.api.FeaturedFeed;
 import au.com.tyo.wiki.wiki.api.ImageUrl;
 import au.com.tyo.wiki.wiki.api.Images;
 import au.com.tyo.wiki.wiki.api.Import;
@@ -292,7 +294,7 @@ public class WikiApi {
 	
 	public String getArticle(String query, int section) throws Exception {
 		// {"servedby":"srv214","error":{"code":"missingtitle","info":"The page you specified doesn't exist"}}
-		// {"parse":{"title":"Baseball","text":{"*":"
+		// {"parseJSON":{"title":"Baseball","text":{"*":"
 		String firstSectionUrl = apiConfig.buildSectionRetrievalUrl(query, section);
 		HttpConnection connection = HttpPool.getInstance().getConnection();
 		String result = connection.get(firstSectionUrl);
@@ -322,7 +324,7 @@ public class WikiApi {
 	}
 	
 	public String getArticleWithMobileView(String query, WikiPage page, String domain, String areaCode) throws Exception {
-		return getArticleWithMobileView(query, MobileView.SECTION_ALL, page, domain, areaCode); // // too slow to load and parse for now
+		return getArticleWithMobileView(query, MobileView.SECTION_ALL, page, domain, areaCode); // // too slow to load and parseJSON for now
 	}
 	
 	/**
@@ -448,13 +450,13 @@ public class WikiApi {
 		String result = getUrlText(url, connection, lastModifiedDate);
 		
 		Feed feed = new Feed();
-//		feed.setLastModifiedDate(connection.getLastModifiedDate());
-//
-//		if (connection.getResponseCode() == HttpStatus.SC_OK && result.length() > 0) {
-//			feed.setList(FeaturedFeed.fastParse(result, domain));
-//		}
-//		else
-//			feed.setList(new ArrayList<WikiPage>());
+		feed.setLastModifiedDate(connection.getLastModifiedDate(url));
+
+		if (connection.getResponseCode() == HttpStatus.SC_OK && result.length() > 0) {
+			feed.setList(FeaturedFeed.fastParse(result, domain));
+		}
+		else
+			feed.setList(new ArrayList<WikiPage>());
 			
 		return feed;
 	}

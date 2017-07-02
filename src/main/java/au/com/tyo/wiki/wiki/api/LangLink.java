@@ -76,7 +76,7 @@ public class LangLink extends ApiQuery {
 			SgmlNode languageSelectionNode = new Sgml().parse(result);
 
 			if (languageSelectionNode != null && languageSelectionNode.getName().equals("api") && languageSelectionNode.countChildren() > 0) {
-//			languageSelectionNode.parse();
+//			languageSelectionNode.parseJSON();
 				SgmlNode decendant = languageSelectionNode.path("query/pages/page/langlinks"); // languageSelectionNode.getDecendant(3, 0);
 				if (decendant != null) {
 					int count = decendant.countChildren();

@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Images extends ApiQuery {
+import au.com.tyo.wiki.wiki.api.response.ImagesJson;
+
+public class Images extends ApiQuery<ImagesJson> {
 	
 	public Images() {
 		
@@ -29,7 +31,7 @@ public class Images extends ApiQuery {
      */
     @Override
     protected List parseAsList(String text) {
-        return parse(text);
+        return parseJSON(text);
     }
 
     /**
@@ -49,7 +51,7 @@ public class Images extends ApiQuery {
      * @param result
      * @return
      */
-	public static List<String> parse(String result) {
+	public static List<String> parseJSON(String result) {
 		List<String> list = null;
 		
 		try {

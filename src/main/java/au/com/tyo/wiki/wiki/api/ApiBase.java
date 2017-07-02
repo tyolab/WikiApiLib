@@ -342,4 +342,11 @@ public abstract class ApiBase<T> implements ApiRequest {
     protected T parseAs(InputStream inputStream, Class<T> asCls) throws IOException {
         return parser.parseAndClose(inputStream, Charsets.UTF_8, asCls);
     }
+
+    public T getAs(WikiPage page, Class<T> asCls) throws Exception {
+        HttpConnection connection = HttpPool.getInstance().getConnection();
+        String url = createRequestUrl(page);
+        InputStream inputStream = connection.getAsInputStream(url);
+        return parseAs(inputStream, asCls);
+    }
 }

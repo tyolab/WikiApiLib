@@ -589,4 +589,10 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
     public WikiImage getImage(int i) {
         return images.get(i);
     }
+
+    public static WikiPage newMainPage() {
+		WikiPage page = new WikiPage();
+		page.setTitle("Main Page");
+        return page;
+    }
 }

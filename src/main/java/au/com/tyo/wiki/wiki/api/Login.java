@@ -17,7 +17,7 @@ public class Login extends ApiAction  {
 	
 	public static final int ERROR_SERVER = -2; // can't contact the server
 	
-	public static final int ERROR_PARSE = -3; // parse result error
+	public static final int ERROR_PARSE = -3; // parseJSON result error
 	
 	public static final int ERROR_NEEDTOKEN = -4; // need token
 
