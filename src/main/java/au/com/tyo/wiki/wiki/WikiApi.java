@@ -438,22 +438,24 @@ public class WikiApi {
 	    return LangLink.parseLangLinks(result, favCode, primaryCode, ignoreEmptyTitle, site);
 	}
 	
-	public Feed getFeaturedFeed() throws Exception {
-		return this.getFeaturedFeed(apiConfig.getSubdomain(), 0);
+	public Feed getFeaturedFeed(String type) throws Exception {
+		return this.getFeaturedFeed(apiConfig.getSubdomain(), type, 0);
 	}
 	
-	public Feed getFeaturedFeed(String domain, long lastModifiedDate) throws Exception {
-		String url = apiConfig.buildFeaturedFeedUrl(domain);
+	public Feed getFeaturedFeed(String domain, String type, long lastModifiedDate) throws Exception {
+		String url = apiConfig.buildFeaturedFeedUrl(domain, type);
 		
 		HttpConnection connection = HttpPool.getInstance().getConnection();
 		
 		String result = getUrlText(url, connection, lastModifiedDate);
 		
 		Feed feed = new Feed();
-		feed.setLastModifiedDate(connection.getLastModifiedDate(url));
+		long lastModifiedDateFromServer = connection.getLastModifiedDate(url);
+		feed.setLastModifiedDate(lastModifiedDateFromServer);
 
 		if (connection.getResponseCode() == HttpStatus.SC_OK && result.length() > 0) {
-			feed.setList(FeaturedFeed.fastParse(result, domain));
+            boolean lastOneOnly = type == FeaturedFeed.FEATURED_FEED_FEATURED;
+			feed.setList(FeaturedFeed.fastParse(result, domain, lastOneOnly));
 		}
 		else
 			feed.setList(new ArrayList<WikiPage>());

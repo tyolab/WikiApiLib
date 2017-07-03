@@ -40,18 +40,28 @@ public class Request implements Serializable {
 	public static final int FROM_RANDOM_MENU = 12;
 
 	/**
-	 * Featured Feed, PotD, Featured, OnThisDay
+	 * Subtype base
+	 *
 	 */
-	public static final int FROM_FEATURED_POTD = 900;
-	public static final int FROM_FEATURED_ARTICLE = 901;
-	public static final int FROM_FEATURED_ONTHISDAY = 902;
+
+	public static final int FROM_BASE = 100;
+
+	/**
+	 * Subtype Featured Feed, PotD, Featured, OnThisDay
+	 */
+	public static final int FROM_FEATURED_POTD = 901;
+	public static final int FROM_FEATURED_ARTICLE = 902;
+	public static final int FROM_FEATURED_ONTHISDAY = 903;
 
 	private String url;
 	
 	private String query;
 	
 	private String rawQuery;
-	
+
+	/**
+	 * Query type
+	 */
 	private int type;  // what kind of request, search? title? 
 	
 	private String anchor;
@@ -226,4 +236,9 @@ public class Request implements Serializable {
 	public void setFullTextSearch(boolean b) {
 		fullTextSearch = b;
 	}
+
+    public boolean isFromTypeFeed() {
+        int value = (FROM_BASE * FROM_FEATURED) - fromType;
+        return value > 0 && value < FROM_BASE;
+    }
 }

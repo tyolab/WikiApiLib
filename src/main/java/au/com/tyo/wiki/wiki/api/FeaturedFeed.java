@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import au.com.tyo.common.feed.Channel;
 import au.com.tyo.common.feed.Item;
@@ -168,7 +169,7 @@ public class FeaturedFeed extends ApiAction {
 	 * @param langCode
 	 * @return
 	 */
-	public static ArrayList<WikiPage> fastParse(String result, String langCode) {
+	public static List<WikiPage> fastParse(String result, String langCode) {
 		return fastParse(result, langCode, false);
 	}
 
@@ -179,7 +180,7 @@ public class FeaturedFeed extends ApiAction {
 	 * @param lastOneOnly
 	 * @return
 	 */
-	public static ArrayList<WikiPage> fastParse(String result, String langCode, boolean lastOneOnly) {
+	public static List<WikiPage> fastParse(String result, String langCode, boolean lastOneOnly) {
 
 		ArrayList<WikiPage> list = new ArrayList<WikiPage>();
 
