@@ -22,7 +22,10 @@ public class Request implements Serializable {
 	public static final int QUERY_TYPE_ABSTRACT = 16;
 	public static final int QUERY_TYPE_LOCAL = 32;
 	public static final int QUERY_TYPE_HISTORY = 64;
-	
+
+	/**
+	 * Public Request Types which don't have a subtype
+	 */
 	public static final int FROM_NOTHING = 0;
 	public static final int FROM_OPENSEARCH = 1;
 	public static final int FROM_LANG_LINK = 3;
@@ -32,8 +35,7 @@ public class Request implements Serializable {
 	public static final int FROM_VOICE_SEARCH = 7;
 	public static final int FROM_SEARCH_BUTTON = 8;
 	public static final int FROM_SEARCH_REQUEST = 2;
-	
-	public static final int FROM_FEATURED = 9;
+
 	public static final int FROM_RANDOM_LOCAL = 10;
 	public static final int FROM_RANDOM_WWW = 13;
 	public static final int FROM_RANDOM_SEARCH_BUTTON = 11;
@@ -45,6 +47,8 @@ public class Request implements Serializable {
 	 */
 
 	public static final int FROM_BASE = 100;
+
+	private static final int FROM_FEATURED = 9;
 
 	/**
 	 * Subtype Featured Feed, PotD, Featured, OnThisDay
@@ -238,7 +242,11 @@ public class Request implements Serializable {
 	}
 
     public boolean isFromTypeFeed() {
-        int value = (FROM_BASE * FROM_FEATURED) - fromType;
+        return isFromType(FROM_FEATURED);
+    }
+
+    private boolean isFromType(int base) {
+        int value = fromType - (FROM_BASE * base);
         return value > 0 && value < FROM_BASE;
     }
 }
