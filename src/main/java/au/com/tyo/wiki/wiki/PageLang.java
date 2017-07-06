@@ -1,8 +1,12 @@
 package au.com.tyo.wiki.wiki;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-public class PageLang implements Serializable {
+import au.com.tyo.io.ItemSerializable;
+
+public class PageLang extends ItemSerializable {
 
 	/**
 	 * 
@@ -45,6 +49,20 @@ public class PageLang implements Serializable {
 	public void setLangCode(String langCode) {
 		this.langCode = langCode;
 	}
-	
-	
+
+	@Override
+	public void serialise(ObjectOutputStream stream) throws IOException {
+		stream.writeObject(url);
+		stream.writeObject(lang);
+		stream.writeObject(langCode);
+		stream.writeObject(title);
+	}
+
+	@Override
+	public void deserialise(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		url = (String) stream.readObject();
+		lang = (String) stream.readObject();
+		langCode = (String) stream.readObject();
+		title = (String) stream.readObject();
+	}
 }

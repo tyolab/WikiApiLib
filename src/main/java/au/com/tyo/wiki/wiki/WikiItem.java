@@ -1,12 +1,16 @@
 package au.com.tyo.wiki.wiki;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import au.com.tyo.io.ItemSerializable;
 
 /**
  * Created by monfee on 17/5/17.
  */
 
-public class WikiItem implements Serializable {
+public class WikiItem extends ItemSerializable {
 
     public enum ItemType {PAGE, TEMPLATE, FILE, FILE_IMAGE, MEDIA};
 
@@ -45,5 +49,19 @@ public class WikiItem implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public void serialise(ObjectOutputStream stream) throws IOException {
+        stream.writeInt(index);
+        stream.writeObject(type);
+        stream.writeObject(title);
+    }
+
+    @Override
+    public void deserialise(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        index = stream.readInt();
+        type = (ItemType) stream.readObject();
+        title = (String) stream.readObject();
     }
 }

@@ -1,5 +1,9 @@
 package au.com.tyo.wiki.wiki;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import au.com.tyo.CommonSettings;
 import au.com.tyo.web.HtmlStyleAndScript;
 import au.com.tyo.web.PageBuilder;
@@ -62,5 +66,22 @@ public class WikiPageBase extends WikiItem implements PageInterface {
 //		else
 //			sb.append(String.format("<div id=\"title\">%s</div><br>", title));
 		return "";
+	}
+
+	@Override
+	public void writeObject(ObjectOutputStream stream) throws IOException {
+		super.writeObject(stream);
+
+		stream.writeObject(stylesAndScripts);
+		stream.writeObject(themeCss);
+		stream.writeObject(landscapeDependentCss);
+	}
+
+	@Override
+	public void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		super.readObject(stream);
+        stylesAndScripts = (String[]) stream.readObject();
+        themeCss = (String[]) stream.readObject();
+        landscapeDependentCss = (String[]) stream.readObject();
 	}
 }

@@ -1,30 +1,34 @@
 package au.com.tyo.wiki.wiki;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class WikiPageSection implements Serializable {
+import au.com.tyo.io.ItemSerializable;
+
+public class WikiPageSection extends ItemSerializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5155340566721660429L;
+	private static final long 			serialVersionUID = 5155340566721660429L;
 
-	private String 									title;
+	private String 						title;
 	
-	private int											id = -1;
+	private int							id = -1;
 	
-	private String 									text;
+	private String 						text;
 	
-	private int											level = 0;
+	private int							level = 0;
 	
-	private String 									idName;  // 0, 1, 2, ..., 1.1, 1.2, 1.3, 1.1.1, 1.1.2, 1.1.3, ... something like that
+	private String 						idName;  // 0, 1, 2, ..., 1.1, 1.2, 1.3, 1.1.1, 1.1.2, 1.1.3, ... something like that
 	
-	private WikiPageSection 					parent;
+	private WikiPageSection 			parent;
 	
 	private ArrayList<WikiPageSection> 	children;
 	
-	private int											offset;  // offset with the highest level
+	private int							offset;  // offset with the highest level
 	
 	public WikiPageSection() {
 		init();
@@ -43,6 +47,30 @@ public class WikiPageSection implements Serializable {
 		offset = -1;
 		parent = null;
 		children = new ArrayList<WikiPageSection>();
+	}
+
+	@Override
+	public void serialise(ObjectOutputStream stream) throws IOException {
+        stream.writeObject(title);
+        stream.writeInt(id);
+        stream.writeObject(text);
+        stream.writeInt(level);
+        stream.writeObject(idName);
+        stream.writeObject(parent);
+        stream.writeObject(children);
+        stream.writeInt(offset);
+	}
+
+	@Override
+	public void deserialise(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        title = (String) stream.readObject();;
+        id = stream.readInt();
+        text = (String) stream.readObject();;
+        level = stream.readInt();
+        idName = (String) stream.readObject();;
+        parent = (WikiPageSection) stream.readObject();;
+        children = (ArrayList<WikiPageSection>) stream.readObject();;
+        offset = stream.readInt();
 	}
 
 	public String getTitle() {

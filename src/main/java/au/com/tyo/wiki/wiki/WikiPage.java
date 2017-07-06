@@ -1,7 +1,9 @@
 package au.com.tyo.wiki.wiki;
 
 import java.io.File;
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +15,7 @@ import au.com.tyo.utils.StringUtils;
 import au.com.tyo.utils.TextUtils;
 import au.com.tyo.web.PageInterface;
 
-public class WikiPage extends WikiPageBase implements Serializable, PageInterface {
+public class WikiPage extends WikiPageBase implements PageInterface {
 
 	/**
 	 * 
@@ -100,6 +102,8 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 	private String notes; // notes about the page, such as only abstract is availabe
 	
 	private int id;
+
+	private boolean loaded = false;
 //	
 //	private int namespace;
 	static {
@@ -128,7 +132,7 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 //		abs = new StringBuffer("");
 		abs = "";
 		title = "";
-		langs = new ArrayList<PageLang>();
+		langs = null;
 		baseUrl = null;
 		sections = new ArrayList<WikiPageSection>();
 		imageUrls = new HashMap<>();
@@ -148,6 +152,86 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 		html = null;
 		textFormat = TEXT_FORMAT_JSON;
 		notes = null;
+	}
+
+    @Override
+    public void writeObject(ObjectOutputStream stream) throws IOException {
+        super.writeObject(stream);
+
+        stream.writeObject(url);
+        stream.writeObject(text);
+        stream.writeObject(lang);
+        stream.writeObject(baseUrl);
+        stream.writeObject(bytes);
+        stream.writeObject(imgBytes);
+        stream.writeObject(langs);
+        stream.writeObject(sections);
+        stream.writeObject(fromAnchor);
+        stream.writeObject(langCode);
+        stream.writeObject(abs);
+        stream.writeObject(error);
+        stream.writeObject(request);
+        stream.writeObject(html);
+        stream.writeObject(didYouMean);
+        stream.writeObject(thumbnailLink);
+        stream.writeObject(images);
+        stream.writeObject(xPage);
+        stream.writeObject(lastUpdateDate);
+        stream.writeObject(lastUpdateBy);
+        stream.writeObject(redirectFrom);
+        stream.writeObject(redirects);
+        stream.writeObject(prefImageWidth);
+        stream.writeObject(onImageClickLink);
+        stream.writeObject(hasFullText);
+        stream.writeObject(fromSource);
+        stream.writeObject(textFormat);
+        stream.writeObject(notes);
+        stream.writeObject(id);
+        stream.writeObject(loaded);
+    }
+
+    @Override
+    public void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        super.readObject(stream);
+
+        url = (String) stream.readObject();
+        text = (String) stream.readObject();
+        lang = (String) stream.readObject();
+        baseUrl = (String) stream.readObject();
+        bytes = (byte[]) stream.readObject();
+        imgBytes = (byte[]) stream.readObject();
+        langs = (List<PageLang>) stream.readObject();
+        sections = (List<WikiPageSection>) stream.readObject();
+        fromAnchor = (String) stream.readObject();
+        langCode = (String) stream.readObject();
+        abs = (String) stream.readObject();
+        error = (Error) stream.readObject();
+        request = (Request) stream.readObject();
+        html = (String) stream.readObject();
+        didYouMean = (boolean) stream.readObject();
+        thumbnailLink = (String) stream.readObject();
+        images = (List<WikiImage>) stream.readObject();
+        xPage = (WikiPage) stream.readObject();
+        lastUpdateDate = (String) stream.readObject();
+        lastUpdateBy = (String) stream.readObject();
+        redirectFrom = (String) stream.readObject();
+        redirects = (List<String>) stream.readObject();
+        prefImageWidth = (int) stream.readObject();
+        onImageClickLink = (String) stream.readObject();
+        hasFullText = (boolean) stream.readObject();
+        fromSource = (int) stream.readObject();
+        textFormat = (int) stream.readObject();
+        notes = (String) stream.readObject();
+        id = (int) stream.readObject();
+        loaded = (boolean) stream.readObject();
+    }
+
+    public boolean isLoaded() {
+		return loaded;
+	}
+
+	public void setLoaded(boolean loaded) {
+		this.loaded = loaded;
 	}
 
 	public static void setPageProcessor(WikiPageProcessor processor) {
@@ -199,11 +283,7 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 	}
 
 	public boolean hasOtherLanguages() {
-		return langs.size() > 0;
-	}
-	
-	public List<PageLang> getLangs() {
-		return langs;
+		return hasLangLinks();
 	}
 	
 	public String getBaseUrl() {
@@ -320,6 +400,14 @@ public class WikiPage extends WikiPageBase implements Serializable, PageInterfac
 			formatted = CJK.removeSpacesBetweenChinese(formatted);
 		return formatted;
 	}
+
+	public boolean hasLangLinks() {
+        return this.langs != null && this.langs.size() > 0;
+    }
+
+    public List getLangLinks() {
+        return this.langs;
+    }
 
 	public void setLangLinks(List<PageLang> languageLinks) {
 		this.langs = languageLinks;

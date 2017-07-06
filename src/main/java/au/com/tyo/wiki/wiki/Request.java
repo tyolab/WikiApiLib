@@ -249,4 +249,8 @@ public class Request implements Serializable {
         int value = fromType - (FROM_BASE * base);
         return value > 0 && value < FROM_BASE;
     }
+
+    public boolean isFromHistory() {
+        return fromType == Request.FROM_HISTORY;
+    }
 }
