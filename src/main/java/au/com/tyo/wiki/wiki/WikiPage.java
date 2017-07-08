@@ -104,13 +104,15 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	private int id;
 
 	private boolean loaded = false;
+
+    private String cachePath;
 //	
 //	private int namespace;
 	static {
 		pageProcessor = null;
 	}
-	
-	public WikiPage(String text) {
+
+    public WikiPage(String text) {
 		this.setText(text);
 		
 		init();
@@ -188,6 +190,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         stream.writeObject(notes);
         stream.writeObject(id);
         stream.writeObject(loaded);
+        stream.writeObject(cachePath);
     }
 
     @Override
@@ -224,6 +227,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         notes = (String) stream.readObject();
         id = (int) stream.readObject();
         loaded = (boolean) stream.readObject();
+        cachePath = (String) stream.readObject();
     }
 
     public boolean isLoaded() {
@@ -445,6 +449,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	
 	public void clearSections() {
 		sections.clear();
+		setSectionCount(0);
 	}
 
 	public void setHtml(String html) {
@@ -682,5 +687,9 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		WikiPage page = new WikiPage();
 		page.setTitle("Main Page");
         return page;
+    }
+
+    public void setCachePath(String cachePath) {
+        this.cachePath = cachePath;
     }
 }

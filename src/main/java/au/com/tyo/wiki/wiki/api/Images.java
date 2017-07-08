@@ -10,14 +10,19 @@ import java.util.List;
 
 import au.com.tyo.wiki.wiki.api.response.ImagesJson;
 
+/**
+ *
+ */
 public class Images extends ApiQuery<ImagesJson> {
+
+	public static int limit = 5;
 	
 	public Images() {
 		
 		this.setProp("images");
 		this.setFormat("json");
 		
-		this.addImageLimit(2);
+		this.addImageLimit(limit);
 	}
 
 	private void addImageLimit(int i) {

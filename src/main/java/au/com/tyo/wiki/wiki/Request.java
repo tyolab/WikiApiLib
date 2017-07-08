@@ -1,13 +1,16 @@
 package au.com.tyo.wiki.wiki;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Vector;
 
+import au.com.tyo.io.ItemSerializable;
 import au.com.tyo.wiki.Status;
 import au.com.tyo.wiki.wiki.api.MobileView;
 
-public class Request implements Serializable {
+public class Request extends ItemSerializable {
 	/**
 	 * 
 	 */
@@ -28,34 +31,34 @@ public class Request implements Serializable {
 	 */
 	public static final int FROM_NOTHING = 0;
 	public static final int FROM_OPENSEARCH = 1;
-	public static final int FROM_LANG_LINK = 3;
+	public static final int FROM_LANG_LINK = 2;
 	public static final int FROM_RELATED = 4;
-	public static final int FROM_HISTORY = 5;
-	public static final int FROM_SEARCH_RESULT = 6;
-	public static final int FROM_VOICE_SEARCH = 7;
-	public static final int FROM_SEARCH_BUTTON = 8;
-	public static final int FROM_SEARCH_REQUEST = 2;
+	public static final int FROM_HISTORY = 8;
+	public static final int FROM_SEARCH_RESULT = 16;
+	public static final int FROM_VOICE_SEARCH = 32;
+	public static final int FROM_SEARCH_BUTTON = 64;
+	public static final int FROM_SEARCH_REQUEST = 128;
 
-	public static final int FROM_RANDOM_LOCAL = 10;
-	public static final int FROM_RANDOM_WWW = 13;
-	public static final int FROM_RANDOM_SEARCH_BUTTON = 11;
-	public static final int FROM_RANDOM_MENU = 12;
+	public static final int FROM_RANDOM_LOCAL = 256;
+	public static final int FROM_RANDOM_WWW = 512;
+	public static final int FROM_RANDOM_SEARCH_BUTTON = 1024;
+	public static final int FROM_RANDOM_MENU = 2048;
 
 	/**
 	 * Subtype base
 	 *
 	 */
 
-	public static final int FROM_BASE = 100;
+	public static final int FROM_BASE = 10;
 
-	private static final int FROM_FEATURED = 9;
+	private static final int FROM_FEATURED = 4096;
 
 	/**
 	 * Subtype Featured Feed, PotD, Featured, OnThisDay
 	 */
-	public static final int FROM_FEATURED_POTD = 901;
-	public static final int FROM_FEATURED_ARTICLE = 902;
-	public static final int FROM_FEATURED_ONTHISDAY = 903;
+	public static final int FROM_FEATURED_POTD = FROM_FEATURED * FROM_BASE + 1;
+	public static final int FROM_FEATURED_ARTICLE = FROM_FEATURED * FROM_BASE + 2;
+	public static final int FROM_FEATURED_ONTHISDAY = FROM_FEATURED * FROM_BASE + 3;
 
 	private String url;
 	
@@ -66,7 +69,9 @@ public class Request implements Serializable {
 	/**
 	 * Query type
 	 */
-	private int type;  // what kind of request, search? title? 
+	private int type;  // what kind of request, search? title?
+
+    private long fromSubtype;
 	
 	private String anchor;
 	
@@ -75,14 +80,21 @@ public class Request implements Serializable {
 	private String sections;  // which sections needed, 1|2|3, .. or all
 	
 	private int responseCode;
-	
+
+	/**
+	 * Don't serialize / deserialize page as it would create a infinite loop
+	 */
 	private WikiPage page;
 	
-	private int fromType;
+	private long fromType;
 	
 	private boolean toCrosslink;
-	
+
+    /**
+     * A list of search results
+     */
 	private List results;
+
 	private boolean fullTextSearch;
 
 	public Request() {
@@ -121,7 +133,47 @@ public class Request implements Serializable {
 		fullTextSearch = false;
 	}
 
-	public String getUrl() {
+    @Override
+    public void serialise(ObjectOutputStream stream) throws IOException {
+        stream.writeObject(url);
+        stream.writeObject(query);
+        stream.writeObject(rawQuery);
+        stream.writeObject(type);
+        stream.writeObject(anchor);
+        stream.writeObject(wikiDomains);
+        stream.writeObject(sections);
+        stream.writeObject(responseCode);
+        stream.writeObject(fromType);
+        stream.writeObject(toCrosslink);
+        stream.writeObject(fullTextSearch);
+        stream.writeLong(fromSubtype);
+    }
+
+    @Override
+    public void deserialise(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        url = (String) stream.readObject();
+        query = (String) stream.readObject();
+        rawQuery = (String) stream.readObject();
+        type = (int) stream.readObject();
+        anchor = (String) stream.readObject();
+        wikiDomains = (Vector<String>) stream.readObject();
+        sections = (String) stream.readObject();
+        responseCode = (int) stream.readObject();
+        fromType = (int) stream.readObject();
+        toCrosslink = (boolean) stream.readObject();
+        fullTextSearch = (boolean) stream.readObject();
+        fromSubtype = stream.readLong();
+    }
+
+    public long getFromSubtype() {
+        return fromSubtype;
+    }
+
+    public void setFromSubtype(int fromSubtype) {
+        this.fromSubtype = fromSubtype;
+    }
+
+    public String getUrl() {
 		return url;
 	}
 
@@ -193,7 +245,7 @@ public class Request implements Serializable {
 		this.responseCode = responseCode;
 	}
 
-	public int getFromType() {
+	public long getFromType() {
 		return fromType;
 	}
 
@@ -246,7 +298,7 @@ public class Request implements Serializable {
     }
 
     private boolean isFromType(int base) {
-        int value = fromType - (FROM_BASE * base);
+        long value = fromType - (FROM_BASE * base);
         return value > 0 && value < FROM_BASE;
     }
 
