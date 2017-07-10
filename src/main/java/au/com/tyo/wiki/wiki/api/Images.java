@@ -15,7 +15,7 @@ import au.com.tyo.wiki.wiki.api.response.ImagesJson;
  */
 public class Images extends ApiQuery<ImagesJson> {
 
-	public static int limit = 5;
+	public static int limit = 20;
 	
 	public Images() {
 		
