@@ -28,10 +28,14 @@ public class ResourceWiki  {
 	
 	ArrayList<PageLang> langLinks;
 	
-	protected HashMap<String, String> wikpediaNames;
+	protected HashMap<String, String> wikipediaNames;
 	
 	public ResourceWiki() {
 
+	}
+
+	public HashMap<String, String> getWikipediaNames() {
+		return wikipediaNames;
 	}
 
 	public void initialize() throws Exception {
@@ -43,21 +47,23 @@ public class ResourceWiki  {
         InputStream is;
         
         is = ResourceWiki.class.getResourceAsStream("/au/com/tyo/wiki/res/wikipedia-names.txt");
-		
-        if (is != null) {
-			wikpediaNames = new HashMap<String, String>();
-	        InputStreamReader isr = new InputStreamReader(is);
-	        BufferedReader reader = new BufferedReader(isr);
-	        String line;
-	        while ((line = reader.readLine()) != null && line.trim().length() > 0) {
-	        	if (line.charAt(0) != '#') {
-		        	String[] tokens = line.split(":");
-		        	if (tokens.length == 2)
-		        		wikpediaNames.put(tokens[0], tokens[1]);
-	        	}
-	        }
-	        line = null;
-        }
+		loadWikipediaNames(is);
+	}
+
+	public void loadWikipediaNames(InputStream is) throws Exception {
+		wikipediaNames = new HashMap<String, String>();
+		if (is != null) {
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader reader = new BufferedReader(isr);
+			String line;
+			while ((line = reader.readLine()) != null && line.trim().length() > 0) {
+				if (line.charAt(0) != '#') {
+					String[] tokens = line.split(":");
+					if (tokens.length == 2)
+						wikipediaNames.put(tokens[0], tokens[1]);
+				}
+			}
+		}
 	}
 
 	public synchronized WikipediaSite getWikipedias() {
@@ -208,6 +214,6 @@ public class ResourceWiki  {
 	}
 	
 	public String getWikipediaName(String code) {
-		return this.wikpediaNames.get(code);
+		return this.wikipediaNames.get(code);
 	}
 }
