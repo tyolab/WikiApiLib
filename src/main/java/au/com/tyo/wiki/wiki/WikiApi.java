@@ -13,10 +13,10 @@ import java.util.List;
 
 import au.com.tyo.common.feed.Feed;
 import au.com.tyo.io.IO;
-import au.com.tyo.services.Http;
 import au.com.tyo.services.HttpConnection;
 import au.com.tyo.services.HttpConnection.HttpRequest;
 import au.com.tyo.services.HttpConnection.Parameter;
+import au.com.tyo.services.HttpJavaNet;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.services.HttpRequestListener;
 import au.com.tyo.wiki.WikiSettings;
@@ -113,7 +113,7 @@ public class WikiApi {
 	 * @param agent
 	 */
 	public static void setUserAgent(String agent) {
-		Http.setUserAgent(agent);
+		HttpJavaNet.setUserAgent(agent);
 	}
 	
 	public static String getUserAgent() {
@@ -122,7 +122,7 @@ public class WikiApi {
 //			if (isMobileDevice)
 //				userAgent = "Mobile " + userAgent;
 //		}
-		return Http.getUserAgent();
+		return HttpJavaNet.getUserAgent();
 	}
 	
 	public WikiPage getWikiPageWithTitle(String baseUrl, WikiPage page,
@@ -424,7 +424,7 @@ public class WikiApi {
 		String enchodeTitle = URLEncoder.encode(URLDecoder.decode(title));
 		String langLinkUrl = apiConfig.buildLangLinkUrl(langCode, enchodeTitle);
 		HttpConnection connection = HttpPool.getInstance().getConnection();
-//		connection.setMethod(Http.METHOD_POST);
+//		connection.setMethod(HttpJavaNet.METHOD_POST);
 //		connection.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	    return connection.get(langLinkUrl); //getUrlText(langLinkUrl, connection);
 	}
@@ -522,9 +522,9 @@ public class WikiApi {
 		
 		String result = null;
 		
-		Http conn = new Http();
+		HttpJavaNet conn = new HttpJavaNet();
 		try {
-			result = conn.postWithResult(settings);
+			result = conn.postForResult(settings);
 			
 			conn.saveCookieToFile();
 		} catch (Exception e) {
@@ -544,7 +544,7 @@ public class WikiApi {
 					
 //					conn = new Http();
 					
-					result = conn.postWithResult(settings);
+					result = conn.postForResult(settings);
 				
 					conn.saveCookieToFile();
 					
@@ -617,7 +617,7 @@ public class WikiApi {
 
         HttpConnection conn = HttpPool.getInstance().getConnection();
 
-        String result = conn.postWithResult(settings);
+        String result = conn.postForResult(settings);
         return result;
     }
 
