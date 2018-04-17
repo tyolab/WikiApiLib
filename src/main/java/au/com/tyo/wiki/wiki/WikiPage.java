@@ -156,11 +156,11 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		notes = null;
 	}
 
-    @Override
-    public void writeObject(ObjectOutputStream stream) throws IOException {
-        super.writeObject(stream);
+	@Override
+	public void serialise(ObjectOutputStream stream) throws IOException {
+		super.serialise(stream);
 
-        stream.writeObject(url);
+		stream.writeObject(url);
         stream.writeObject(text);
         stream.writeObject(lang);
         stream.writeObject(baseUrl);
@@ -193,11 +193,11 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         stream.writeObject(cachePath);
     }
 
-    @Override
-    public void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        super.readObject(stream);
+	@Override
+	public void deserialise(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		super.deserialise(stream);
 
-        url = (String) stream.readObject();
+		url = (String) stream.readObject();
         text = (String) stream.readObject();
         lang = (String) stream.readObject();
         baseUrl = (String) stream.readObject();

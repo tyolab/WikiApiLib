@@ -320,7 +320,7 @@ public abstract class ApiBase<T> implements ApiRequest {
 
 	public String post(WikiPage page) throws Exception {
         HttpConnection connection = HttpPool.getInstance().getConnection();
-        return connection.postWithResult(createHttpRequest(page));
+        return connection.postForResult(createHttpRequest(page));
 	}
 
 	protected List parseAsList(String text) {

@@ -69,18 +69,20 @@ public class WikiPageBase extends WikiItem implements PageInterface {
 	}
 
 	@Override
-	public void writeObject(ObjectOutputStream stream) throws IOException {
-		super.writeObject(stream);
+	public void serialise(ObjectOutputStream stream) throws IOException {
+		super.serialise(stream);
 
 		stream.writeObject(stylesAndScripts);
 		stream.writeObject(themeCss);
 		stream.writeObject(landscapeDependentCss);
 	}
 
+
 	@Override
-	public void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		super.readObject(stream);
-        stylesAndScripts = (String[]) stream.readObject();
+	public void deserialise(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		super.deserialise(stream);
+
+		stylesAndScripts = (String[]) stream.readObject();
         themeCss = (String[]) stream.readObject();
         landscapeDependentCss = (String[]) stream.readObject();
 	}
