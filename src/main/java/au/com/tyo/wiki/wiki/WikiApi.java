@@ -1,6 +1,5 @@
 package au.com.tyo.wiki.wiki;
 
-import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -455,7 +454,7 @@ public class WikiApi {
 			long lastModifiedDateFromServer = connection.getLastModifiedDate(url);
 			feed.setLastModifiedDate(lastModifiedDateFromServer);
 
-			if (connection.getResponseCode() == HttpStatus.SC_OK && result.length() > 0) {
+			if (connection.getResponseCode() == 200 && result.length() > 0) {
 				boolean lastOneOnly = type == FeaturedFeed.FEATURED_FEED_FEATURED;
 				feed.setList(FeaturedFeed.fastParse(result, domain, lastOneOnly));
 			} else
