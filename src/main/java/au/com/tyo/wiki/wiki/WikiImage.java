@@ -25,16 +25,17 @@ public class WikiImage extends WikiItem {
     }
 
     @Override
-    public void writeObject(ObjectOutputStream stream) throws IOException {
-        super.writeObject(stream);
+    public void serialise(ObjectOutputStream stream) throws IOException {
+        super.serialise(stream);
 
         stream.writeObject(imageUrl);
     }
 
     @Override
-    public void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        super.readObject(stream);
+    public void deserialise(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        super.deserialise(stream);
 
         imageUrl = (String) stream.readObject();
     }
+
 }

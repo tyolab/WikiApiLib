@@ -1,9 +1,10 @@
 apply plugin: 'java'
 
 dependencies {
-    compile project(path: ':CommonUtils')
-    compile project(path: ':CommonFeed')
-    compile 'com.google.http-client:google-http-client:1.22.0'
+    implementation project(path: ':CommonUtils')
+    implementation project(path: ':CommonFeed')
+    implementation group: 'org.json', name: 'json', version: '20180130'
+    implementation 'com.google.http-client:google-http-client:1.22.0'
 }
 
 repositories {
