@@ -60,10 +60,19 @@ public class Request extends ItemSerializable {
 	public static final int FROM_FEATURED_ARTICLE = FROM_FEATURED * FROM_BASE + 2;
 	public static final int FROM_FEATURED_ONTHISDAY = FROM_FEATURED * FROM_BASE + 3;
 
+	/**
+	 *
+	 */
 	private String url;
-	
+
+	/**
+	 *
+	 */
 	private String query;
-	
+
+	/**
+	 *
+	 */
 	private String rawQuery;
 
 	/**
@@ -85,9 +94,15 @@ public class Request extends ItemSerializable {
 	 * Don't serialize / deserialize page as it would create a infinite loop
 	 */
 	private WikiPage page;
-	
+
+	/**
+	 * From search results, from featured list, from others
+	 */
 	private long fromType;
-	
+
+	/**
+	 *
+	 */
 	private boolean toCrosslink;
 
     /**
@@ -189,6 +204,11 @@ public class Request extends ItemSerializable {
 		this.query = query;
 	}
 
+    /**
+     * Get the original query which could be a page title, user input query
+     *
+     * @return String
+     */
 	public String getRawQuery() {
 		return rawQuery;
 	}

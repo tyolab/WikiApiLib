@@ -28,8 +28,9 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 			"common.js",
 			"wiki.css",
 			"wikipedia.css",
-			"wikipedia_align.css",
-			"pure.css"};
+			"wikipedia_align.css"
+			//, "pure.css"
+	};
 	
 	private static String[] THEME_DEPENDANT_CSS = {"page.css"};
 	
