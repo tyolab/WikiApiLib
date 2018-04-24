@@ -437,31 +437,27 @@ public class WikiApi {
 	    return LangLink.parseLangLinks(result, favCode, primaryCode, ignoreEmptyTitle, site);
 	}
 	
-	public Feed getFeaturedFeed(String type) throws Exception {
-		return this.getFeaturedFeed(apiConfig.getSubdomain(), type, 0);
+	public Feed getFeaturedFeed(String type, boolean lastOneOnly) throws Exception {
+		return this.getFeaturedFeed(apiConfig.getSubdomain(), type, 0, lastOneOnly);
 	}
 	
-	public Feed getFeaturedFeed(String domain, String type, long lastModifiedDate) {
+	public Feed getFeaturedFeed(String domain, String type, long lastModifiedDate, boolean lastOneOnly) throws Exception {
 		Feed feed = new Feed();
 
-		try {
-			String url = apiConfig.buildFeaturedFeedUrl(domain, type);
+		String url = apiConfig.buildFeaturedFeedUrl(domain, type);
 
-			HttpConnection connection = HttpPool.getInstance().getConnection();
+		HttpConnection connection = HttpPool.getInstance().getConnection();
 
-			String result = getUrlText(url, connection, lastModifiedDate);
+		String result = getUrlText(url, connection, lastModifiedDate);
 
-			long lastModifiedDateFromServer = connection.getLastModifiedDate(url);
-			feed.setLastModifiedDate(lastModifiedDateFromServer);
+		long lastModifiedDateFromServer = connection.getLastModifiedDate(url);
+		feed.setLastModifiedDate(lastModifiedDateFromServer);
 
-			if (connection.getResponseCode() == 200 && result.length() > 0) {
-				boolean lastOneOnly = type == FeaturedFeed.FEATURED_FEED_FEATURED;
-				feed.setList(FeaturedFeed.fastParse(result, domain, lastOneOnly));
-			} else
-				feed.setList(new ArrayList<WikiPage>());
-		}
-		catch (Exception ex) {}
-			
+		if (connection.getResponseCode() == 200 && result.length() > 0) {
+			feed.setList(FeaturedFeed.fastParse(result, domain, lastOneOnly));
+		} else
+			feed.setList(new ArrayList<WikiPage>());
+
 		return feed;
 	}
 	
