@@ -174,7 +174,7 @@ public class Request extends ItemSerializable {
         wikiDomains = (Vector<String>) stream.readObject();
         sections = (String) stream.readObject();
         responseCode = (int) stream.readObject();
-        fromType = (int) stream.readObject();
+        fromType = (long) stream.readObject();
         toCrosslink = (boolean) stream.readObject();
         fullTextSearch = (boolean) stream.readObject();
         fromSubtype = stream.readLong();
