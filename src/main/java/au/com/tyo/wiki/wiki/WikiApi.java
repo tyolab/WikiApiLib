@@ -170,7 +170,8 @@ public class WikiApi {
 		HttpConnection connection = HttpPool.getInstance().getConnection();
 		connection.setCaller(caller);
 		
-		WikiPage page = new WikiPage(getUrlText(url, connection));
+		WikiPage page = new WikiPage("Main Page");
+		page.setText(getUrlText(url, connection));
 		page.getRequest().setResponseCode(connection.getResponseCode());
 		page.setBaseUrl(baseUrl);
 		page.setUrl(connection.getUrl());

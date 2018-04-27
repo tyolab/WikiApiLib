@@ -114,14 +114,16 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	private boolean loaded = false;
 
     private String cachePath;
+
+    private long retrievedTimestamp;
 //	
 //	private int namespace;
 	static {
 		pageProcessor = null;
 	}
 
-    public WikiPage(String text) {
-		this.setText(text);
+    public WikiPage(String title) {
+		this.setTitle(title);
 		
 		init();
 	}
@@ -199,6 +201,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         stream.writeObject(id);
         stream.writeObject(loaded);
         stream.writeObject(cachePath);
+        stream.writeObject(retrievedTimestamp);
     }
 
 	@Override
@@ -236,6 +239,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         id = (int) stream.readObject();
         loaded = (boolean) stream.readObject();
         cachePath = (String) stream.readObject();
+        retrievedTimestamp = (long) stream.readObject();
     }
 
     public boolean isLoaded() {
