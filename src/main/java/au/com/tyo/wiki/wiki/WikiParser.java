@@ -135,14 +135,23 @@ public class WikiParser {
         String newTitle = "";
         if (parsedObject.has("normalizedtitle")) {
         	newTitle = parsedObject.getString("normalizedtitle");
+
+			if (newTitle.length() > 0 && !page.getTitle().equals(newTitle)) {
+				page.setRedirectFrom(page.getTitle());
+			}
+
+			page.setTitle(newTitle);
         }
-        else if (parsedObject.has("redirected")) {
-        	newTitle = parsedObject.getString("redirected");
+
+        if (parsedObject.has("redirected")) {
+        	String redirected = parsedObject.getString("redirected");
+
+        	if (null != page.getRedirectFrom() && page.getRedirectFrom().length() > 0)
+        		page.addRedirect(page.getRedirectFrom());
+
+			page.setRedirectFrom(redirected);
         }	        
-        if (newTitle.length() > 0) {
-        	page.setRedirectFrom(page.getTitle());
-        	page.setTitle(newTitle);
-        }
+
         /*
          * 2. Thumbnail info
          */
