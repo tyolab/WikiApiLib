@@ -38,6 +38,7 @@ public class Request extends ItemSerializable {
 	public static final int FROM_VOICE_SEARCH = 32;
 	public static final int FROM_SEARCH_BUTTON = 64;
 	public static final int FROM_SEARCH_REQUEST = 128;
+	public static final int FROM_OTHER_APP = 256;
 
 	public static final int FROM_RANDOM_LOCAL = 256;
 	public static final int FROM_RANDOM_WWW = 512;

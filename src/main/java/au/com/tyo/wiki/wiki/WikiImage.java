@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * Created by monfee on 17/5/17.
+ * Created by Eric Tang (eric.tang@tyo.com.au) on 17/5/17.
  */
 
 public class WikiImage extends WikiItem {

@@ -7,12 +7,12 @@ import java.io.ObjectOutputStream;
 import au.com.tyo.io.ItemSerializable;
 
 /**
- * Created by monfee on 17/5/17.
+ * Created by Eric Tang (eric.tang@tyo.com.au) on 17/5/17.
  */
 
 public class WikiItem extends ItemSerializable {
 
-    public enum ItemType {PAGE, TEMPLATE, FILE, FILE_IMAGE, MEDIA};
+    public enum ItemType {UNKNOWN, PAGE, TEMPLATE, FILE, FILE_IMAGE, MEDIA};
 
     private int index;
 
@@ -21,6 +21,9 @@ public class WikiItem extends ItemSerializable {
     protected String title;
 
     public WikiItem() {
+        index = -1;
+        type = ItemType.UNKNOWN;
+        title = null;
     }
 
     public WikiItem(String title) {
