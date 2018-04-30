@@ -704,4 +704,16 @@ public class WikiPage extends WikiPageBase implements PageInterface {
     public void setCachePath(String cachePath) {
         this.cachePath = cachePath;
     }
+
+	public String getCachePath() {
+		return cachePath;
+	}
+
+    public long getRetrievedTimestamp() {
+        return retrievedTimestamp;
+    }
+
+    public void setRetrievedTimestamp(long retrievedTimestamp) {
+        this.retrievedTimestamp = retrievedTimestamp;
+    }
 }
