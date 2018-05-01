@@ -11,6 +11,7 @@ import java.util.Map;
 
 import au.com.tyo.io.IO;
 import au.com.tyo.lang.CJK;
+import au.com.tyo.utils.SimpleDateUtils;
 import au.com.tyo.utils.StringUtils;
 import au.com.tyo.utils.TextUtils;
 import au.com.tyo.web.PageInterface;
@@ -730,7 +731,4 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         this.retrievedTimestamp = retrievedTimestamp;
     }
 
-    public boolean wasViewedSevenDaysAgo() {
-
-	}
 }

@@ -29,39 +29,43 @@ public class Request extends ItemSerializable {
 	/**
 	 * Public Request Types which don't have a subtype
 	 */
-	public static final int FROM_NOTHING = 0;
-	public static final int FROM_OPENSEARCH = 1;
-	public static final int FROM_LANG_LINK = 2;
-	public static final int FROM_RELATED = 4;
-	public static final int FROM_HISTORY = 8;
-	public static final int FROM_SEARCH_RESULT = 16;
-	public static final int FROM_VOICE_SEARCH = 32;
-	public static final int FROM_SEARCH_BUTTON = 64;
-	public static final int FROM_SEARCH_REQUEST = 128;
-	public static final int FROM_OTHER_APP = 256;
+	public static final long FROM_NOTHING = 0;
+	public static final long FROM_OPENSEARCH = 1;
+	public static final long FROM_LANG_LINK = 2;
+	public static final long FROM_RELATED = 4;
+	public static final long FROM_HISTORY = 8;
+	public static final long FROM_SEARCH_RESULT = 16;
+	public static final long FROM_VOICE_SEARCH = 32;
+	public static final long FROM_SEARCH_BUTTON = 64;
+	public static final long FROM_SEARCH_REQUEST = 128;
 
-	public static final int FROM_RANDOM_LOCAL = 256;
-	public static final int FROM_RANDOM_WWW = 512;
-	public static final int FROM_RANDOM_SEARCH_BUTTON = 1024;
-	public static final int FROM_RANDOM_MENU = 2048;
+
+	public static final long FROM_RANDOM_LOCAL = 256;
+	public static final long FROM_RANDOM_WWW = 512;
+	public static final long FROM_RANDOM_SEARCH_BUTTON = 1024;
+	public static final long FROM_RANDOM_MENU = 2048;
 
 	/**
 	 * Subtype base
 	 *
 	 */
 
-	public static final int FROM_BASE = 10;
+	public static final long FROM_BASE = 10;
 
-	private static final int FROM_FEATURED = 4096;
+	private static final long FROM_FEATURED = 4096;
+
+	public static final long FROM_OTHER_APP = 4096 << 2;
+	public static final long FROM_VIEWED = 4096 << 4;
 
 	/**
 	 * Subtype Featured Feed, PotD, Featured, OnThisDay
 	 */
-	public static final int FROM_FEATURED_POTD = FROM_FEATURED * FROM_BASE + 1;
-	public static final int FROM_FEATURED_ARTICLE = FROM_FEATURED * FROM_BASE + 2;
-	public static final int FROM_FEATURED_ONTHISDAY = FROM_FEATURED * FROM_BASE + 3;
+	public static final long FROM_FEATURED_POTD = FROM_FEATURED * FROM_BASE + 1;
+	public static final long FROM_FEATURED_ARTICLE = FROM_FEATURED * FROM_BASE + 2;
+	public static final long FROM_FEATURED_ONTHISDAY = FROM_FEATURED * FROM_BASE + 3;
 
-	/**
+
+    /**
 	 *
 	 */
 	private String url;
@@ -318,7 +322,7 @@ public class Request extends ItemSerializable {
         return isFromType(FROM_FEATURED);
     }
 
-    private boolean isFromType(int base) {
+    private boolean isFromType(long base) {
         long value = fromType - (FROM_BASE * base);
         return value > 0 && value < FROM_BASE;
     }
