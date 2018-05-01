@@ -454,6 +454,9 @@ public class WikiApi {
 		long lastModifiedDateFromServer = connection.getLastModifiedDate(url);
 		feed.setLastModifiedDate(lastModifiedDateFromServer);
 
+		if (feed.getLastModifiedDate() == 0)
+			feed.setLastModifiedDate(System.currentTimeMillis());
+
 		if (connection.getResponseCode() == 200 && result.length() > 0) {
 			feed.setList(FeaturedFeed.fastParse(result, domain, lastOneOnly));
 		} else

@@ -86,7 +86,10 @@ public class WikiPage extends WikiPageBase implements PageInterface {
     private List<WikiImage> images;
 	
 	private WikiPage xPage; // the page being cross linked
-	
+
+    /**
+     * Wikipedia page last modified time
+     */
 	private String lastUpdateDate;
 	
 	private String lastUpdateBy;
@@ -116,6 +119,8 @@ public class WikiPage extends WikiPageBase implements PageInterface {
     private String cachePath;
 
     private long retrievedTimestamp;
+
+    private long lastViewedTime;
 //	
 //	private int namespace;
 	static {
@@ -240,6 +245,14 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         loaded = (boolean) stream.readObject();
         cachePath = (String) stream.readObject();
         retrievedTimestamp = (long) stream.readObject();
+    }
+
+    public long getLastViewedTime() {
+        return lastViewedTime;
+    }
+
+    public void setLastViewedTime(long lastViewedTime) {
+        this.lastViewedTime = lastViewedTime;
     }
 
     public boolean isLoaded() {
@@ -716,4 +729,8 @@ public class WikiPage extends WikiPageBase implements PageInterface {
     public void setRetrievedTimestamp(long retrievedTimestamp) {
         this.retrievedTimestamp = retrievedTimestamp;
     }
+
+    public boolean wasViewedSevenDaysAgo() {
+
+	}
 }
