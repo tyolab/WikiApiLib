@@ -274,7 +274,7 @@ public class Request extends ItemSerializable {
 		return fromType;
 	}
 
-	public void setFromType(int fromType) {
+	public void setFromType(long fromType) {
 		this.fromType = fromType;
 	}
 

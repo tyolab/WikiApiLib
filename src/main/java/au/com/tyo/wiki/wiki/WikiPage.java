@@ -11,7 +11,6 @@ import java.util.Map;
 
 import au.com.tyo.io.IO;
 import au.com.tyo.lang.CJK;
-import au.com.tyo.utils.SimpleDateUtils;
 import au.com.tyo.utils.StringUtils;
 import au.com.tyo.utils.TextUtils;
 import au.com.tyo.web.PageInterface;
@@ -170,6 +169,8 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		html = null;
 		textFormat = TEXT_FORMAT_JSON;
 		notes = null;
+
+		lastViewedTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -300,7 +301,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	
 	public byte[] getBytes() {
 		if (bytes == null && text != null)
-			resetPage();
+			resetPageRawBytes();
 		return bytes;
 	}
 
@@ -312,8 +313,8 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		this.notes = notes;
 	}
 
-	public boolean hasOtherLanguages() {
-		return hasLangLinks();
+	public boolean shouldCheckOtherLanguages() {
+		return langs == null;
 	}
 	
 	public String getBaseUrl() {
@@ -348,7 +349,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 //		return 200;
 //	}
 
-	public void resetPage() {
+	public void resetPageRawBytes() {
 		bytes = text.getBytes();
 	}
 
@@ -731,4 +732,8 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         this.retrievedTimestamp = retrievedTimestamp;
     }
 
+    public void reset() {
+        setLoaded(false);
+        setLangLinks(null);
+    }
 }
