@@ -140,7 +140,7 @@ public class WikiApi {
 	}
 	
 	public WikiPage getUrl(String url, WikiPage page, HttpRequestListener caller) throws Exception {
-		return getUrl(url, page, caller, apiConfig.buildBaseUrl(page.getLangCode()));
+		return getUrl(url, page, caller, apiConfig.buildBaseUrl(page.getDomain()));
 	}
 			
 	public WikiPage getUrl(String url, WikiPage page, HttpRequestListener caller, String baseUrl) throws Exception {
@@ -156,7 +156,7 @@ public class WikiApi {
 		page.setText(html);
 //		getPage(html, url, page, responseCode, apiConfig.getBaseUrl());
 		page.setBaseUrl(baseUrl);
-//		page.setLangCode(apiConfig.getDomain());
+//		page.setDomain(apiConfig.getDomain());
 		return page;
 	}
 	
@@ -413,7 +413,7 @@ public class WikiApi {
 		if (b)
 			apiConfig.useSecureConnection();
 		else
-			apiConfig.useTradtionalConnection();
+			apiConfig.useTraditionalConnection();
 		
 	}
 	
@@ -422,7 +422,7 @@ public class WikiApi {
 			return "";
 		
 		String enchodeTitle = URLEncoder.encode(URLDecoder.decode(title));
-		String langLinkUrl = apiConfig.buildLangLinkUrl(langCode, enchodeTitle);
+		String langLinkUrl = apiConfig.buildLangLinkUrl(langCode, enchodeTitle, favCode, false);
 		HttpConnection connection = HttpPool.getInstance().getConnection();
 //		connection.setMethod(HttpJavaNet.METHOD_POST);
 //		connection.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");

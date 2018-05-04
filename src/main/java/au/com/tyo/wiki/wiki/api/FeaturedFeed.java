@@ -108,7 +108,7 @@ public class FeaturedFeed extends ApiAction {
 		
 //		String thumbnailLink = null;
 		WikiPage page = new WikiPage();
-		page.setLangCode(langCode);
+		page.setDomain(langCode);
 		
 		String str = XML.unXMLify(description); 
 		int start = str.indexOf("<img");

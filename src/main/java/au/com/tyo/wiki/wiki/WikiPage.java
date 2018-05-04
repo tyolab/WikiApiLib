@@ -52,7 +52,10 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	private String text = "";
 	
 	private String lang; // language code
-	
+
+    /**
+     * This is the base url for the API request
+     */
 	private String baseUrl;
 	
 	private byte[] bytes = null; // the text in bytes which may be modified by removing the search bar and title
@@ -66,8 +69,13 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	private int	sectionCount;
 	
 	private String fromAnchor;
-	
+
+	/**
+	 * Should be the domain of the language
+	 */
 	private String langCode;
+
+	private String domain;
 	
 	private String abs;
 	
@@ -163,7 +171,8 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		onImageClickLink = null;
 		hasFullText = false;
 		setFromSource(FROM_SOURCE_SERVER);
-		langCode = "";
+		langCode = "en";
+		domain = null;
 		redirectFrom = null;
 		xPage = null;
 		html = null;
@@ -209,6 +218,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         stream.writeObject(loaded);
         stream.writeObject(cachePath);
         stream.writeObject(retrievedTimestamp);
+        stream.writeObject(domain);
     }
 
 	@Override
@@ -247,6 +257,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         loaded = (boolean) stream.readObject();
         cachePath = (String) stream.readObject();
         retrievedTimestamp = (long) stream.readObject();
+        domain = (String) stream.readObject();
     }
 
     public long getLastViewedTime() {
@@ -365,8 +376,18 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		return langCode;
 	}
 
-	public void setLangCode(String lang) {
-		this.langCode = lang;
+	public void setLangCode(String langCode) {
+		this.langCode = langCode;
+	}
+
+	public String getDomain() {
+		if (null == domain)
+			return getLangCode();
+		return domain;
+	}
+
+	public void setDomain(String lang) {
+		this.domain = lang;
 	}
 
 	public void transform() {
@@ -678,7 +699,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		for (String name : names) {
 			WikiPage page = new WikiPage();
 			page.setTitle(name);
-			page.setLangCode(domain);
+			page.setDomain(domain);
 			list.add(page);
 		}
 		return list;
@@ -699,7 +720,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	}
 	
 	public String toWikiUrl() {
-		return WikiApi.getInstance().getApiConfig().buildWikipediaUrlWithTitle("http", getLangCode(), getTitle());
+		return WikiApi.getInstance().getApiConfig().buildWikipediaUrlWithTitle("http", getDomain(), getTitle());
 	}
 
     public List<WikiImage> getImages() {

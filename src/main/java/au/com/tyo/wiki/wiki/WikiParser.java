@@ -159,7 +159,7 @@ public class WikiParser {
         	try {
 	        	JSONObject thumbObj = parsedObject.getJSONObject("thumb");
 	        	String url = thumbObj.getString("url");
-	        	page.setThumbnailLink(WikiApi.getInstance().getApiConfig().completeWikiLink(url, page.getLangCode()));
+	        	page.setThumbnailLink(WikiApi.getInstance().getApiConfig().completeWikiLink(url, page.getDomain()));
         	}
         	catch (Exception ex) {}
         }

@@ -238,11 +238,11 @@ public class Request extends ItemSerializable {
 		this.anchor = anchor;
 	}
 
-//	public String getLangCode() {
+//	public String getDomain() {
 //		return langCode;
 //	}
 //
-//	public void setLangCode(String langCode) {
+//	public void setDomain(String langCode) {
 //		this.langCode = langCode;
 //	}
 	

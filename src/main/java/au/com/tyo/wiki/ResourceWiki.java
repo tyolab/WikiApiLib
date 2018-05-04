@@ -21,20 +21,20 @@ public class ResourceWiki  {
 	
 	public static final String QUERY_FORMAT = "<em><i><font color=\"#FF1515\">%s</font></i></em>";
 	
-	protected WikipediaSite wikipedias;
-	protected String[] langs;
-	protected String[] langNatives;
-	protected String[] langCodes;
+	protected static WikipediaSite wikipedias;
+	protected static String[] langs;
+	protected static String[] langNatives;
+	protected static String[] langCodes;
 	
-	ArrayList<PageLang> langLinks;
+	static ArrayList<PageLang> langLinks;
 	
-	protected HashMap<String, String> wikipediaNames;
+	protected static HashMap<String, String> wikipediaNames;
 	
 	public ResourceWiki() {
 
 	}
 
-	public HashMap<String, String> getWikipediaNames() {
+	public static HashMap<String, String> getWikipediaNames() {
 		return wikipediaNames;
 	}
 
@@ -66,12 +66,12 @@ public class ResourceWiki  {
 		}
 	}
 
-	public synchronized WikipediaSite getWikipedias() {
+	public static synchronized WikipediaSite getWikipedias() {
 		return wikipedias;
 	}
 
-	public synchronized void setWikipedias(WikipediaSite wikipedias) {
-		this.wikipedias = wikipedias;
+	public static synchronized void setWikipedias(WikipediaSite wikipedias) {
+		ResourceWiki.wikipedias = wikipedias;
 	}
 	
 	private void loadWikipediaSites() throws Exception{
@@ -144,68 +144,68 @@ public class ResourceWiki  {
 		}
 	}
 	
-	public String[] getWikipediaLanguages() {
+	public static String[] getWikipediaLanguages() {
 		if (langs == null) {
-			langs = this.getWikipedias().createLanguageList();
+			langs = getWikipedias().createLanguageList();
 		}
 		return langs;
 	}
 	
-	public String[] getWikipediaLanguageNatives() {
+	public static String[] getWikipediaLanguageNatives() {
 		if (langNatives == null) {
-			langNatives = this.getWikipedias().createNativeLanguageList();
+			langNatives = getWikipedias().createNativeLanguageList();
 		}
 		return langNatives;
 	}
 	
-	public String[] getWikipediaLanguageCodes() {
+	public static String[] getWikipediaLanguageCodes() {
 		if (langCodes == null) {
-			langCodes = this.getWikipedias().createLanguageCodeList();
+			langCodes = getWikipedias().createLanguageCodeList();
 		}
 		return langCodes;
 	}
 	
 	public ArrayList<PageLang> getWikipediaLangLinks(String favCode, String primaryCode) {
 		if (langLinks == null) {
-			langLinks = this.getWikipedias().createlangLinks(favCode, primaryCode);
+			langLinks = getWikipedias().createlangLinks(favCode, primaryCode);
 		}
 		return langLinks;
 	}
 
-	public String[] getWikipediaLanguageIndexs() {
+	public static String[] getWikipediaLanguageIndexs() {
 		return null;
 	}
 
-	public String getPageNotFoundTemplate(String query) {
+	public static String getPageNotFoundTemplate(String query) {
 		return "";
 	}
 
-	public String getPageErrorTemplate(String query) {
+	public static String getPageErrorTemplate(String query) {
 		return "";
 	}
 
-	public String getPageBlankTemplate(String query) {
+	public static String getPageBlankTemplate(String query) {
 		return "";
 	}
 	
-	public String getPageTemplate(InputStream is, String content) throws IOException {
+	public static String getPageTemplate(InputStream is, String content) throws IOException {
         String text = String.format(new String(IO.readFileIntoBytes(is)), content);
         return text;
 	}
 
-	public WikiLang getWikiLang(String langCode) {
+	public static WikiLang getWikiLang(String langCode) {
 		return wikipedias.getWikiLang(langCode);
 	}
 
-	public String getWikiLangLocalName(String langCode) {
+	public static String getWikiLangLocalName(String langCode) {
 		return getWikiLang(langCode) != null ? getWikiLang(langCode).getName() : null;
 	}
 
-	public String getWikiLangName(String langCode) {
+	public static String getWikiLangName(String langCode) {
 		return getWikiLang(langCode) != null ? getWikiLang(langCode).getEnglish() : null;
 	}
 
-	public String getMainPageString() {
+	public static String getMainPageString() {
 		return ApiBase.WIKIPEDIA_MAIN_PAGE;
 	}
 
@@ -213,7 +213,7 @@ public class ResourceWiki  {
 		return "";
 	}
 	
-	public String getWikipediaName(String code) {
-		return this.wikipediaNames.get(code);
+	public static String getWikipediaName(String code) {
+		return ResourceWiki.wikipediaNames.get(code);
 	}
 }

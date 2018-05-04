@@ -534,7 +534,7 @@ public class WikiApiConfig implements ApiConstants {
 		this.setProtocol(DEFAULT_PROTOCOL_SSL);
 	}
 
-	public void useTradtionalConnection() {
+	public void useTraditionalConnection() {
 		this.setProtocol(DEFAULT_PROTOCOL);
 	}
 
