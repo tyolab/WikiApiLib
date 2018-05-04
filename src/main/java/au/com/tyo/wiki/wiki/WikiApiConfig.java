@@ -539,9 +539,13 @@ public class WikiApiConfig implements ApiConstants {
 	}
 
 	public String buildLangLinkUrl(String langCode, String title) {
+		return buildLangLinkUrl(langCode, title, null, false);
+	}
+
+	public String buildLangLinkUrl(String langCode, String title, String targetLangCode, boolean llContinue) {
 		StringBuffer url = new StringBuffer(createApiUrl(protocol, langCode));
 		String encodedInput = title; //encode(title);
-		url.append(WIKIPEDIA_API_MAIN_PARAM_ACTION + "=query&prop=langlinks&lllimit=500&format=xml&redirects&titles=" + encodedInput);
+		url.append(WIKIPEDIA_API_MAIN_PARAM_ACTION + "=query&prop=langlinks&lllimit=10&format=xml&redirects&titles=" + encodedInput);
 		return url.toString();
 	}
 	
