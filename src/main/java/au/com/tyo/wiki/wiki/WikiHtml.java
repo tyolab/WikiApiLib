@@ -3,7 +3,6 @@ package au.com.tyo.wiki.wiki;
 import au.com.tyo.web.PageBuilder;
 
 public class WikiHtml extends PageBuilder {
-	public static final String HTML_TEMPLATE = "";
 	
 	public static final String HTML_SECTION_TEMPLATE_LEVEL = "<div class=\"wikisection\" id=\"%s\">\n";
 	public static final String HTML_SECTION_TEMPLATE_CONTENT = "\t<div class=\"%ssection_content\" id=\"%s\" style=\"\">\n%s\n\t"; // id=\"%s\"
@@ -15,7 +14,8 @@ public class WikiHtml extends PageBuilder {
 	public static final String HTML_SECTION_TITLE = "\t<h%d class=\"html_section_title\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\" onclick=\"handleExpandCall('%s', this)\" id='%s'><span class=\"wt-headline\">%s</span></h%d>\n";
 	public static final String HTML_SUBSECTION_TITLE = "\t\t<h%d class=\"html_subsection_title\"><span>%s</span></h%d>\n";
 	public static final String HTML_SECTION_DIV_END = "</div>\n";
-	public static final String HTML_ARTICLE_TITLE = "<div class=\"article_title\" id=\"article_title\"><h2>%s</h2></div>\n";
+	public static final String HTML_ARTICLE_TITLE = "" +
+			"<div class=\"article_title\" id=\"article_title\"><h2>%s</h2></div>\n";
 	private static final String HTML_ABSTRACT_TEMPLATE_CONTENT = "\t<div class=\"abstract_content\" id=\"%s\">\n%s\n\t"; // id=\"%s\";
 
 	public static final String HTML_STYLES_N_SCRIPTS = 
@@ -175,5 +175,5 @@ public class WikiHtml extends PageBuilder {
 		for (int j = 0; j < stack; ++j)
 			closeDiv(sb);
 	}
-	
+
 }
