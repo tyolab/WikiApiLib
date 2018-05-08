@@ -49,7 +49,7 @@ public class WikiPageBase extends WikiItem implements PageInterface {
 	public String createStyleAndScript() {
 		String path = "";
 		if (CommonSettings.isAndroid())
-			path = PageBuilder.getAndroidAssetPath();
+			path = PageBuilder.getHtmlAssetsAndroid();
 		
 		HtmlStyleAndScript styleBuilder = new HtmlStyleAndScript(path, themeName, 
 				CommonSettings.isLandscapeMode(), CommonSettings.isTablet(), 

@@ -22,17 +22,19 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	 */
 	private static final long serialVersionUID = -1864682452543190800L;
 	
-	private static String[] STYLES_N_SCRIPTS = {"jquery-1.3.2.min.js",
-			"ready.js",
-			"collapsible.js",
-			"common.js",
-			"wiki.css",
-			"wikipedia.css",
-			"wikipedia_align.css"
-			//, "pure.css"
-	};
+	private static String[] STYLES_N_SCRIPTS = {};
+//            {
+//	        "jquery-1.3.2.min.js",
+//			"ready.js",
+//			"collapsible.js",
+//			"common.js",
+//			"wiki.css",
+//			"wikipedia.css",
+//			"wikipedia_align.css"
+//			//, "pure.css"
+//	};
 	
-	private static String[] THEME_DEPENDANT_CSS = {"page.css"};
+	private static String[] THEME_DEPENDANT_CSS = {/*"page.css"*/};
 	
 	private static String[] LANDSCAPE_DEPENDANT_CSS = null; //{"wikipedia.css"};
 	
