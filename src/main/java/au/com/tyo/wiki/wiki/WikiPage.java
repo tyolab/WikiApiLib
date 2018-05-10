@@ -34,7 +34,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 //			//, "pure.css"
 //	};
 	
-	private static String[] THEME_DEPENDANT_CSS = {/*"page.css"*/};
+	private static String[] THEME_DEPENDANT_CSS = {"css.min.css"};
 	
 	private static String[] LANDSCAPE_DEPENDANT_CSS = null; //{"wikipedia.css"};
 	
@@ -260,6 +260,8 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         cachePath = (String) stream.readObject();
         retrievedTimestamp = (long) stream.readObject();
         domain = (String) stream.readObject();
+
+        setHtml(null);
     }
 
     public long getLastViewedTime() {
