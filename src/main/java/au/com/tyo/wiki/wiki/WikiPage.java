@@ -260,8 +260,6 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         cachePath = (String) stream.readObject();
         retrievedTimestamp = (long) stream.readObject();
         domain = (String) stream.readObject();
-
-        setHtml(null);
     }
 
     public long getLastViewedTime() {
