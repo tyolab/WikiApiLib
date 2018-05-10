@@ -9,7 +9,7 @@ import au.com.tyo.web.HtmlStyleAndScript;
 import au.com.tyo.web.PageBuilder;
 import au.com.tyo.web.PageInterface;
 
-public class WikiPageBase extends WikiItem implements PageInterface {
+public abstract class WikiPageBase extends WikiItem implements PageInterface {
 
 	protected static String themeName;
 	
