@@ -52,7 +52,7 @@ public class Request extends ItemSerializable {
 
 	public static final long FROM_BASE = 10;
 
-	private static final long FROM_FEATURED = 4096;
+	public static final long FROM_FEATURED = 4096;
 
 	public static final long FROM_OTHER_APP = 4096 << 2;
 	public static final long FROM_VIEWED = 4096 << 4;
