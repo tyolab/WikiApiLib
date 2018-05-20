@@ -19,12 +19,23 @@ public class Request extends ItemSerializable {
     public static final String COMMAND_LOOK_UP_ID = "id:";
 	
 	public static final int QUERY_TYPE_SEARCH = 0;
-	public static final int QUERY_TYPE_URL = 2;
-	public static final int QUERY_TYPE_MAIN_PAGE = 4; // still url but the url for the main page
-	public static final int QUERY_TYPE_TITLE = 8;  // get artile with title
-	public static final int QUERY_TYPE_ABSTRACT = 16;
-	public static final int QUERY_TYPE_LOCAL = 32;
-	public static final int QUERY_TYPE_HISTORY = 64;
+	public static final int QUERY_TYPE_URL = 1;
+	public static final int QUERY_TYPE_MAIN_PAGE = 2; // still url but the url for the main page
+	public static final int QUERY_TYPE_TITLE = 3;  // get article with title
+	public static final int QUERY_TYPE_ABSTRACT = 4;
+	public static final int QUERY_TYPE_LOCAL = 5;
+	public static final int QUERY_TYPE_HISTORY = 6;
+    public static final int QUERY_TYPE_FEED = 7;
+    public static final int QUERY_TYPE_LANGLINKS = 8;
+
+    public static final long QUERY_BASE = 1000;
+
+//    public static final int QUERY_TYPE_FEED_FEATURED_ARTICLE = 101;
+//    public static final int QUERY_TYPE_FEED_FEATURED_POTD = 100;
+//    public static final int QUERY_TYPE_FEED_FEATURED_ONTHISDAY = 102;
+
+	public static final int SCOPE_REMOTE = 0;
+	public static final int SCOPE_LOCAL = 1;
 
 	/**
 	 * Public Request Types which don't have a subtype
@@ -60,9 +71,9 @@ public class Request extends ItemSerializable {
 	/**
 	 * Subtype Featured Feed, PotD, Featured, OnThisDay
 	 */
-	public static final long FROM_FEATURED_POTD = FROM_FEATURED * FROM_BASE + 1;
-	public static final long FROM_FEATURED_ARTICLE = FROM_FEATURED * FROM_BASE + 2;
-	public static final long FROM_FEATURED_ONTHISDAY = FROM_FEATURED * FROM_BASE + 3;
+	public static final long QUERY_FEED_FEATURED_POTD = QUERY_TYPE_FEED * QUERY_BASE + 1;
+	public static final long QUERY_FEED_FEATURED_ARTICLE = QUERY_TYPE_FEED * QUERY_BASE + 2;
+	public static final long QUERY_FEED_FEATURED_ONTHISDAY = QUERY_TYPE_FEED * QUERY_BASE + 3;
 
 
     /**
@@ -117,6 +128,10 @@ public class Request extends ItemSerializable {
 
 	private boolean fullTextSearch;
 
+	private int scope;
+
+	private boolean bestMatch;
+
 	public Request() {
 		url = null;
 		query = "";
@@ -151,6 +166,7 @@ public class Request extends ItemSerializable {
 		page = null;
 		responseCode = 404;
 		fullTextSearch = false;
+		scope = SCOPE_REMOTE;
 	}
 
     @Override
@@ -167,6 +183,8 @@ public class Request extends ItemSerializable {
         stream.writeObject(toCrosslink);
         stream.writeObject(fullTextSearch);
         stream.writeLong(fromSubtype);
+        stream.writeInt(scope);
+        stream.writeBoolean(bestMatch);
     }
 
     @Override
@@ -183,6 +201,24 @@ public class Request extends ItemSerializable {
         toCrosslink = (boolean) stream.readObject();
         fullTextSearch = (boolean) stream.readObject();
         fromSubtype = stream.readLong();
+        scope = stream.readInt();
+        bestMatch = stream.readBoolean();
+    }
+
+    public int getScope() {
+        return scope;
+    }
+
+    public void setScope(int scope) {
+        this.scope = scope;
+    }
+
+    public boolean isBestMatch() {
+        return bestMatch;
+    }
+
+    public void setBestMatch(boolean bestMatch) {
+        this.bestMatch = bestMatch;
     }
 
     public long getFromSubtype() {
