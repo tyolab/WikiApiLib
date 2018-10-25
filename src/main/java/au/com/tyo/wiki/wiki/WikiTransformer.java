@@ -1,6 +1,7 @@
 package au.com.tyo.wiki.wiki;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
@@ -428,7 +429,12 @@ public class WikiTransformer {
 		File file = new File("files/wikipedia_mobile_hello.html");
 		
 		if (file.exists()) {
-			WikiPage page = new WikiPage(file);
+			WikiPage page = null;
+			try {
+				page = new WikiPage(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			String result = page.getText();
 //			WikiTransformer.removeTitleAndSearch(page);
 //			byte[] bytes = page.getBytes();

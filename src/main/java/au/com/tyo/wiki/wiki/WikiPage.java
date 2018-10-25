@@ -143,7 +143,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		init();
 	}
 
-	public WikiPage(File file) {
+	public WikiPage(File file) throws IOException {
 		bytes = IO.readFileIntoBytes(file);
 		text = new String(bytes);
 		init();
