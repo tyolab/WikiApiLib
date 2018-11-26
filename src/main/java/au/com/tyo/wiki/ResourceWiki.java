@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import au.com.tyo.io.IO;
 import au.com.tyo.parser.Sgml;
@@ -28,13 +29,13 @@ public class ResourceWiki  {
 	
 	static ArrayList<PageLang> langLinks;
 	
-	protected static HashMap<String, String> wikipediaNames;
+	protected static Map wikipediaNames;
 	
 	public ResourceWiki() {
 
 	}
 
-	public static HashMap<String, String> getWikipediaNames() {
+	public static Map getWikipediaNames() {
 		return wikipediaNames;
 	}
 
@@ -214,6 +215,6 @@ public class ResourceWiki  {
 	}
 	
 	public static String getWikipediaName(String code) {
-		return ResourceWiki.wikipediaNames.get(code);
+		return (String) ResourceWiki.wikipediaNames.get(code);
 	}
 }
