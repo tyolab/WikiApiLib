@@ -52,7 +52,6 @@ public class ResourceWiki  {
 	}
 
 	public void loadWikipediaNames(InputStream is) throws Exception {
-		wikipediaNames = new HashMap<String, String>();
 		if (is != null) {
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader reader = new BufferedReader(isr);
@@ -60,8 +59,11 @@ public class ResourceWiki  {
 			while ((line = reader.readLine()) != null && line.trim().length() > 0) {
 				if (line.charAt(0) != '#') {
 					String[] tokens = line.split(":");
-					if (tokens.length == 2)
+					if (tokens.length == 2) {
+						if (null == wikipediaNames)
+							wikipediaNames = new HashMap<String, String>();
 						wikipediaNames.put(tokens[0], tokens[1]);
+					}
 				}
 			}
 		}
