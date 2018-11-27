@@ -2,7 +2,7 @@ package au.com.tyo.wiki.wiki;
 
 import java.util.ArrayList;
 
-import au.com.tyo.wiki.wiki.WikipediaSite.Site;
+import au.com.tyo.wiki.wiki.WikipediaFamily.Site;
 
 public class WikiLang {
 	String code;

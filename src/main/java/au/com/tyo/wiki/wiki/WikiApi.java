@@ -47,7 +47,7 @@ public class WikiApi {
 	private boolean isMobileDevice;
 	private String version;
 	
-	private WikipediaSite wikipedias;
+	private WikipediaFamily wikipedias;
 	
 	private Login login;
 	
@@ -95,7 +95,7 @@ public class WikiApi {
 		instance = new WikiApi(settings);
 	}
 
-	public void setWikipedias(WikipediaSite wikipedias) {
+	public void setWikipedias(WikipediaFamily wikipedias) {
 		this.wikipedias = wikipedias;
 	}
 
@@ -429,7 +429,7 @@ public class WikiApi {
 	    return connection.get(langLinkUrl); //getUrlText(langLinkUrl, connection);
 	}
 	
-	public List<PageLang> getLanguageLinksArray(String title, String langCode, String favCode, String primaryCode, boolean ignoreEmptyTitle, WikipediaSite site) throws Exception {
+	public List<PageLang> getLanguageLinksArray(String title, String langCode, String favCode, String primaryCode, boolean ignoreEmptyTitle, WikipediaFamily site) throws Exception {
 		if (title == null || title.length() == 0)
 			return new ArrayList<PageLang>();
 		

@@ -9,7 +9,7 @@ import au.com.tyo.utils.StringUtils;
 import au.com.tyo.wiki.wiki.PageLang;
 import au.com.tyo.wiki.wiki.WikiApi;
 import au.com.tyo.wiki.wiki.WikiLang;
-import au.com.tyo.wiki.wiki.WikipediaSite;
+import au.com.tyo.wiki.wiki.WikipediaFamily;
 
 /*
  * * prop=langlinks (ll) *
@@ -65,11 +65,11 @@ public class LangLink extends ApiQuery {
 		return getUrl();
 	}
 
-	public static List<PageLang> parseLangLinks(String result, String favCode, String primaryCode, WikipediaSite wikipedias) {
+	public static List<PageLang> parseLangLinks(String result, String favCode, String primaryCode, WikipediaFamily wikipedias) {
 		return parseLangLinks(result, favCode, primaryCode, true, wikipedias);
 	}
 
-	public static List<PageLang> parseLangLinks(String result, String favCode, String primaryCode, boolean ignoreEmptyTitle, WikipediaSite wikipedias) {
+	public static List<PageLang> parseLangLinks(String result, String favCode, String primaryCode, boolean ignoreEmptyTitle, WikipediaFamily wikipedias) {
 		ArrayList<PageLang> langs = new ArrayList<PageLang>();
 
 		if (null != result) {

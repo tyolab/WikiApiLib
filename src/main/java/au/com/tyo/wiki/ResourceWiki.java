@@ -13,7 +13,7 @@ import au.com.tyo.parser.Sgml;
 import au.com.tyo.parser.SgmlNode;
 import au.com.tyo.wiki.wiki.PageLang;
 import au.com.tyo.wiki.wiki.WikiLang;
-import au.com.tyo.wiki.wiki.WikipediaSite;
+import au.com.tyo.wiki.wiki.WikipediaFamily;
 import au.com.tyo.wiki.wiki.api.ApiBase;
 
 public class ResourceWiki  {
@@ -22,7 +22,7 @@ public class ResourceWiki  {
 	
 	public static final String QUERY_FORMAT = "<em><i><font color=\"#FF1515\">%s</font></i></em>";
 	
-	protected static WikipediaSite wikipedias;
+	protected static WikipediaFamily wikipedias;
 	protected static String[] langs;
 	protected static String[] langNatives;
 	protected static String[] langCodes;
@@ -40,8 +40,8 @@ public class ResourceWiki  {
 	}
 
 	public void initialize() throws Exception {
-		loadWikipediaNames();
 		loadWikipediaSites();
+		loadWikipediaNames();
 	}
 
 	private void loadWikipediaNames() throws Exception {
@@ -69,11 +69,11 @@ public class ResourceWiki  {
 		}
 	}
 
-	public static synchronized WikipediaSite getWikipedias() {
+	public static synchronized WikipediaFamily getWikipedias() {
 		return wikipedias;
 	}
 
-	public static synchronized void setWikipedias(WikipediaSite wikipedias) {
+	public static synchronized void setWikipedias(WikipediaFamily wikipedias) {
 		ResourceWiki.wikipedias = wikipedias;
 	}
 	
@@ -94,7 +94,6 @@ public class ResourceWiki  {
 	
 	public void loadWikipediaSites(InputStream is) throws Exception {
 		try {
-			wikipedias = new WikipediaSite();
 //	        String text = new String(IO.readFileIntoBytes(is));
 	        InputStreamReader isr = new InputStreamReader(is);
 	        BufferedReader reader = new BufferedReader(isr);
@@ -104,6 +103,9 @@ public class ResourceWiki  {
 	        	if (line.charAt(0) != '#') {
 		        	String[] tokens = line.split(",");
 		        	if (tokens.length == 3)  {
+		        		if (null == wikipedias)
+							wikipedias = new WikipediaFamily();
+
 		        		String nativeName = String.valueOf(Character.toUpperCase(tokens[1].charAt(0))) + tokens[1].substring(1);
 		        		wikipedias.addLang(tokens[0], nativeName, tokens[2], ++count);
 		        	}
@@ -118,7 +120,7 @@ public class ResourceWiki  {
 	
 	protected void loadWikipediaSiteMatrix(InputStream is) throws IOException, Exception {
 		try {
-			wikipedias = new WikipediaSite();
+			wikipedias = new WikipediaFamily();
 	        String xml = new String(IO.readFileIntoBytes(is));
 	        Sgml parser = new Sgml();
 	        

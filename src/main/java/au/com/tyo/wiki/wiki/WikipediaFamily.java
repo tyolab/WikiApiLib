@@ -2,12 +2,13 @@ package au.com.tyo.wiki.wiki;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import au.com.tyo.parser.SgmlNode;
 
-public class WikipediaSite {
+public class WikipediaFamily {
 	
-	private HashMap<String, WikiLang> languages = new HashMap<String, WikiLang>();
+	private Map<String, WikiLang> languages = new HashMap<>();
 	
 	private int count = 0;
 	
@@ -22,12 +23,12 @@ public class WikipediaSite {
 		}
 	}
 	
-	public WikipediaSite() {
+	public WikipediaFamily() {
 		
 	}
 	
 	public void addSite(SgmlNode langNode) {
-		
+
 		WikiLang lang = new WikiLang();
 		lang.code = langNode.getAttribute("code");
 		lang.name = langNode.getAttribute("name");
