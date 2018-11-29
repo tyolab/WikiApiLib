@@ -219,6 +219,6 @@ public class ResourceWiki  {
 	}
 	
 	public static String getWikipediaName(String code) {
-		return (String) ResourceWiki.wikipediaNames.get(code);
+		return ResourceWiki.wikipediaNames.get(code).toString();
 	}
 }
