@@ -75,6 +75,13 @@ public class Request extends ItemSerializable {
 	public static final long QUERY_FEED_FEATURED_ARTICLE = QUERY_TYPE_FEED * QUERY_BASE + 2;
 	public static final long QUERY_FEED_FEATURED_ONTHISDAY = QUERY_TYPE_FEED * QUERY_BASE + 3;
 
+	/**
+	 * Request Status
+	 */
+	public static final int STATUS_NEW = 0;
+	public static final int STATUS_SENT = 1;
+	public static final int STATUS_DONE = 2;
+
 
     /**
 	 *
@@ -132,6 +139,16 @@ public class Request extends ItemSerializable {
 
 	private boolean bestMatch;
 
+	/**
+	 * Request Status
+	 */
+	private int status;
+
+    /**
+     * Index
+     */
+    private int index;
+
 	public Request() {
 		url = null;
 		query = "";
@@ -167,9 +184,26 @@ public class Request extends ItemSerializable {
 		responseCode = 404;
 		fullTextSearch = false;
 		scope = SCOPE_REMOTE;
+		status = STATUS_NEW;
 	}
 
-    @Override
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	@Override
     public void serialise(ObjectOutputStream stream) throws IOException {
         stream.writeObject(url);
         stream.writeObject(query);
