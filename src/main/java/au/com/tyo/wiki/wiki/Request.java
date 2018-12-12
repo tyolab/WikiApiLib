@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
-import java.util.Vector;
 
 import au.com.tyo.io.ItemSerializable;
 import au.com.tyo.wiki.Status;
@@ -107,7 +106,7 @@ public class Request extends ItemSerializable {
 	
 	private String anchor;
 	
-	private Vector<String> wikiDomains;
+	private String[] wikiDomains;
 	
 	private String sections;  // which sections needed, 1|2|3, .. or all
 	
@@ -228,7 +227,7 @@ public class Request extends ItemSerializable {
         rawQuery = (String) stream.readObject();
         type = (int) stream.readObject();
         anchor = (String) stream.readObject();
-        wikiDomains = (Vector<String>) stream.readObject();
+        wikiDomains = (String[]) stream.readObject();
         sections = (String) stream.readObject();
         responseCode = (int) stream.readObject();
         fromType = (long) stream.readObject();
@@ -307,20 +306,31 @@ public class Request extends ItemSerializable {
 	public void setAnchor(String anchor) {
 		this.anchor = anchor;
 	}
-
-//	public String getDomain() {
-//		return langCode;
-//	}
-//
-//	public void setDomain(String langCode) {
-//		this.langCode = langCode;
-//	}
 	
-	public void setWikiDomains(Vector<String> domains) {
+	public void setWikiDomains(String[] domains) {
 		this.wikiDomains = domains;
 	}
+
+	public void addWikiDomain(String domain) {
+		if (null == wikiDomains) {
+			wikiDomains = new String[2]; // one for main, one for alternative
+			wikiDomains[0] = domain;
+		}
+		// simplify it, so we have to make sure we don't add two same domains
+		else if (wikiDomains.length == 2 && wikiDomains[1] == null) {
+			wikiDomains[1] = domain;
+		}
+		else {
+			int newLen = wikiDomains.length + 1;
+			String[] domains = new String[newLen];
+			int i;
+			for (i = 0; i < wikiDomains.length; ++i)
+				domains[i] = wikiDomains[i];
+			domains[i] = domain;
+		}
+	}
 	
-	public Vector<String> getWikiDomains() {
+	public String[] getWikiDomains() {
 		return wikiDomains;
 	}
 
