@@ -148,6 +148,12 @@ public class Request extends ItemSerializable {
      */
     private int index;
 
+    /**
+     * We don't need language links all the time
+     *
+     */
+    private boolean requireLangLinks;
+
 	public Request() {
 		url = null;
 		query = "";
@@ -184,6 +190,7 @@ public class Request extends ItemSerializable {
 		fullTextSearch = false;
 		scope = SCOPE_REMOTE;
 		status = STATUS_NEW;
+		requireLangLinks = false;
 	}
 
     public int getIndex() {
@@ -410,4 +417,12 @@ public class Request extends ItemSerializable {
     public boolean isFromHistory() {
         return fromType == Request.FROM_HISTORY;
     }
+
+    public boolean isLangLinksRequired() {
+		return requireLangLinks;
+    }
+
+	public void setRequireLangLinks(boolean requireLangLinks) {
+		this.requireLangLinks = requireLangLinks;
+	}
 }
