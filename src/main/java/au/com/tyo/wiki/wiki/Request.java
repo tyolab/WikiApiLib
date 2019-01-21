@@ -22,7 +22,7 @@ public class Request extends ItemSerializable {
 	public static final int QUERY_TYPE_MAIN_PAGE = 2; // still url but the url for the main page
 	public static final int QUERY_TYPE_TITLE = 3;  // get article with title
 	public static final int QUERY_TYPE_ABSTRACT = 4;
-	public static final int QUERY_TYPE_LOCAL = 5;
+	public static final int QUERY_TYPE_ID = 5;
 	public static final int QUERY_TYPE_HISTORY = 6;
     public static final int QUERY_TYPE_FEED = 7;
     public static final int QUERY_TYPE_LANGLINKS = 8;
@@ -154,6 +154,11 @@ public class Request extends ItemSerializable {
      */
     private boolean requireLangLinks;
 
+	/**
+	 * The unique id for identifying a document in a corpus either Wikipedia Live or local Wikipedia
+	 */
+	private long documentId;
+
 	public Request() {
 		url = null;
 		query = "";
@@ -191,6 +196,7 @@ public class Request extends ItemSerializable {
 		scope = SCOPE_REMOTE;
 		status = STATUS_NEW;
 		requireLangLinks = false;
+		documentId = -1;
 	}
 
     public int getIndex() {
@@ -425,4 +431,12 @@ public class Request extends ItemSerializable {
 	public void setRequireLangLinks(boolean requireLangLinks) {
 		this.requireLangLinks = requireLangLinks;
 	}
+
+    public void setDocumentId(long docid) {
+		this.documentId = docid;
+    }
+
+    public long getDocumentId() {
+        return documentId;
+    }
 }
