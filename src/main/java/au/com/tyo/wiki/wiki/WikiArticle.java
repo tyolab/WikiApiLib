@@ -3,8 +3,6 @@ package au.com.tyo.wiki.wiki;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.json.JSONException;
-
 import au.com.tyo.io.GZIP;
 import au.com.tyo.parser.XML;
 import au.com.tyo.utils.StringUtils;
@@ -121,7 +119,8 @@ public class WikiArticle implements Constants {
 	private int status;
 	
 	private int type;
-	
+	private String articleUrl;
+
 	public WikiArticle() {
 		this(MODE_COMPRESSED_GZIP);
 	}
@@ -353,6 +352,7 @@ public class WikiArticle implements Constants {
 		 */
 //		if (null != page.getRequest())
 //			page.getRequest().setResponseCode(200);
+        page.setUrl(article.getArticleUrl());
 		page.setTitle(article.getTitle());
 		page.setFromSource(WikiPage.FROM_SOURCE_LOCAL);
 		if (article.isFromRedirect())
@@ -381,5 +381,13 @@ public class WikiArticle implements Constants {
 	
 	public boolean usable() {
 		return Status.isStatusAcceptable(getStatus());
+	}
+
+	public void setArticleUrl(String url) {
+		articleUrl = url;
+	}
+
+	public String getArticleUrl() {
+		return articleUrl;
 	}
 }
