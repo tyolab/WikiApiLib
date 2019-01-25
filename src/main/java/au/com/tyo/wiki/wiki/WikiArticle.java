@@ -96,7 +96,7 @@ public class WikiArticle implements Constants {
 	public static int version = ARTICLE_VERSION_2;
 	
 	public static int defaultMode = MODE_COMPRESSED_GZIP;
-	
+
 	private long id;
 	
 //	private int type; // 0 for abstract, 1 for full article
@@ -358,7 +358,8 @@ public class WikiArticle implements Constants {
 		page.setTitle(article.getTitle());
 		page.setFromSource(WikiPage.FROM_SOURCE_LOCAL);
 		// if page is from local source, the page id is the id for the record, not the article id which is same with the one in Wikipedia
-		//page.setId(article.getArticleId());
+		page.setId((int) article.getId());
+		page.setPageId(article.getArticleId());
 		if (article.isFromRedirect())
 			page.setRedirectFrom(article.getRedirectFrom());
 		if (articleType == WikiArticle.TYPE_ARTICLE/*WikiDataSource.dataType != WikiArticle.TYPE_ABSTRACT*/) {

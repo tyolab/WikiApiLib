@@ -121,8 +121,16 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	private int textFormat;
 	
 	private String notes; // notes about the page, such as only abstract is availabe
-	
+
+	/**
+	 * A unique identification number to id the page in the App
+	 */
 	private int id;
+
+	/**
+	 * The page / article id that is uniquely identified in Wikipedia
+	 */
+	private int pageId;
 
 	private boolean loaded = false;
 
@@ -182,6 +190,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		notes = null;
 
 		lastViewedTime = System.currentTimeMillis();
+		pageId = -1;
 	}
 
 	@Override
@@ -221,6 +230,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         stream.writeObject(cachePath);
         stream.writeObject(retrievedTimestamp);
         stream.writeObject(domain);
+        stream.writeInt(pageId);
     }
 
 	@Override
@@ -260,6 +270,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         cachePath = (String) stream.readObject();
         retrievedTimestamp = (long) stream.readObject();
         domain = (String) stream.readObject();
+        pageId = stream.readInt();
     }
 
     public long getLastViewedTime() {
@@ -346,7 +357,15 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		this.id = id;
 	}
 
-	public Request getRequest() {
+    public int getPageId() {
+        return pageId;
+    }
+
+    public void setPageId(int pageId) {
+        this.pageId = pageId;
+    }
+
+    public Request getRequest() {
 		if (null == request)
 			request = new Request();
 		return request;

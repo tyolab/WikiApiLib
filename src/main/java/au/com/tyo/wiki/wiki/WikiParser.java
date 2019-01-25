@@ -188,7 +188,7 @@ public class WikiParser {
          */
         if (parsedObject.has("pageid")) {
         	try {
-        		page.setId(parsedObject.getInt("pageid"));
+        		page.setPageId(parsedObject.getInt("pageid"));
         	}
         	catch (Exception ex) {}
         }
