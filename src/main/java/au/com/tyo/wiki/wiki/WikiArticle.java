@@ -152,26 +152,28 @@ public class WikiArticle implements Constants {
 
 	public String articleToString() {
 		String temp = "";
-		if ((version != ARTICLE_VERSION_1 || (version == ARTICLE_VERSION_1 && !redirect)) && mode == MODE_COMPRESSED_GZIP) {
-			try {
-				temp = GZIP.decompress(article); //.getBytes(), "UTF-8");
-			} catch (IOException e) { 
-				mode = MODE_PLAIN_TEXT;
-				redirect = true;
-			}		
-		
-			if (article.length > 0 && temp.length() == 0) {
-				redirect = true;
-				mode = MODE_PLAIN_TEXT;
-			}
-		}
-			
-		if ((redirect && version == ARTICLE_VERSION_1) || mode == MODE_PLAIN_TEXT)
-			try {
-				temp =  new String(article, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				temp =  new String(article);
-			}
+		if (null != article) {
+            if ((version != ARTICLE_VERSION_1 || (version == ARTICLE_VERSION_1 && !redirect)) && mode == MODE_COMPRESSED_GZIP) {
+                try {
+                    temp = GZIP.decompress(article); //.getBytes(), "UTF-8");
+                } catch (IOException e) {
+                    mode = MODE_PLAIN_TEXT;
+                    redirect = true;
+                }
+
+                if (article.length > 0 && temp.length() == 0) {
+                    redirect = true;
+                    mode = MODE_PLAIN_TEXT;
+                }
+            }
+
+            if ((redirect && version == ARTICLE_VERSION_1) || mode == MODE_PLAIN_TEXT)
+                try {
+                    temp = new String(article, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    temp = new String(article);
+                }
+        }
 		return temp;
 	}
 	
@@ -209,9 +211,9 @@ public class WikiArticle implements Constants {
 		return temp;
 	}
 	
-	public String toString() {
-		return bytesToString(article);
-	}
+//	public String toString() {
+//		return bytesToString(article);
+//	}
 	
 	public long getId() {
 		return id;
@@ -355,6 +357,8 @@ public class WikiArticle implements Constants {
         page.setUrl(article.getArticleUrl());
 		page.setTitle(article.getTitle());
 		page.setFromSource(WikiPage.FROM_SOURCE_LOCAL);
+		// if page is from local source, the page id is the id for the record, not the article id which is same with the one in Wikipedia
+		//page.setId(article.getArticleId());
 		if (article.isFromRedirect())
 			page.setRedirectFrom(article.getRedirectFrom());
 		if (articleType == WikiArticle.TYPE_ARTICLE/*WikiDataSource.dataType != WikiArticle.TYPE_ABSTRACT*/) {
@@ -390,4 +394,12 @@ public class WikiArticle implements Constants {
 	public String getArticleUrl() {
 		return articleUrl;
 	}
+
+    @Override
+    public String toString() {
+        return "WikiArticle{" +
+                "title='" + title + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
