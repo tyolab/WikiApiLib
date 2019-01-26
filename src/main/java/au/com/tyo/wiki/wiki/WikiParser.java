@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import au.com.tyo.parser.Sgml;
 import au.com.tyo.parser.SgmlNode;
 import au.com.tyo.utils.UrlCode;
+import au.com.tyo.wiki.Constants;
 
 public class WikiParser {
 	
@@ -90,7 +91,7 @@ public class WikiParser {
         			parseMobileArticle(array, page, howManySectionsToParse);
         		}
         		catch (Exception ex) {
-        			request.setResponseCode(au.com.tyo.wiki.Constants.STATUS_PAGE_ERROR_PARSED_JSON_MOBILEVIEW);
+        			request.setResponseCode(Constants.STATUS_PAGE_ERROR_PARSED_JSON_MOBILEVIEW);
         			throw ex;
         		}
 	        }
@@ -99,16 +100,16 @@ public class WikiParser {
 	        		parseArticle(array, page);
 	        	}
 	        	catch (Exception ex) {
-	        		request.setResponseCode(au.com.tyo.wiki.Constants.STATUS_PAGE_ERROR_PARSED_JSON);
+	        		request.setResponseCode(Constants.STATUS_PAGE_ERROR_PARSED_JSON);
 	        		throw ex;
 	        	}
 	        }
 	        else {
-	        	request.setResponseCode(au.com.tyo.wiki.Constants.STATUS_PAGE_ERROR);
+	        	request.setResponseCode(Constants.STATUS_PAGE_ERROR);
 	        }
         }
         else {
-        	request.setResponseCode(au.com.tyo.wiki.Constants.STATUS_PAGE_NOT_FOUND);
+        	request.setResponseCode(Constants.STATUS_PAGE_NOT_FOUND);
         }
 	}
 	

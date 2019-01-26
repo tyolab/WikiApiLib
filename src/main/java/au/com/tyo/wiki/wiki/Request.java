@@ -88,12 +88,12 @@ public class Request extends ItemSerializable {
 	private String url;
 
 	/**
-	 *
+	 * The initial query, could be anything
 	 */
 	private String query;
 
 	/**
-	 *
+	 * The query with the real word(s)
 	 */
 	private String rawQuery;
 

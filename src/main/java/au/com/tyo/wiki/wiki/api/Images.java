@@ -71,9 +71,10 @@ public class Images extends ApiQuery<ImagesJson> {
 		            if(pagesObj.get(key) instanceof JSONObject ){
 		            	JSONObject pageObj = (JSONObject) pagesObj.get(key);
 		            	
-		            	JSONArray tnObj = pageObj.getJSONArray("images");
-		            	
-		            	list = JSONParser.parseStringArray(tnObj, "title");
+		            	JSONArray tnObj = pageObj.optJSONArray("images");
+
+		            	if (null != tnObj)
+		            		list = JSONParser.parseStringArray(tnObj, "title");
                         break;
 		            }
 		        }
