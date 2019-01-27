@@ -108,7 +108,7 @@ public class WikiArticle implements Constants {
 	
 	private int mode;
 	
-	private byte[] abs;
+//	private byte[] abs;
 	
 	private boolean redirect;
 	
@@ -147,7 +147,9 @@ public class WikiArticle implements Constants {
 	}
 	
 	private void init() {
-		setType(TYPE_UNKNOWN); 
+	    // by default we only deal with full article
+        // the abstract type may be supported in the future if there is such demands which I highly doubt so
+		setType(TYPE_ARTICLE);
 	}
 
 	public String articleToString() {
@@ -178,8 +180,8 @@ public class WikiArticle implements Constants {
 	}
 	
 	public String abstractToString() {
-		if (abs != null)
-			return bytesToString(abs);
+//		if (abs != null)
+//			return bytesToString(abs);
 		return articleToString();
 	}
 	
@@ -271,13 +273,13 @@ public class WikiArticle implements Constants {
 		this.articleId = articleId;
 	}
 
-	public byte[] getAbstract() {
-		return abs;
-	}
-
-	public void setAbstract(byte[] abs) {
-		this.abs = abs;
-	}
+//	public byte[] getAbstract() {
+//		return abs;
+//	}
+//
+//	public void setAbstract(byte[] abs) {
+//		this.abs = abs;
+//	}
 	
 	public static WikiArticle parseAbstract(String doc, int mode) {
 		WikiArticle article = new WikiArticle(mode);
@@ -305,7 +307,7 @@ public class WikiArticle implements Constants {
 				}
 			else
 				blob = text.getBytes();
-			article.setAbstract(blob);
+			article.setArticle(blob);
 			return article;
 		}
 		return null;
