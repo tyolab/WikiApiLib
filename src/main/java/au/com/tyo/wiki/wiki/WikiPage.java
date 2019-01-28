@@ -91,9 +91,12 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	
 	private String thumbnailLink;
 	
-	private Map<String, WikiImage> imageUrls;
+	private Map<String, String> imageUrls;
 
-    private List<WikiImage> images;
+    /**
+     * The list of names of the images
+     */
+    private List<String> images;
 	
 	private WikiPage xPage; // the page being cross linked
 
@@ -231,6 +234,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         stream.writeObject(retrievedTimestamp);
         stream.writeObject(domain);
         stream.writeInt(pageId);
+        stream.writeObject(imageUrls);
     }
 
 	@Override
@@ -253,7 +257,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         html = (String) stream.readObject();
         didYouMean = (boolean) stream.readObject();
         thumbnailLink = (String) stream.readObject();
-        images = (List<WikiImage>) stream.readObject();
+        images = (List<String>) stream.readObject();
         xPage = (WikiPage) stream.readObject();
         lastUpdateDate = (String) stream.readObject();
         lastUpdateBy = (String) stream.readObject();
@@ -271,6 +275,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
         retrievedTimestamp = (long) stream.readObject();
         domain = (String) stream.readObject();
         pageId = stream.readInt();
+        imageUrls = (Map<String, String>) stream.readObject();
     }
 
     public long getLastViewedTime() {
@@ -630,12 +635,12 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	}
 
 	public void addImageInfo(String name) {
-		if (!imageUrls.containsKey(name)) {
-			WikiImage wikiImage = new WikiImage(name);
-			wikiImage.setIndex(images.size());
-			images.add(wikiImage);
-			this.imageUrls.put(name, wikiImage);
-		}
+		//if (!imageUrls.containsKey(name)) {
+			//WikiImage wikiImage = new WikiImage(name);
+			// wikiImage.setIndex(images.size());
+			images.add(name);
+			//this.imageUrls.put(name, wikiImage);
+		//}//
 	}
 	
 	public boolean hasImage() {
@@ -643,12 +648,12 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	}
 
 	public boolean hasImagesRetrieved() {
-	    return hasImage() && imageUrls.size() > 0;
+	    return imageUrls.size() == images.size();
     }
 
 	public String getFirstImageName() {
 		if (images.size() > 0)
-			return images.get(0).getTitle();
+			return images.get(0);
 		return null;
 	}
 
@@ -663,20 +668,18 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 
 	public String getImageUrlWithName(String name) {
         if (name != null)
-            return imageUrls.get(name).getImageUrl();
+            return imageUrls.get(name);
         return null;
     }
 
     public String getImageUrl(int index) {
         if (index < 0 || index >= images.size())
             return null;
-        return images.get(index).getImageUrl();
+        return images.get(index);
     }
 	
 	public void setImageUrl(String name, String url) {
-        WikiImage wikiImage = imageUrls.get(name);
-        if (null != wikiImage)
-            wikiImage.setImageUrl(url);
+        imageUrls.put(name, url);
 	}
 
 	public String getRedirectFrom() {
@@ -748,11 +751,11 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		return WikiApi.getInstance().getApiConfig().buildWikipediaUrlWithTitle("http", getDomain(), getTitle());
 	}
 
-    public List<WikiImage> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public WikiImage getImage(int i) {
+    public String getImage(int i) {
         return images.get(i);
     }
 
@@ -781,5 +784,9 @@ public class WikiPage extends WikiPageBase implements PageInterface {
     public void reset() {
         setLoaded(false);
         setLangLinks(null);
+    }
+
+    public boolean hasThisImageUrl(String imageName) {
+	    return imageUrls.containsKey(imageName);
     }
 }
