@@ -485,16 +485,16 @@ public class WikiApi {
 		String imageUrl = ImageUrl.parseOne(result);
 		return imageUrl;
 	}
-	
-	
-	
+
 	/**
 	 * return token if need confirm token, otherwise, "success"
-	 * @throws Exception 
-	 * 
-	 * 
+	 *
+	 * @param domain
+	 * @param name
+	 * @param password
+	 * @return
 	 */
-	public Login login(String name, String password) {
+	public Login login(String domain, String name, String password) {
 		
 		int status = Login.ERROR;
 		
@@ -507,7 +507,7 @@ public class WikiApi {
 //			login.setVariableAttribute("lgtoken", token);
 //		}
 		
-		String apiUrl = apiConfig.createApiUrl(); 
+		String apiUrl = apiConfig.createApiUrl(domain);
 		
 		String url = apiUrl + login.getLoginUrl();
 		
@@ -566,16 +566,16 @@ public class WikiApi {
 		return login;
 	}
 	
-	public String acquireToken() throws Exception {
-		return acquireToken(login);
+	public String acquireToken(String domain) throws Exception {
+		return acquireToken(domain, login);
 	}
 	
-	public String acquireToken(Login login) throws Exception {
+	public String acquireToken(String domain, Login login) throws Exception {
 
 		HttpConnection conn = HttpPool.getInstance().getConnection();
 		conn.setClientCookies(login.getCookies());
 		
-		String apiUrl = apiConfig.createApiUrl(); 
+		String apiUrl = apiConfig.createApiUrl(domain);
 		ApiQuery query = new ApiQuery();
 		String url = apiUrl + query.getAcquireTokenUrl();
 		
@@ -584,8 +584,8 @@ public class WikiApi {
 		return ApiQuery.parseAcquireTokenResultJson(result);
 	}
 	
-	public String importXmlFile(String xml, String token) throws Exception {
-		String apiUrl = apiConfig.createApiUrl(); 
+	public String importXmlFile(String domain, String xml, String token) throws Exception {
+		String apiUrl = apiConfig.createApiUrl(domain);
 		Import importApi = new Import();
 		importApi.setXml(xml);
 		importApi.setToken(token);
@@ -602,8 +602,8 @@ public class WikiApi {
 		return result;
 	}
 
-    public String editPage(String title, String text, String token) throws Exception {
-        String apiUrl = apiConfig.createApiUrl();
+    public String editPage(String domain, String title, String text, String token) throws Exception {
+        String apiUrl = apiConfig.createApiUrl(domain);
 
         Edit edit = Edit.getInstance(token);
         edit.editPage(title, text);
@@ -627,7 +627,7 @@ public class WikiApi {
 
     public List getPageImages(WikiPage page) throws Exception {
         Images images = new Images();
-        images.setApiUrl(apiConfig.createApiUrl());
+        images.setApiUrl(apiConfig.createApiUrl(page.getDomain()));
         return images.getList(page);
 	}
 }

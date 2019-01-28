@@ -639,8 +639,12 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	}
 	
 	public boolean hasImage() {
-		return imageUrls.size() > 0;
+		return images.size() > 0;
 	}
+
+	public boolean hasImagesRetrieved() {
+	    return hasImage() && imageUrls.size() > 0;
+    }
 
 	public String getFirstImageName() {
 		if (images.size() > 0)
