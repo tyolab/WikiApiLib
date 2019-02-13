@@ -39,9 +39,10 @@ public class ImageUrl extends ApiQuery {
 	            if(pagesObj.get(key) instanceof JSONObject ){
 	            	JSONObject pageObj = (JSONObject) pagesObj.get(key);
 	            	
-	            	JSONArray tnObj = pageObj.getJSONArray("imageinfo");
-	            	
-	            	list = JSONParser.parseStringArray(tnObj, "url");
+	            	JSONArray tnObj = pageObj.optJSONArray("imageinfo");
+
+	            	if (null != tnObj)
+	            		list = JSONParser.parseStringArray(tnObj, "url");
 	            }
 	        }
 		}
