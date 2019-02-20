@@ -142,6 +142,11 @@ public class WikiPage extends WikiPageBase implements PageInterface {
     private long retrievedTimestamp;
 
     private long lastViewedTime;
+
+	/**
+	 * If the page is from a local source
+	 */
+	private String fromDb;
 //	
 //	private int namespace;
 	static {
@@ -528,7 +533,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 
 	public void setHtml(String html) {
 		if (pageProcessor != null)
-			this.html = pageProcessor.process(html);
+			this.html = pageProcessor.process(fromDb, html);
 		else
 			this.html = html;
 	}
@@ -788,5 +793,13 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 
     public boolean hasThisImageUrl(String imageName) {
 	    return imageUrls.containsKey(imageName);
+    }
+
+    public String getFromDb() {
+        return fromDb;
+    }
+
+    public void setFromDb(String fromDb) {
+        this.fromDb = fromDb;
     }
 }

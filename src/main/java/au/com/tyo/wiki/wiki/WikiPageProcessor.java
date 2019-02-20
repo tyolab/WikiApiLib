@@ -7,7 +7,7 @@ package au.com.tyo.wiki.wiki;
 
 public interface WikiPageProcessor {
 	
-	public String process(String html);
+	public String process(String fromDb, String html);
 
 	public void processUrl(String url);
 	
