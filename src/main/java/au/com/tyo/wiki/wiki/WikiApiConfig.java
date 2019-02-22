@@ -592,12 +592,12 @@ public class WikiApiConfig implements ApiConstants {
 		return url.toString();
 	}
 	
-	public String buildRandomPageRetrievalUrl() {
-		return buildRandomPageRetrievalUrl(1);
+	public String buildRandomPageRetrievalUrl(String targetDomain) {
+		return buildRandomPageRetrievalUrl(targetDomain, 1);
 	}
 	
-	public String buildRandomPageRetrievalUrl(int limit) {
-		StringBuffer url = new StringBuffer(createApiUrl());
+	public String buildRandomPageRetrievalUrl(String targetDomain, int limit) {
+		StringBuffer url = new StringBuffer(createApiUrl(targetDomain));
 		
 		url.append(wikiCommon.getListRandom().getListRandomPageUrl(limit));
 		

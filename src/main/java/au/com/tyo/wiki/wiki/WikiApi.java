@@ -211,13 +211,13 @@ public class WikiApi {
 	}
 	
 	
-	public String getFirstRandomPageName() throws Exception {
-		List<String> list = getRandomPages(1);
+	public String getFirstRandomPageName(String targetDomain) throws Exception {
+		List<String> list = getRandomPages(targetDomain, 1);
 		return list.size() == 0 ? null : list.get(0);
 	}
 	
-	public List<String> getRandomPages(int number) throws Exception {
-		String url = apiConfig.buildRandomPageRetrievalUrl(number);
+	public List<String> getRandomPages(String targetDomain, int number) throws Exception {
+		String url = apiConfig.buildRandomPageRetrievalUrl(targetDomain, number);
         HttpConnection connection = HttpPool.getInstance().getConnection();
 		String result = getUrlText(url, connection);
 		return ListRandom.parseResult(result);
