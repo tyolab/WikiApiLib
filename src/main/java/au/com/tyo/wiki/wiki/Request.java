@@ -10,7 +10,8 @@ import au.com.tyo.wiki.Status;
 import au.com.tyo.wiki.wiki.api.MobileView;
 
 public class Request extends ItemSerializable {
-	/**
+
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = -1003226985810710514L;
@@ -26,6 +27,7 @@ public class Request extends ItemSerializable {
 	public static final int QUERY_TYPE_HISTORY = 6;
     public static final int QUERY_TYPE_FEED = 7;
     public static final int QUERY_TYPE_LANGLINKS = 8;
+	public static final int QUERY_TYPE_RANDOM = 9;
 
     public static final long QUERY_BASE = 1000;
 
@@ -54,6 +56,8 @@ public class Request extends ItemSerializable {
 	public static final long FROM_RANDOM_WWW = 512;
 	public static final long FROM_RANDOM_SEARCH_BUTTON = 1024;
 	public static final long FROM_RANDOM_MENU = 2048;
+
+	public static final long FROM_PAGE_LINK = 4096;
 
 	/**
 	 * Subtype base
@@ -439,4 +443,8 @@ public class Request extends ItemSerializable {
     public long getDocumentId() {
         return documentId;
     }
+
+	public void setQueryType(int queryTypeId) {
+		this.type = queryTypeId;
+	}
 }

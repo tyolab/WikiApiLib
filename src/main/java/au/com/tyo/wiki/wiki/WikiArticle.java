@@ -121,6 +121,11 @@ public class WikiArticle implements Constants {
 	private int type;
 	private String articleUrl;
 
+	/**
+	 * The name of the db, usually like tr0, zh0, pl1, etc.
+	 */
+	private String fromDb;
+
 	public WikiArticle() {
 		this(MODE_COMPRESSED_GZIP);
 	}
@@ -150,6 +155,14 @@ public class WikiArticle implements Constants {
 	    // by default we only deal with full article
         // the abstract type may be supported in the future if there is such demands which I highly doubt so
 		setType(TYPE_ARTICLE);
+	}
+
+	public String getFromDb() {
+		return fromDb;
+	}
+
+	public void setFromDb(String fromDb) {
+		this.fromDb = fromDb;
 	}
 
 	public String articleToString() {
@@ -362,6 +375,7 @@ public class WikiArticle implements Constants {
 		// if page is from local source, the page id is the id for the record, not the article id which is same with the one in Wikipedia
 		page.setId((int) article.getId());
 		page.setPageId(article.getArticleId());
+		page.setFromDb(article.getFromDb());
 		if (article.isFromRedirect())
 			page.setRedirectFrom(article.getRedirectFrom());
 		if (articleType == WikiArticle.TYPE_ARTICLE/*WikiDataSource.dataType != WikiArticle.TYPE_ABSTRACT*/) {
