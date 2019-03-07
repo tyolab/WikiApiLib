@@ -532,6 +532,11 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	}
 
 	public void setHtml(String html) {
+		if (null == html)  {
+			this.html = null;
+			return;
+		}
+
 		if (pageProcessor != null)
 			this.html = pageProcessor.process(fromDb, html);
 		else
