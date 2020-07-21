@@ -132,7 +132,7 @@ public class MobileView extends ApiAction<MobileViewJson> {
 		return this.getMobileViewUrl(title, sections);
 	}
 
-	public MobileViewJson getAs(WikiPage page) throws Exception {
-        return getAs(page, MobileViewJson.class);
-    }
+	// public MobileViewJson getAs(WikiPage page) throws Exception {
+    //     return getAs(page, MobileViewJson.class);
+    // }
 }

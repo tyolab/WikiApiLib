@@ -1,8 +1,5 @@
 package au.com.tyo.wiki.wiki.api;
 
-import com.google.api.client.util.Charsets;
-import com.google.api.client.util.ObjectParser;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
@@ -112,11 +109,6 @@ public abstract class ApiBase<T> implements ApiRequest {
 	protected HashMap<String, ActionAttribute> variables;
 
     protected String apiUrl;
-
-    /**
-     * Response Parser
-     */
-    private ObjectParser parser;
 	
 	public ApiBase() {
 		initializeValues();
@@ -332,21 +324,21 @@ public abstract class ApiBase<T> implements ApiRequest {
         return parseAsList(text);
     }
 
-    /**
-     *
-     * @param inputStream
-     * @param asCls
-     * @return
-     * @throws IOException
-     */
-    protected T parseAs(InputStream inputStream, Class<T> asCls) throws IOException {
-        return parser.parseAndClose(inputStream, Charsets.UTF_8, asCls);
-    }
+    // /**
+    //  *
+    //  * @param inputStream
+    //  * @param asCls
+    //  * @return
+    //  * @throws IOException
+    //  */
+    // protected T parseAs(InputStream inputStream, Class<T> asCls) throws IOException {
+    //     return parser.parseAndClose(inputStream, "UTF_8", asCls);
+    // }
 
-    public T getAs(WikiPage page, Class<T> asCls) throws Exception {
-        HttpConnection connection = HttpPool.getInstance().getConnection();
-        String url = createRequestUrl(page);
-        InputStream inputStream = connection.getAsInputStream(url);
-        return parseAs(inputStream, asCls);
-    }
+    // public T getAs(WikiPage page, Class<T> asCls) throws Exception {
+    //     HttpConnection connection = HttpPool.getInstance().getConnection();
+    //     String url = createRequestUrl(page);
+    //     InputStream inputStream = connection.getAsInputStream(url);
+    //     return parseAs(inputStream, asCls);
+    // }
 }
