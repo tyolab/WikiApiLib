@@ -3,8 +3,8 @@ apply plugin: 'java'
 dependencies {
     implementation project(path: ':CommonUtils')
     implementation project(path: ':CommonFeed')
-    implementation group: 'org.json', name: 'json', version: '20180130'
-    implementation 'com.google.http-client:google-http-client:1.22.0'
+    implementation group: 'org.json', name: 'json', version: '20200518'
+    implementation 'com.google.http-client:google-http-client:1.36.0'
 }
 
 repositories {
@@ -12,6 +12,3 @@ repositories {
         dirs 'libs'
     }
 }
-
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"

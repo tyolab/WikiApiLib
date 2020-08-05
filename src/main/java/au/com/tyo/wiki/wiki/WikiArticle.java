@@ -108,7 +108,7 @@ public class WikiArticle implements Constants {
 	
 	private int mode;
 	
-//	private byte[] abs;
+	private byte[] abs;
 	
 	private boolean redirect;
 	
@@ -286,13 +286,13 @@ public class WikiArticle implements Constants {
 		this.articleId = articleId;
 	}
 
-//	public byte[] getAbstract() {
-//		return abs;
-//	}
-//
-//	public void setAbstract(byte[] abs) {
-//		this.abs = abs;
-//	}
+	public byte[] getAbstract() {
+		return abs;
+	}
+
+	public void setAbstract(byte[] abs) {
+		this.abs = abs;
+	}
 	
 	public static WikiArticle parseAbstract(String doc, int mode) {
 		WikiArticle article = new WikiArticle(mode);
