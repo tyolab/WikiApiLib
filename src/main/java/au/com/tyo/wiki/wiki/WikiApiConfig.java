@@ -31,15 +31,15 @@ public class WikiApiConfig implements ApiConstants {
 	/**
 	 * all bots should use https by default since 2016-07-12
 	 */
-	private static final String DEFAULT_PROTOCOL = "https";
-	private static final String DEFAULT_PROTOCOL_SSL = "https";
+	public static final String DEFAULT_PROTOCOL_SSL = "https";
+	public static final String DEFAULT_PROTOCOL = "https";
 	
-	private static final String ROOT_PATH = "//";
+	public static final String ROOT_PATH = "//";
 
-	private static final String DEFAULT_WIKI_MAINPAGE = "index.php?";
-	private static final String DEFAULT_WIKI_QUERY = "title=";
-	private static final String DEFAULT_LANGUAGE_DOMAIN = "en";
-//	private static final String DEFAULT_SITE = DEFAULT_LANGUAGE_DOMAIN + "." + WIKIPEDIA_HOST_ORG;
+	public static final String DEFAULT_WIKI_MAINPAGE = "index.php?";
+	public static final String DEFAULT_WIKI_QUERY = "title=";
+	public static final String DEFAULT_LANGUAGE_DOMAIN = "en";
+//	public static final String DEFAULT_SITE = DEFAULT_LANGUAGE_DOMAIN + "." + WIKIPEDIA_HOST_ORG;
 	
 	public static final String WIKIPEDIA_SCRIPT_PATH = "/w/";
 	
@@ -246,7 +246,7 @@ public class WikiApiConfig implements ApiConstants {
      */
 	public String buildOpenSearchUrl(String input, String domain) {
         // choose the protocol we need here
-		StringBuffer url = new StringBuffer(buildBaseUrl("http", domain) + getApiQueryString() + "?");
+		StringBuffer url = new StringBuffer(buildBaseUrl(DEFAULT_PROTOCOL, domain) + getApiQueryString() + "?");
 		String encodedInput = encode(input);
 		url.append(WIKIPEDIA_API_MAIN_PARAM_ACTION + "=opensearch&limit=22&search=" + encodedInput);
 		return url.toString();
