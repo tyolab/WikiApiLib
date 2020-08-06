@@ -23,8 +23,14 @@ public class WikiSearch implements Serializable, Comparator<WikiSearch>, Compara
 	private String snippet;
 	
 	private String snippetHtml;
-	
-	private long id;
+
+	/**
+	 * The id of the search item, -1 means the search item is from online search
+	 * >= 0, means it is from local search from a local wiki database
+	 * At the moment, we will leave it for now, in the future, if the page id needed for online search
+	 * we might add another value to distiguish whether it is from online search or not
+	 */
+	private long id = -1;
 	
 	private int rank;
 	
