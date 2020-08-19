@@ -24,7 +24,7 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 	
 	private static String[] STYLES_N_SCRIPTS = {};
 //            {
-//	        "jquery-1.3.2.min.js",
+//	        "jquery.js",
 //			"ready.js",
 //			"collapsible.js",
 //			"common.js",
