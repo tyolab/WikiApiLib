@@ -95,6 +95,15 @@ public class WikiParser {
         			throw ex;
         		}
 	        }
+        	if (array.has("article")) {
+        		try {
+        			parseJsonArticle("article", array, page, howManySectionsToParse);
+        		}
+        		catch (Exception ex) {
+        			request.setResponseCode(Constants.STATUS_PAGE_ERROR_PARSED_JSON_MOBILEVIEW);
+        			throw ex;
+        		}
+	        }			
 	        else if (array != null && array.has("parseJSON")) {
 	        	try {
 	        		parseArticle(array, page);
@@ -206,9 +215,13 @@ public class WikiParser {
         	catch (Exception ex) {}
         }
 	}
-
+	
 	private static void parseMobileArticle(JSONObject array, WikiPage page, int howManySectionsToParse) throws Exception {
-        JSONObject parsedObject = array.getJSONObject("mobileview"); //getJSONArray();
+        parseJsonArticle("mobileview", array, page, howManySectionsToParse); //getJSONArray();
+	}
+
+	private static void parseJsonArticle(String jsonKey, JSONObject array, WikiPage page, int howManySectionsToParse) throws Exception {
+        JSONObject parsedObject = array.getJSONObject(jsonKey); //getJSONArray();
 		
 		int offset = 0;
 		int lowestLevel = 0;
@@ -347,11 +360,25 @@ public class WikiParser {
         	  */
 		        if (parsedObject.has("image")) {
 		        	try {
-			        	JSONObject thumbObj = parsedObject.getJSONObject("image");
-			        	String name = thumbObj.getString("file");
-			        	page.addImageInfo(name);
+			        	JSONObject thumbObj = parsedObject.optJSONObject("image");
+			        	if (null != thumbObj) {
+				        	String name = thumbObj.getString("file");
+				        	page.addImageInfo(name);
+			        	}
+			        	else {
+			        		JSONArray imageArray = parsedObject.optJSONArray("image");
+			        		if (null != imageArray) {
+			        			thumbObj = imageArray.optJSONObject(0);
+			        			if (null != thumbObj) {
+				        			String url = thumbObj.getString("url");
+						        	page.addImageInfo(url);
+			        			}
+			        		}
+			        	}
 		        	}
-		        	catch (Exception ex) {}
+		        	catch (JSONException ex) {
+		        		
+		        	}
 		        }
         }
 	}
