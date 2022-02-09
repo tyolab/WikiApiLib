@@ -168,7 +168,7 @@ public class WikiArticle implements Constants {
 	public String articleToString() {
 		String temp = "";
 		if (null != article) {
-            if ((version != ARTICLE_VERSION_1 || (version == ARTICLE_VERSION_1 && !redirect)) && mode == MODE_COMPRESSED_GZIP) {
+            if ((version != ARTICLE_VERSION_1 || (!redirect)) && mode == MODE_COMPRESSED_GZIP) {
                 try {
                     temp = GZIP.decompress(article); //.getBytes(), "UTF-8");
                 } catch (IOException e) {
