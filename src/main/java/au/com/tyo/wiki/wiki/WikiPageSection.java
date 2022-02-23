@@ -156,12 +156,16 @@ public class WikiPageSection extends ItemSerializable {
 		child.setParent(parent);	
 	}
 
+	public String toHtml() {
+		return toHtml(3);
+	}
+
 	/**
 	 * <h3> title </h3> for default
 	 * @return
 	 */
-	public String toHtml() {
-		return toHtml(3);
+	public String toHtml(int headerSize) {
+		return toHtml(headerSize, 0);
 	}
 	
 	/**
@@ -171,7 +175,7 @@ public class WikiPageSection extends ItemSerializable {
 	 * @param headerSize
 	 * @return
 	 */
-	public String toHtml(int headerSize) {
+	public String toHtml(int headerSize, int level) {
 		/*
 		 * DEBUG
 		 */
@@ -182,7 +186,7 @@ public class WikiPageSection extends ItemSerializable {
 		
 		String sectionName = "section" + idName;
 		String contentId = "secc" + idName;
-		sectionHtml.append(String.format(WikiHtml.html_section_div, sectionName));
+		sectionHtml.append(String.format(level == 0 ? WikiHtml.html_section_div : WikiHtml.HTML_SECTION_TEMPLATE_LEVEL, sectionName));
 		boolean hideOrShowMade = false;
 		
 		if (getTitle() != null && getTitle().length() > 0) {
@@ -213,12 +217,15 @@ public class WikiPageSection extends ItemSerializable {
 
 		
 		for (WikiPageSection subSection : children) 
-			sectionHtml.append(subSection.toHtml(headerSize + 1));
+			sectionHtml.append(subSection.toHtml(headerSize + 1, level + 1));
 		
 //		sectionHtml.append("<br>");
 		
 		WikiHtml.closeDiv(sectionHtml);
-		WikiHtml.closeDiv(sectionHtml);
+		if (level == 0)
+			WikiHtml.closeSectionDiv(sectionHtml);
+		else
+			WikiHtml.closeDiv(sectionHtml);
 
 		return sectionHtml.toString();
 	}

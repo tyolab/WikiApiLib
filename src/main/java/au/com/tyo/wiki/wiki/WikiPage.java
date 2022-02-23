@@ -436,6 +436,16 @@ public class WikiPage extends WikiPageBase implements PageInterface {
 		redirects.add(redirect);
 	}
 
+	public boolean isRedirect() {
+		return null != redirects && redirects.size() > 0;
+	}
+
+	public String getRedirect() {
+		if (isRedirect())
+			return redirects.get(0);
+		return null;
+	}
+
 	public void retrieveTitle() {
 		String title = WikiTransformer.processTitle(getBytes());
 		if (title != null)
@@ -807,4 +817,9 @@ public class WikiPage extends WikiPageBase implements PageInterface {
     public void setFromDb(String fromDb) {
         this.fromDb = fromDb;
     }
+
+	public void clearRedirects() {
+		if (null != redirects)
+			redirects.clear();
+	}
 }

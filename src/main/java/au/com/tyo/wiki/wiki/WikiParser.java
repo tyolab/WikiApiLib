@@ -95,12 +95,21 @@ public class WikiParser {
         			throw ex;
         		}
 	        }
-        	if (array.has("article")) {
+			else if (array.has("redirect")) {
+				try {
+					parseRedirectArticle(array, page);
+				}
+				catch (Exception ex) {
+					request.setResponseCode(Constants.STATUS_PAGE_ERROR_PARSED_JSON_REDIRECT);
+					throw ex;
+				}
+			}
+			else if (array.has("article")) {
         		try {
         			parseJsonArticle("article", array, page, howManySectionsToParse);
         		}
         		catch (Exception ex) {
-        			request.setResponseCode(Constants.STATUS_PAGE_ERROR_PARSED_JSON_MOBILEVIEW);
+        			request.setResponseCode(Constants.STATUS_PAGE_ERROR_PARSED_JSON_ARTICLE);
         			throw ex;
         		}
 	        }			
@@ -212,8 +221,18 @@ public class WikiParser {
    	        	 }
 //        		page.setId(Integer.parseInt(parsedObject.getString()));
         	}
-        	catch (Exception ex) {}
+        	catch (Exception ex) { throw  ex; }
         }
+	}
+
+	private static void parseRedirectArticle(JSONObject array, WikiPage page) throws JSONException {
+		if (array.has("redirect")) {
+			try {
+				String redirect = array.getString("redirect");
+				page.addRedirect(redirect);
+			}
+			catch (Exception ex) { throw  ex; }
+		}
 	}
 	
 	private static void parseMobileArticle(JSONObject array, WikiPage page, int howManySectionsToParse) throws Exception {

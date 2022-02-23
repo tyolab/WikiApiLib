@@ -5,7 +5,7 @@ import au.com.tyo.web.PageBuilder;
 public class WikiHtml extends PageBuilder {
 	
 	public static final String HTML_SECTION_TEMPLATE_LEVEL = "<div class=\"wikisection\" id=\"%s\">\n";
-	public static final String HTML_SECTION_TEMPLATE_CONTENT = "\t<div class=\"%ssection_content\" id=\"%s\" style=\"\">\n%s\n\t"; // id=\"%s\"
+	public static final String HTML_SECTION_TEMPLATE_CONTENT = "\t<div class=\"%ssection_content article-item-content bg-white \" id=\"%s\" style=\"\">\n%s\n\t"; // id=\"%s\"
 	public static final String HTML_SECTION_TEMPLATE_LEVEL2 = "<div class=\"wikisection\" id=\"%d\"><h3>%s</h3>\n <br>\n";
 	public static final String HTML_SECTION_TEMPLATE_LEVEL3 = "\t<div class=\"wikisection\" id=\"%d\"><h4>%s</h4>\n <br>\n";
 	public static final String HTML_SECTION_TEMPLATE_LEVEL4 = "\t\t<div class=\"wikisection\" id=\"%d\"><h5>%s</h5>\n <br>\n";
@@ -16,7 +16,7 @@ public class WikiHtml extends PageBuilder {
 	public static final String HTML_SECTION_DIV_END = "</div>\n";
 	public static final String HTML_ARTICLE_TITLE = "" +
 			"<div class=\"article_title\" id=\"article_title\"><h2>%s</h2></div>\n";
-	private static final String HTML_ABSTRACT_TEMPLATE_CONTENT = "\t<div class=\"abstract_content\" id=\"%s\">\n%s\n\t"; // id=\"%s\";
+	private static final String HTML_ABSTRACT_TEMPLATE_CONTENT = "\t<div class=\"abstract_content article-item-content bg-white \" id=\"%s\">\n%s\n\t"; // id=\"%s\";
 
 	public static final String HTML_STYLES_N_SCRIPTS = 
 			"<link rel=\"stylesheet\" type=\"text/css\" href=\"wiki.css\" />" +
@@ -137,7 +137,7 @@ public class WikiHtml extends PageBuilder {
 		for (int i = 0; i < page.getSectionSize(); ++i) {
 			section = page.getSection(i);
 			
-			sb.append(section.toHtml(WikiHtml.section_header_size));
+			sb.append(section.toHtml(WikiHtml.section_header_size, 0));
 		}
 		closeDiv(sb);
 		return sb.toString();
@@ -168,6 +168,7 @@ public class WikiHtml extends PageBuilder {
 			sectionHtml.append(titleHtml);
 			sectionHtml.append(String.format(html_section_content, sectionId, section.getText()));
 		}
+		closeDiv(sectionHtml);
 		return sectionHtml.toString();
 	}
 	
@@ -176,4 +177,7 @@ public class WikiHtml extends PageBuilder {
 			closeDiv(sb);
 	}
 
+	public static void setHtmlSectionDiv(String html_section_div) {
+		WikiHtml.html_section_div = html_section_div;
+	}
 }

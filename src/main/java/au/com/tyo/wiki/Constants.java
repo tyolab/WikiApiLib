@@ -19,6 +19,8 @@ public interface Constants {
 	public static final int STATUS_PAGE_ERROR = 1000; 
 	public static final int STATUS_PAGE_ERROR_PARSED_JSON = 1001;
 	public static final int STATUS_PAGE_ERROR_PARSED_JSON_MOBILEVIEW = 1002;
+	public static final int STATUS_PAGE_ERROR_PARSED_JSON_ARTICLE = 1003;
+	public static final int STATUS_PAGE_ERROR_PARSED_JSON_REDIRECT = 1004;
 	
 	public static final int POSITION_CENTER = 0;
 	public static final int POSITION_LEFT = 1;
